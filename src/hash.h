@@ -42,7 +42,7 @@ inline uint256 KHash(const T1 pbegin, const T1 pend)
     sph_keccak256 (&ctx_keccak, static_cast<const void*>(&hash[4]), 64);
     sph_keccak256_close(&ctx_keccak, static_cast<void*>(&hash[5]));
 
-    return hash[14].trim256();
+    return hash[14];
 }
 
 template<typename T1>
