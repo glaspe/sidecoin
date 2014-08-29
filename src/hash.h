@@ -16,7 +16,7 @@
 #include <openssl/ripemd.h>
 #include <openssl/sha.h>
 
-GLOBAL sph_keccak512_context    z_keccak;
+GLOBAL sph_keccak512_context z_keccak;
 
 #define fillz() do { \
     sph_keccak512_init(&z_keccak); \
