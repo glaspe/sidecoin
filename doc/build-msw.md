@@ -72,12 +72,12 @@ MSYS shell:
 	mkdir miniupnpc
 	cp *.h miniupnpc/
 
-Bitcoin
+Scarycoin
 -------
 MSYS shell:
 
-	cd \bitcoin
+	cd \scarycoin
 	sh autogen.sh
 	sh configure
 	mingw32-make
-	strip bitcoind.exe
+	strip scarycoind.exe

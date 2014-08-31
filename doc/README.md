@@ -1,7 +1,7 @@
 Fishcoin 0.1 ALPHA
 =====================
 
-Copyright (c) 2009-2014 Bitcoin Developers
+Copyright (c) 2009-2014 Scarycoin Developers
 
 
 Setup

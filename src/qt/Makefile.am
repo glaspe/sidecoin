@@ -5,84 +5,84 @@ AM_CPPFLAGS += -I$(top_srcdir)/src \
   -I$(top_builddir)/src/qt/forms \
   $(PROTOBUF_CFLAGS) \
   $(QR_CFLAGS)
-bin_PROGRAMS = bitcoin-qt
-noinst_LIBRARIES = libbitcoinqt.a
+bin_PROGRAMS = scarycoin-qt
+noinst_LIBRARIES = libscarycoinqt.a
 SUBDIRS = $(BUILD_TEST_QT)
 DIST_SUBDIRS = test
 
-# bitcoin qt core #
+# scarycoin qt core #
 QT_TS = \
-  locale/bitcoin_ach.ts \
-  locale/bitcoin_af_ZA.ts \
-  locale/bitcoin_ar.ts \
-  locale/bitcoin_be_BY.ts \
-  locale/bitcoin_bg.ts \
-  locale/bitcoin_bs.ts \
-  locale/bitcoin_ca_ES.ts \
-  locale/bitcoin_ca.ts \
-  locale/bitcoin_ca@valencia.ts \
-  locale/bitcoin_cmn.ts \
-  locale/bitcoin_cs.ts \
-  locale/bitcoin_cy.ts \
-  locale/bitcoin_da.ts \
-  locale/bitcoin_de_AT.ts \
-  locale/bitcoin_de.ts \
-  locale/bitcoin_el_GR.ts \
-  locale/bitcoin_en.ts \
-  locale/bitcoin_eo.ts \
-  locale/bitcoin_es_CL.ts \
-  locale/bitcoin_es_DO.ts \
-  locale/bitcoin_es_MX.ts \
-  locale/bitcoin_es.ts \
-  locale/bitcoin_es_UY.ts \
-  locale/bitcoin_et.ts \
-  locale/bitcoin_eu_ES.ts \
-  locale/bitcoin_fa_IR.ts \
-  locale/bitcoin_fa.ts \
-  locale/bitcoin_fi.ts \
-  locale/bitcoin_fr_CA.ts \
-  locale/bitcoin_fr.ts \
-  locale/bitcoin_gl.ts \
-  locale/bitcoin_gu_IN.ts \
-  locale/bitcoin_he.ts \
-  locale/bitcoin_hi_IN.ts \
-  locale/bitcoin_hr.ts \
-  locale/bitcoin_hu.ts \
-  locale/bitcoin_id_ID.ts \
-  locale/bitcoin_it.ts \
-  locale/bitcoin_ja.ts \
-  locale/bitcoin_ka.ts \
-  locale/bitcoin_kk_KZ.ts \
-  locale/bitcoin_ko_KR.ts \
-  locale/bitcoin_ky.ts \
-  locale/bitcoin_la.ts \
-  locale/bitcoin_lt.ts \
-  locale/bitcoin_lv_LV.ts \
-  locale/bitcoin_ms_MY.ts \
-  locale/bitcoin_nb.ts \
-  locale/bitcoin_nl.ts \
-  locale/bitcoin_pam.ts \
-  locale/bitcoin_pl.ts \
-  locale/bitcoin_pt_BR.ts \
-  locale/bitcoin_pt_PT.ts \
-  locale/bitcoin_ro_RO.ts \
-  locale/bitcoin_ru.ts \
-  locale/bitcoin_sah.ts \
-  locale/bitcoin_sk.ts \
-  locale/bitcoin_sl_SI.ts \
-  locale/bitcoin_sq.ts \
-  locale/bitcoin_sr.ts \
-  locale/bitcoin_sv.ts \
-  locale/bitcoin_th_TH.ts \
-  locale/bitcoin_tr.ts \
-  locale/bitcoin_uk.ts \
-  locale/bitcoin_ur_PK.ts \
-  locale/bitcoin_uz@Cyrl.ts \
-  locale/bitcoin_vi.ts \
-  locale/bitcoin_vi_VN.ts \
-  locale/bitcoin_zh_CN.ts \
-  locale/bitcoin_zh_HK.ts \
-  locale/bitcoin_zh_TW.ts
+  locale/scarycoin_ach.ts \
+  locale/scarycoin_af_ZA.ts \
+  locale/scarycoin_ar.ts \
+  locale/scarycoin_be_BY.ts \
+  locale/scarycoin_bg.ts \
+  locale/scarycoin_bs.ts \
+  locale/scarycoin_ca_ES.ts \
+  locale/scarycoin_ca.ts \
+  locale/scarycoin_ca@valencia.ts \
+  locale/scarycoin_cmn.ts \
+  locale/scarycoin_cs.ts \
+  locale/scarycoin_cy.ts \
+  locale/scarycoin_da.ts \
+  locale/scarycoin_de_AT.ts \
+  locale/scarycoin_de.ts \
+  locale/scarycoin_el_GR.ts \
+  locale/scarycoin_en.ts \
+  locale/scarycoin_eo.ts \
+  locale/scarycoin_es_CL.ts \
+  locale/scarycoin_es_DO.ts \
+  locale/scarycoin_es_MX.ts \
+  locale/scarycoin_es.ts \
+  locale/scarycoin_es_UY.ts \
+  locale/scarycoin_et.ts \
+  locale/scarycoin_eu_ES.ts \
+  locale/scarycoin_fa_IR.ts \
+  locale/scarycoin_fa.ts \
+  locale/scarycoin_fi.ts \
+  locale/scarycoin_fr_CA.ts \
+  locale/scarycoin_fr.ts \
+  locale/scarycoin_gl.ts \
+  locale/scarycoin_gu_IN.ts \
+  locale/scarycoin_he.ts \
+  locale/scarycoin_hi_IN.ts \
+  locale/scarycoin_hr.ts \
+  locale/scarycoin_hu.ts \
+  locale/scarycoin_id_ID.ts \
+  locale/scarycoin_it.ts \
+  locale/scarycoin_ja.ts \
+  locale/scarycoin_ka.ts \
+  locale/scarycoin_kk_KZ.ts \
+  locale/scarycoin_ko_KR.ts \
+  locale/scarycoin_ky.ts \
+  locale/scarycoin_la.ts \
+  locale/scarycoin_lt.ts \
+  locale/scarycoin_lv_LV.ts \
+  locale/scarycoin_ms_MY.ts \
+  locale/scarycoin_nb.ts \
+  locale/scarycoin_nl.ts \
+  locale/scarycoin_pam.ts \
+  locale/scarycoin_pl.ts \
+  locale/scarycoin_pt_BR.ts \
+  locale/scarycoin_pt_PT.ts \
+  locale/scarycoin_ro_RO.ts \
+  locale/scarycoin_ru.ts \
+  locale/scarycoin_sah.ts \
+  locale/scarycoin_sk.ts \
+  locale/scarycoin_sl_SI.ts \
+  locale/scarycoin_sq.ts \
+  locale/scarycoin_sr.ts \
+  locale/scarycoin_sv.ts \
+  locale/scarycoin_th_TH.ts \
+  locale/scarycoin_tr.ts \
+  locale/scarycoin_uk.ts \
+  locale/scarycoin_ur_PK.ts \
+  locale/scarycoin_uz@Cyrl.ts \
+  locale/scarycoin_vi.ts \
+  locale/scarycoin_vi_VN.ts \
+  locale/scarycoin_zh_CN.ts \
+  locale/scarycoin_zh_HK.ts \
+  locale/scarycoin_zh_TW.ts
 
 QT_FORMS_UI = \
   forms/aboutdialog.ui \
@@ -107,10 +107,10 @@ QT_MOC_CPP = \
   moc_addressbookpage.cpp \
   moc_addresstablemodel.cpp \
   moc_askpassphrasedialog.cpp \
-  moc_bitcoinaddressvalidator.cpp \
-  moc_bitcoinamountfield.cpp \
-  moc_bitcoingui.cpp \
-  moc_bitcoinunits.cpp \
+  moc_scarycoinaddressvalidator.cpp \
+  moc_scarycoinamountfield.cpp \
+  moc_scarycoingui.cpp \
+  moc_scarycoinunits.cpp \
   moc_clientmodel.cpp \
   moc_coincontroldialog.cpp \
   moc_coincontroltreewidget.cpp \
@@ -148,31 +148,31 @@ QT_MOC_CPP = \
   moc_walletmodel.cpp \
   moc_walletview.cpp
 
-BITCOIN_MM = \
+SCARYCOIN_MM = \
   macdockiconhandler.mm \
   macnotificationhandler.mm
 
 QT_MOC = \
-  bitcoin.moc \
+  scarycoin.moc \
   intro.moc \
   overviewpage.moc \
   rpcconsole.moc
 
-QT_QRC_CPP = qrc_bitcoin.cpp
-QT_QRC = bitcoin.qrc
+QT_QRC_CPP = qrc_scarycoin.cpp
+QT_QRC = scarycoin.qrc
 
 PROTOBUF_CC = paymentrequest.pb.cc
 PROTOBUF_H = paymentrequest.pb.h
 PROTOBUF_PROTO = paymentrequest.proto
 
-BITCOIN_QT_H = \
+SCARYCOIN_QT_H = \
   addressbookpage.h \
   addresstablemodel.h \
   askpassphrasedialog.h \
-  bitcoinaddressvalidator.h \
-  bitcoinamountfield.h \
-  bitcoingui.h \
-  bitcoinunits.h \
+  scarycoinaddressvalidator.h \
+  scarycoinamountfield.h \
+  scarycoingui.h \
+  scarycoinunits.h \
   clientmodel.h \
   coincontroldialog.h \
   coincontroltreewidget.h \
@@ -217,10 +217,10 @@ BITCOIN_QT_H = \
 RES_ICONS = \
   res/icons/add.png \
   res/icons/address-book.png \
-  res/icons/bitcoin.ico \
-  res/icons/bitcoin.png \
-  res/icons/bitcoin_testnet.ico \
-  res/icons/bitcoin_testnet.png \
+  res/icons/scarycoin.ico \
+  res/icons/scarycoin.png \
+  res/icons/scarycoin_testnet.ico \
+  res/icons/scarycoin_testnet.png \
   res/icons/clock1.png \
   res/icons/clock2.png \
   res/icons/clock3.png \
@@ -259,12 +259,12 @@ RES_ICONS = \
   res/icons/tx_output.png \
   res/icons/tx_mined.png
 
-BITCOIN_QT_CPP = \
-  bitcoin.cpp \
-  bitcoinaddressvalidator.cpp \
-  bitcoinamountfield.cpp \
-  bitcoingui.cpp \
-  bitcoinunits.cpp \
+SCARYCOIN_QT_CPP = \
+  scarycoin.cpp \
+  scarycoinaddressvalidator.cpp \
+  scarycoinamountfield.cpp \
+  scarycoingui.cpp \
+  scarycoinunits.cpp \
   clientmodel.cpp \
   csvmodelwriter.cpp \
   guiutil.cpp \
@@ -282,7 +282,7 @@ BITCOIN_QT_CPP = \
   utilitydialog.cpp
 
 if ENABLE_WALLET
-BITCOIN_QT_CPP += \
+SCARYCOIN_QT_CPP += \
   addressbookpage.cpp \
   addresstablemodel.cpp \
   askpassphrasedialog.cpp \
@@ -317,40 +317,40 @@ RES_IMAGES = \
 
 RES_MOVIES = $(wildcard res/movies/spinner-*.png)
 
-BITCOIN_RC = res/bitcoin-qt-res.rc
+SCARYCOIN_RC = res/scarycoin-qt-res.rc
 
-libbitcoinqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(QT_INCLUDES) \
+libscarycoinqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(QT_INCLUDES) \
   -I$(top_srcdir)/src/qt/forms $(QT_DBUS_INCLUDES)
-libbitcoinqt_a_SOURCES = $(BITCOIN_QT_CPP) $(BITCOIN_QT_H) $(QT_FORMS_UI) \
+libscarycoinqt_a_SOURCES = $(SCARYCOIN_QT_CPP) $(SCARYCOIN_QT_H) $(QT_FORMS_UI) \
   $(QT_QRC) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES)
 
-nodist_libbitcoinqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
+nodist_libscarycoinqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
   $(PROTOBUF_H) $(QT_QRC_CPP)
 
-BUILT_SOURCES = $(nodist_libbitcoinqt_a_SOURCES)
+BUILT_SOURCES = $(nodist_libscarycoinqt_a_SOURCES)
 
 #Generating these with a half-written protobuf header leads to wacky results.
 #This makes sure it's done.
 $(QT_MOC): $(PROTOBUF_H)
 $(QT_MOC_CPP): $(PROTOBUF_H)
 
-# bitcoin-qt binary #
-bitcoin_qt_CPPFLAGS = $(AM_CPPFLAGS) $(QT_INCLUDES) \
+# scarycoin-qt binary #
+scarycoin_qt_CPPFLAGS = $(AM_CPPFLAGS) $(QT_INCLUDES) \
   -I$(top_srcdir)/src/qt/forms
-bitcoin_qt_SOURCES = bitcoin.cpp
+scarycoin_qt_SOURCES = scarycoin.cpp
 if TARGET_DARWIN
-  bitcoin_qt_SOURCES += $(BITCOIN_MM)
+  scarycoin_qt_SOURCES += $(SCARYCOIN_MM)
 endif
 if TARGET_WINDOWS
-  bitcoin_qt_SOURCES += $(BITCOIN_RC)
+  scarycoin_qt_SOURCES += $(SCARYCOIN_RC)
 endif
-bitcoin_qt_LDADD = libbitcoinqt.a $(LIBBITCOIN_SERVER)
+scarycoin_qt_LDADD = libscarycoinqt.a $(LIBSCARYCOIN_SERVER)
 if ENABLE_WALLET
-bitcoin_qt_LDADD += $(LIBBITCOIN_WALLET)
+scarycoin_qt_LDADD += $(LIBSCARYCOIN_WALLET)
 endif
-bitcoin_qt_LDADD += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBLEVELDB) $(LIBMEMENV) \
+scarycoin_qt_LDADD += $(LIBSCARYCOIN_CLI) $(LIBSCARYCOIN_COMMON) $(LIBLEVELDB) $(LIBMEMENV) \
   $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS)
-bitcoin_qt_LDFLAGS = $(QT_LDFLAGS)
+scarycoin_qt_LDFLAGS = $(QT_LDFLAGS)
 
 # forms/foo.h -> forms/ui_foo.h
 QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:.ui=.h))))
@@ -361,15 +361,15 @@ QT_QM=$(QT_TS:.ts=.qm)
 .PHONY: FORCE
 .SECONDARY: $(QT_QM)
 
-bitcoinstrings.cpp: FORCE
-	$(MAKE) -C $(top_srcdir)/src qt/bitcoinstrings.cpp
+scarycoinstrings.cpp: FORCE
+	$(MAKE) -C $(top_srcdir)/src qt/scarycoinstrings.cpp
 
-translate: bitcoinstrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(BITCOIN_QT_CPP) $(BITCOIN_QT_H) $(BITCOIN_MM)
+translate: scarycoinstrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(SCARYCOIN_QT_CPP) $(SCARYCOIN_QT_H) $(SCARYCOIN_MM)
 	@test -n $(LUPDATE) || echo "lupdate is required for updating translations"
-	@QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts locale/bitcoin_en.ts
+	@QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts locale/scarycoin_en.ts
 
 $(QT_QRC_CPP): $(QT_QRC) $(QT_QM) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES) $(PROTOBUF_H)
-	@cd $(abs_srcdir); test -f $(RCC) && QT_SELECT=$(QT_SELECT) $(RCC) -name bitcoin -o $(abs_builddir)/$@ $< || \
+	@cd $(abs_srcdir); test -f $(RCC) && QT_SELECT=$(QT_SELECT) $(RCC) -name scarycoin -o $(abs_builddir)/$@ $< || \
 	  echo error: could not build $@
 	$(SED) -i.bak -e '/^\*\*.*Created:/d' $@ && rm $@.bak
 	$(SED) -i.bak -e '/^\*\*.*by:/d' $@ && rm $@.bak
