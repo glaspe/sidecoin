@@ -214,8 +214,7 @@ uint64_t CTxOutCompressor::DecompressAmount(uint64_t x)
 
 uint256 CBlockHeader::GetHash() const
 {
-    return KHash(BEGIN(nVersion), END(nNonce));
-    // return Hash(BEGIN(nVersion), END(nNonce));
+    return Hash(BEGIN(nVersion), END(nNonce));
 }
 
 uint256 CBlock::BuildMerkleTree() const

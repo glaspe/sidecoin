@@ -9,41 +9,11 @@
 #include "serialize.h"
 #include "uint256.h"
 #include "version.h"
-#include "sph_keccak.h"
 
 #include <vector>
 
 #include <openssl/ripemd.h>
 #include <openssl/sha.h>
-
-#ifdef GLOBALDEFINED
-#define GLOBAL
-#else
-#define GLOBAL extern
-#endif
-
-GLOBAL sph_keccak256_context z_keccak;
-
-#define fillz() do { \
-    sph_keccak256_init(&z_keccak); \
-} while (0) 
-
-#define ZKECCAK (memcpy(&ctx_keccak, &z_keccak, sizeof(z_keccak)))
-
-template<typename T1>
-inline uint256 KHash(const T1 pbegin, const T1 pend)
-{
-    sph_keccak256_context ctx_keccak;
-    static unsigned char pblank[1];
-
-    uint256 hash[17];
-
-    sph_keccak256_init(&ctx_keccak);
-    sph_keccak256 (&ctx_keccak, static_cast<const void*>(&hash[4]), 64);
-    sph_keccak256_close(&ctx_keccak, static_cast<void*>(&hash[5]));
-
-    return hash[14];
-}
 
 template<typename T1>
 inline uint256 Hash(const T1 pbegin, const T1 pend)
