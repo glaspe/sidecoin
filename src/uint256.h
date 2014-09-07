@@ -12,6 +12,7 @@
 #include <string>
 #include <string.h>
 #include <vector>
+#include <iostream>
 
 extern const signed char p_util_hexdigit[256]; // defined in util.cpp
 
@@ -582,7 +583,15 @@ public:
         else
             *this = 0;
     }
+
+    friend std::ostream& operator<<(std::ostream& os, const uint256& nt);
 };
+
+std::ostream& operator<<(std::ostream& os, const uint256& nt)
+{
+    os << nt.pn;
+    return os;
+}
 
 inline bool operator==(const uint256& a, uint64_t b)                          { return (base_uint256)a == b; }
 inline bool operator!=(const uint256& a, uint64_t b)                          { return (base_uint256)a != b; }
