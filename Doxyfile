@@ -5,9 +5,9 @@
 #---------------------------------------------------------------------------
 
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = "Thinker"
-PROJECT_NUMBER         = 0.1
-PROJECT_BRIEF          = "Logistic-function neural network"
+PROJECT_NAME           = "Scarycoin"
+PROJECT_NUMBER         =
+PROJECT_BRIEF          = "Bitcoin with all the opcodes turned on"
 PROJECT_LOGO           =
 OUTPUT_DIRECTORY       = doc
 CREATE_SUBDIRS         = NO
