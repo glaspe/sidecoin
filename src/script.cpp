@@ -75,6 +75,7 @@ static inline void popstack(vector<valtype>& stack)
 
 const char* GetTxnOutputType(txnouttype t)
 {
+    // why LABEL -> string?
     switch (t)
     {
     case TX_NONSTANDARD: return "nonstandard";
@@ -337,6 +338,7 @@ bool EvalScript(vector<vector<unsigned char> >& stack, const CScript& script, co
             if (opcode > OP_16 && ++nOpCount > 201)
                 return false;
 
+            // The madness begins here :D
             if (opcode == OP_CAT ||
                 opcode == OP_SUBSTR ||
                 opcode == OP_LEFT ||
