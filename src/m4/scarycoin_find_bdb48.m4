@@ -12,9 +12,8 @@ AC_DEFUN([SCARYCOIN_FIND_BDB48],[
   done
   for searchpath in $bdbdirlist ''; do
     test -n "${searchpath}" && searchpath="${searchpath}/"
-    echo ${searchpath}build_unix/db_cxx.h
     AC_TRY_COMPILE([
-      #include "src/db4.8/build_unix/db_cxx.h"
+      #include ${searchpath}db_cxx.h
     ],[
       #if !((DB_VERSION_MAJOR == 4 && DB_VERSION_MINOR >= 8) || DB_VERSION_MAJOR > 4)
         #error "failed to find bdb 4.8+"
@@ -27,7 +26,7 @@ AC_DEFUN([SCARYCOIN_FIND_BDB48],[
       continue
     ])
     AC_TRY_COMPILE([
-      #include "src/db4.8/build_unix/db_cxx.h"
+      #include ${searchpath}db_cxx.h
     ],[
       #if !(DB_VERSION_MAJOR == 4 && DB_VERSION_MINOR == 8)
         #error "failed to find bdb 4.8"
