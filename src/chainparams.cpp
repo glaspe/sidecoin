@@ -246,7 +246,8 @@ public:
         bnProofOfWorkLimit = CBigNum(~uint256(0) >> 1);
         // genesis.nTime = 1296688602;
         genesis.nTime = 1409496971;
-        genesis.nBits = 0x207fffff;
+        // genesis.nBits = 0x207fffff;
+        genesis.nBits = 0x1d00ffff;
         // genesis.nNonce = 2;
         genesis.nNonce = 3747490389;
         hashGenesisBlock = genesis.GetHash();

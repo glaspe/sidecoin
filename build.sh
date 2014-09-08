@@ -1,7 +1,8 @@
 #!/bin/bash
-# rebuild headless bitcoind (no bitcoin-qt)
+# rebuild headless *coind (no *coin-qt)
 trap "exit" INT
 make clean
 ./autogen.sh
-./configure --with-incompatible-bdb --without-gui --disable-tests --enable-debug --enable-logging --without-miniupnpc
+./configure --with-incompatible-bdb --without-gui --disable-tests --enable-debug --without-miniupnpc CPPFLAGS="-I${BDB_PREFIX}/include/ -O2" LDFLAGS="-L${BDB_PREFIX}/lib/" USE_UPNP=
 make
+strip src/scarycoind
