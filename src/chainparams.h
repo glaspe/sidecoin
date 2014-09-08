@@ -12,6 +12,13 @@
 
 #include <vector>
 
+// Debug: print to stdout
+#ifdef NDEBUG
+#define DEBUG_PRINT(format, args...) ((void)0)
+#else
+#define DEBUG_PRINT printf
+#endif
+
 using namespace std;
 
 #define MESSAGE_START_SIZE 4
@@ -39,7 +46,6 @@ public:
         MAIN,
         TESTNET,
         REGTEST,
-
         MAX_NETWORK_TYPES
     };
 
@@ -49,7 +55,6 @@ public:
         SECRET_KEY,
         EXT_PUBLIC_KEY,
         EXT_SECRET_KEY,
-
         MAX_BASE58_TYPES
     };
 

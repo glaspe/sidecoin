@@ -144,8 +144,8 @@ public:
 
         hashGenesisBlock = genesis.GetHash();
 
-        // DEBUG("hashGenesisBlock: %s\n", hashGenesisBlock.ToString().c_str());
-        // DEBUG("hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        // DEBUG_PRINT("hashGenesisBlock [main]: %s\n", hashGenesisBlock.ToString().c_str());
+        // DEBUG_PRINT("hashMerkleRoot [main]: %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
         assert(hashGenesisBlock == uint256("0x000000004ea566446112fcabd4657d2528d43305da008ef5505d2bcd6ae81201"));
         assert(genesis.hashMerkleRoot == uint256("0x40a8706e3033894a68684cc522a7c1b648652119f77462c7ed274d4a29f21070"));
@@ -211,8 +211,8 @@ public:
 
         hashGenesisBlock = genesis.GetHash();
         
-        DEBUG("hashGenesisBlock: %s\n", hashGenesisBlock.ToString().c_str());
-        DEBUG("hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        // DEBUG_PRINT("hashGenesisBlock [test3]: %s\n", hashGenesisBlock.ToString().c_str());
+        // DEBUG_PRINT("hashMerkleRoot [test3]: %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
         assert(hashGenesisBlock == uint256("0x000000004ea566446112fcabd4657d2528d43305da008ef5505d2bcd6ae81201"));
         assert(genesis.hashMerkleRoot == uint256("0x40a8706e3033894a68684cc522a7c1b648652119f77462c7ed274d4a29f21070"));
@@ -250,6 +250,8 @@ public:
         hashGenesisBlock = genesis.GetHash();
         nDefaultPort = 18444;
         strDataDir = "regtest";
+        // DEBUG_PRINT("hashGenesisBlock [regtest]: %s\n", hashGenesisBlock.ToString().c_str());
+        // DEBUG_PRINT("hashMerkleRoot [regtest]: %s\n", genesis.hashMerkleRoot.ToString().c_str());
         assert(hashGenesisBlock == uint256("0x000000004ea566446112fcabd4657d2528d43305da008ef5505d2bcd6ae81201"));
         vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
     }

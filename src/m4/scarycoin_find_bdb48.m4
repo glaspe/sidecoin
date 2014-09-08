@@ -36,7 +36,7 @@ AC_DEFUN([SCARYCOIN_FIND_BDB48],[
       break
     ])
   done
-  bdb48path=src/bdb/build_unix/build/include
+  bdb48path=src/bdb/build_unix/build/include # terrible :(
   if test "x$bdbpath" = "xX"; then
     AC_MSG_RESULT([no])
     AC_MSG_ERROR(libdb_cxx headers missing)

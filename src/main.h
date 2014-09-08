@@ -182,13 +182,6 @@ bool GetNodeStateStats(NodeId nodeid, CNodeStateStats &stats);
 bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransaction &tx, bool fLimitFree,
                         bool* pfMissingInputs, bool fRejectInsaneFee=false);
 
-
-
-
-
-
-
-
 struct CNodeStateStats {
     int nMisbehavior;
 };

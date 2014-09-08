@@ -1,5 +1,5 @@
 #!/bin/bash
-# rebuild headless *coind (no *coin-qt)
+# rebuild headless scarycoind (no scarycoin-qt)
 
 set -e
 trap "exit" INT
@@ -13,13 +13,12 @@ echo "Installing Berkeley DB 4.8..."
 cd src
 source ./install_bdb.sh
 cd ..
-echo "Done."
 
 srcdir="$(dirname $0)"
 cd "$srcdir"
 autoreconf --install --force --prepend-include=${BDB_PREFIX}/include/
 
-./configure CPPFLAGS="-I${BDB_PREFIX}/include/ -O2 -DNDEBUG" LDFLAGS="-L${BDB_PREFIX}/lib/" USE_UPNP= --without-gui --disable-tests
+./configure CPPFLAGS="-I${BDB_PREFIX}/include/ -O2" LDFLAGS="-L${BDB_PREFIX}/lib/" USE_UPNP= --without-gui --disable-tests
 
 make
 strip src/scarycoind
