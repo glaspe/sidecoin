@@ -141,7 +141,6 @@ public:
         genesis.nTime    = 1409496971;
         genesis.nBits    = 0x1d00ffff;
         genesis.nNonce   = 3747490389;
-        // genesis.nNonce   = 2083236893;
 
         hashGenesisBlock = genesis.GetHash();
 
@@ -152,10 +151,6 @@ public:
         assert(genesis.hashMerkleRoot == uint256("0x40a8706e3033894a68684cc522a7c1b648652119f77462c7ed274d4a29f21070"));
 
         // vSeeds.push_back(CDNSSeedData("bitcoin.sipa.be", "seed.bitcoin.sipa.be"));
-        // vSeeds.push_back(CDNSSeedData("bluematt.me", "dnsseed.bluematt.me"));
-        // vSeeds.push_back(CDNSSeedData("dashjr.org", "dnsseed.bitcoin.dashjr.org"));
-        // vSeeds.push_back(CDNSSeedData("bitcoinstats.com", "seed.bitcoinstats.com"));
-        // vSeeds.push_back(CDNSSeedData("xf2.org", "bitseed.xf2.org"));
 
         base58Prefixes[PUBKEY_ADDRESS] = list_of(0);
         base58Prefixes[SCRIPT_ADDRESS] = list_of(5);
@@ -211,23 +206,19 @@ public:
         strDataDir = "testnet3";
 
         // Modify the testnet genesis block so the timestamp is valid for a later start.
-        // genesis.nTime = 1296688602;
-        genesis.nTime = 1410162282;
-        // genesis.nNonce = 414098458;
-        // genesis.nNonce = 3747490389;
-        genesis.nNonce = 1;
+        genesis.nTime = 1409496971;
+        genesis.nNonce = 3747490389;
 
         hashGenesisBlock = genesis.GetHash();
         
         printf("hashGenesisBlock: %s\n", hashGenesisBlock.ToString().c_str());
         printf("hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
-        assert(hashGenesisBlock == uint256("0xd71e8868af15c96ff0f51ca44132a809a6446078263f5cb0b16e861615077a08"));
+        assert(hashGenesisBlock == uint256("0x000000004ea566446112fcabd4657d2528d43305da008ef5505d2bcd6ae81201"));
         assert(genesis.hashMerkleRoot == uint256("0x40a8706e3033894a68684cc522a7c1b648652119f77462c7ed274d4a29f21070"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        // vSeeds.push_back(CDNSSeedData("bitcoin.petertodd.org", "testnet-seed.bitcoin.petertodd.org"));
         // vSeeds.push_back(CDNSSeedData("bluematt.me", "testnet-seed.bluematt.me"));
 
         base58Prefixes[PUBKEY_ADDRESS] = list_of(111);
@@ -253,16 +244,12 @@ public:
         pchMessageStart[3] = 0xda;
         nSubsidyHalvingInterval = 150;
         bnProofOfWorkLimit = CBigNum(~uint256(0) >> 1);
-        // genesis.nTime = 1296688602;
         genesis.nTime = 1409496971;
-        // genesis.nBits = 0x207fffff;
         genesis.nBits = 0x1d00ffff;
-        // genesis.nNonce = 2;
         genesis.nNonce = 3747490389;
         hashGenesisBlock = genesis.GetHash();
         nDefaultPort = 18444;
         strDataDir = "regtest";
-        // assert(hashGenesisBlock == uint256("0x0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206"));
         assert(hashGenesisBlock == uint256("0x000000004ea566446112fcabd4657d2528d43305da008ef5505d2bcd6ae81201"));
 
         vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
