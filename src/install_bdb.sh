@@ -12,14 +12,14 @@ if [ ! -d "bdb" ]; then
     mkdir -p bdb
 fi
 
-tar -xvf db-4.8.30.NC.tar.gz -C bdb --strip-components=1
+tar -xvf db-4.8.30.NC.tar.gz -C bdb --strip-components=1 > /dev/null 2>&1
 
 cd bdb/build_unix
 mkdir -p build
 
 export BDB_PREFIX=$(pwd)/build
 
-../dist/configure --disable-shared --enable-cxx --with-pic --prefix=$BDB_PREFIX
+../dist/configure --disable-shared --enable-cxx --with-pic --prefix=$BDB_PREFIX > /dev/null 2>&1
 make install
 
 cd ../..

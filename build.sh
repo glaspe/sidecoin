@@ -11,7 +11,7 @@ fi
 
 echo "Installing Berkeley DB 4.8..."
 cd src
-source ./install_bdb.sh > /dev/null 2>&1
+source ./install_bdb.sh
 cd ..
 echo "Done."
 
