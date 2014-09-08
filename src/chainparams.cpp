@@ -214,14 +214,15 @@ public:
         // genesis.nTime = 1296688602;
         genesis.nTime = 1410162282;
         // genesis.nNonce = 414098458;
-        genesis.nNonce = 3747490389;
+        // genesis.nNonce = 3747490389;
+        genesis.nNonce = 1;
 
         hashGenesisBlock = genesis.GetHash();
         
         printf("hashGenesisBlock: %s\n", hashGenesisBlock.ToString().c_str());
         printf("hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
-        assert(hashGenesisBlock == uint256("0xc329a1c6189cdc9e26f6f5538637dc7008bab5e5d27ade9c2edfb0b1ef0a9700"));
+        assert(hashGenesisBlock == uint256("0xd71e8868af15c96ff0f51ca44132a809a6446078263f5cb0b16e861615077a08"));
         assert(genesis.hashMerkleRoot == uint256("0x40a8706e3033894a68684cc522a7c1b648652119f77462c7ed274d4a29f21070"));
 
         vFixedSeeds.clear();
