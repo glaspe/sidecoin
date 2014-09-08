@@ -45,6 +45,13 @@ static const int64_t CENT = 1000000;
 #define UEND(a)             ((unsigned char*)&((&(a))[1]))
 #define ARRAYLEN(array)     (sizeof(array)/sizeof((array)[0]))
 
+// Debugging to stdout (compile with -DNDEBUG to turn off)
+#ifdef NDEBUG
+#define DEBUG(format, args...) ((void)0)
+#else
+#define DEBUG printf
+#endif
+
 /* Format characters for (s)size_t, ptrdiff_t.
  *
  * Define these as empty as the tinyformat-based formatting system is
