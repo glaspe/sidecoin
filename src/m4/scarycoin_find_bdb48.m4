@@ -48,6 +48,7 @@ AC_DEFUN([SCARYCOIN_FIND_BDB48],[
       AC_MSG_ERROR([Found Berkeley DB other than 4.8, required for portable wallets (--with-incompatible-bdb to ignore)])
     ])
   else
+    AC_MSG_RESULT([yes])
     SCARYCOIN_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdb48path}],db_cxx)
     bdbpath="${bdb48path}"
   fi
