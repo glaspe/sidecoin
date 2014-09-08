@@ -4,7 +4,7 @@ AC_DEFUN([SCARYCOIN_FIND_BDB48],[
   BDB_LIBS=
   bdbpath=X
   bdb48path=X
-  bdbdirlist=
+  bdbdirlist=src/bdb/build_unix/build/include
   for _vn in 4.8 48 4 5 ''; do
     for _pfx in b lib ''; do
       bdbdirlist="$bdbdirlist ${_pfx}db${_vn}"
@@ -13,7 +13,7 @@ AC_DEFUN([SCARYCOIN_FIND_BDB48],[
   for searchpath in $bdbdirlist ''; do
     test -n "${searchpath}" && searchpath="${searchpath}/"
     AC_TRY_COMPILE([
-      #include ${searchpath}db_cxx.h
+      #include <${searchpath}db_cxx.h>
     ],[
       #if !((DB_VERSION_MAJOR == 4 && DB_VERSION_MINOR >= 8) || DB_VERSION_MAJOR > 4)
         #error "failed to find bdb 4.8+"
@@ -26,7 +26,7 @@ AC_DEFUN([SCARYCOIN_FIND_BDB48],[
       continue
     ])
     AC_TRY_COMPILE([
-      #include ${searchpath}db_cxx.h
+      #include <{searchpath}db_cxx.h>
     ],[
       #if !(DB_VERSION_MAJOR == 4 && DB_VERSION_MINOR == 8)
         #error "failed to find bdb 4.8"
@@ -36,6 +36,7 @@ AC_DEFUN([SCARYCOIN_FIND_BDB48],[
       break
     ])
   done
+  bdb48path=src/bdb/build_unix/build/include
   if test "x$bdbpath" = "xX"; then
     AC_MSG_RESULT([no])
     AC_MSG_ERROR(libdb_cxx headers missing)

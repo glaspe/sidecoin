@@ -1,5 +1,6 @@
 #include <cstdio>
-#include "bdb/build_unix/db_cxx.h"
+// #include "bdb/build_unix/build/include/db_cxx.h"
+#include <db_cxx.h>
 
 int main()
 {

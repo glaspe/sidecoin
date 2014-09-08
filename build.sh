@@ -6,14 +6,22 @@ trap "exit" INT
 
 # make clean
 
-if [ ! -d "src/bdb" ]; then
-    cd src
-    ./install_bdb.sh
-    cd ..
-fi
+echo "Installing Berkeley DB 4.8..."
+cd src
+source ./install_bdb.sh > /dev/null 2>&1
+cd ..
+echo "Done."
 
-./autogen.sh
-./configure --without-gui --disable-tests --enable-debug CPPFLAGS="-I${BDB_PREFIX}/include/ -O2" LDFLAGS="-L${BDB_PREFIX}/lib/" USE_UPNP=
+echo "*********"
+echo $BDB_PREFIX
+echo "*********"
+
+# ./autogen.sh
+srcdir="$(dirname $0)"
+cd "$srcdir"
+autoreconf --install --force --prepend-include=${BDB_PREFIX}/include/ --verbose
+
+./configure CPPFLAGS="-I${BDB_PREFIX}/include/ -O2" LDFLAGS="-L${BDB_PREFIX}/lib/" USE_UPNP=
 
 make
 strip src/scarycoind
