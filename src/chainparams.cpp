@@ -212,14 +212,14 @@ public:
 
         // Modify the testnet genesis block so the timestamp is valid for a later start.
         // genesis.nTime = 1296688602;
-        genesis.nTime = 1409496971;
+        genesis.nTime = 1410162282;
         // genesis.nNonce = 414098458;
         genesis.nNonce = 3747490389;
 
         hashGenesisBlock = genesis.GetHash();
         
-        // printf("hashGenesisBlock: %s\n", hashGenesisBlock.ToString().c_str());
-        // printf("hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        printf("hashGenesisBlock: %s\n", hashGenesisBlock.ToString().c_str());
+        printf("hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
         assert(hashGenesisBlock == uint256("0x000000004ea566446112fcabd4657d2528d43305da008ef5505d2bcd6ae81201"));
         // assert(genesis.hashMerkleRoot == uint256("0x40a8706e3033894a68684cc522a7c1b648652119f77462c7ed274d4a29f21070"));
