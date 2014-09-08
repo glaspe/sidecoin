@@ -7,7 +7,7 @@ trap "exit" INT
 if [ ! -d "bdb" ]; then
     if [ ! -f "db-4.8.30.NC.tar.gz" ]; then
         wget http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz
-        echo '12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef db-4.8.30.NC.tar.gz' | sha256sum -c
+        # echo '12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef  db-4.8.30.NC.tar.gz' | sha256sum -c
     fi
     mkdir -p bdb
 fi
