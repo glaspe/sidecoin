@@ -4,7 +4,7 @@ AC_DEFUN([SCARYCOIN_FIND_BDB48],[
   BDB_LIBS=
   bdbpath=X
   bdb48path=X
-  bdbdirlist=src/bdb/build_unix/build/include
+  bdbdirlist=
   for _vn in 4.8 48 4 5 ''; do
     for _pfx in b lib ''; do
       bdbdirlist="$bdbdirlist ${_pfx}db${_vn}"
@@ -12,6 +12,7 @@ AC_DEFUN([SCARYCOIN_FIND_BDB48],[
   done
   for searchpath in $bdbdirlist ''; do
     test -n "${searchpath}" && searchpath="${searchpath}/"
+    echo ${searchpath}
     AC_TRY_COMPILE([
       #include <${searchpath}db_cxx.h>
     ],[
@@ -36,7 +37,11 @@ AC_DEFUN([SCARYCOIN_FIND_BDB48],[
       break
     ])
   done
-  bdb48path=src/bdb/build_unix/build/include # terrible :(
+  # Pick local installation, if it exists
+  bdblocalpath="src/bdb/build_unix/build/include"
+  if test -d ${bdblocalpath}; then
+    bdb48path=${bdblocalpath}
+  fi
   if test "x$bdbpath" = "xX"; then
     AC_MSG_RESULT([no])
     AC_MSG_ERROR(libdb_cxx headers missing)

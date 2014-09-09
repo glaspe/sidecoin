@@ -33,4 +33,3 @@ echo "Checking Berkeley DB version..."
 
 g++ bdb_version_check.cpp -I${BDB_PREFIX}/include/ -L${BDB_PREFIX}/lib/ -O2 -o bdb_version_check
 ./bdb_version_check
-rm bdb_version_check
