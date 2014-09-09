@@ -10,6 +10,7 @@
 #include "bignum.h"
 #include "uint256.h"
 
+#include <cstdio>
 #include <vector>
 
 // Debug: print to stdout
