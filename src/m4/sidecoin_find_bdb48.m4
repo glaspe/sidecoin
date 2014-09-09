@@ -12,7 +12,6 @@ AC_DEFUN([SIDECOIN_FIND_BDB48],[
   done
   for searchpath in $bdbdirlist ''; do
     test -n "${searchpath}" && searchpath="${searchpath}/"
-    echo ${searchpath}
     AC_TRY_COMPILE([
       #include <${searchpath}db_cxx.h>
     ],[
