@@ -7,7 +7,7 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "Sidecoin"
 PROJECT_NUMBER         =
-PROJECT_BRIEF          = "Bitcoin with all the opcodes turned on"
+PROJECT_BRIEF          = "The sidecar to Bitcoin's motorcycle."
 PROJECT_LOGO           =
 OUTPUT_DIRECTORY       = doxygen
 CREATE_SUBDIRS         = NO
