@@ -9,4 +9,4 @@ The sidecar to Bitcoin's motorcycle.  Sidecoin is a fork of Bitcoin v. 0.9.1.
 
 If you're on a somewhat recent version of Ubuntu, you can install using:
 
-    $ ./build.sh
+    $ ./install.sh
