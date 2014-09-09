@@ -16,10 +16,10 @@ if [ ! -d "bdb" ]; then
     cd bdb/build_unix
     mkdir -p build
 
+    export BDB_PREFIX=$(pwd)/build
+
     ../dist/configure --disable-shared --enable-cxx --with-pic --prefix=$BDB_PREFIX > /dev/null 2>&1
     make install
-
-    export BDB_PREFIX=$(pwd)/build
 
     cd ../..
     echo "Done."
