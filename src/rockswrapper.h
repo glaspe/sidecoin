@@ -2,10 +2,7 @@
 #define __ROCKSWRAPPER_H_INCLUDED__
 
 #include <cstdio>
-#include <cstdlib>
-#include <iostream>
 #include <string>
-#include <sstream>
 #include <assert.h>
 #include "rocksdb/db.h"
 
