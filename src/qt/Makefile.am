@@ -5,84 +5,84 @@ AM_CPPFLAGS += -I$(top_srcdir)/src \
   -I$(top_builddir)/src/qt/forms \
   $(PROTOBUF_CFLAGS) \
   $(QR_CFLAGS)
-bin_PROGRAMS = scarycoin-qt
-noinst_LIBRARIES = libscarycoinqt.a
+bin_PROGRAMS = sidecoin-qt
+noinst_LIBRARIES = libsidecoinqt.a
 SUBDIRS = $(BUILD_TEST_QT)
 DIST_SUBDIRS = test
 
-# scarycoin qt core #
+# sidecoin qt core #
 QT_TS = \
-  locale/scarycoin_ach.ts \
-  locale/scarycoin_af_ZA.ts \
-  locale/scarycoin_ar.ts \
-  locale/scarycoin_be_BY.ts \
-  locale/scarycoin_bg.ts \
-  locale/scarycoin_bs.ts \
-  locale/scarycoin_ca_ES.ts \
-  locale/scarycoin_ca.ts \
-  locale/scarycoin_ca@valencia.ts \
-  locale/scarycoin_cmn.ts \
-  locale/scarycoin_cs.ts \
-  locale/scarycoin_cy.ts \
-  locale/scarycoin_da.ts \
-  locale/scarycoin_de_AT.ts \
-  locale/scarycoin_de.ts \
-  locale/scarycoin_el_GR.ts \
-  locale/scarycoin_en.ts \
-  locale/scarycoin_eo.ts \
-  locale/scarycoin_es_CL.ts \
-  locale/scarycoin_es_DO.ts \
-  locale/scarycoin_es_MX.ts \
-  locale/scarycoin_es.ts \
-  locale/scarycoin_es_UY.ts \
-  locale/scarycoin_et.ts \
-  locale/scarycoin_eu_ES.ts \
-  locale/scarycoin_fa_IR.ts \
-  locale/scarycoin_fa.ts \
-  locale/scarycoin_fi.ts \
-  locale/scarycoin_fr_CA.ts \
-  locale/scarycoin_fr.ts \
-  locale/scarycoin_gl.ts \
-  locale/scarycoin_gu_IN.ts \
-  locale/scarycoin_he.ts \
-  locale/scarycoin_hi_IN.ts \
-  locale/scarycoin_hr.ts \
-  locale/scarycoin_hu.ts \
-  locale/scarycoin_id_ID.ts \
-  locale/scarycoin_it.ts \
-  locale/scarycoin_ja.ts \
-  locale/scarycoin_ka.ts \
-  locale/scarycoin_kk_KZ.ts \
-  locale/scarycoin_ko_KR.ts \
-  locale/scarycoin_ky.ts \
-  locale/scarycoin_la.ts \
-  locale/scarycoin_lt.ts \
-  locale/scarycoin_lv_LV.ts \
-  locale/scarycoin_ms_MY.ts \
-  locale/scarycoin_nb.ts \
-  locale/scarycoin_nl.ts \
-  locale/scarycoin_pam.ts \
-  locale/scarycoin_pl.ts \
-  locale/scarycoin_pt_BR.ts \
-  locale/scarycoin_pt_PT.ts \
-  locale/scarycoin_ro_RO.ts \
-  locale/scarycoin_ru.ts \
-  locale/scarycoin_sah.ts \
-  locale/scarycoin_sk.ts \
-  locale/scarycoin_sl_SI.ts \
-  locale/scarycoin_sq.ts \
-  locale/scarycoin_sr.ts \
-  locale/scarycoin_sv.ts \
-  locale/scarycoin_th_TH.ts \
-  locale/scarycoin_tr.ts \
-  locale/scarycoin_uk.ts \
-  locale/scarycoin_ur_PK.ts \
-  locale/scarycoin_uz@Cyrl.ts \
-  locale/scarycoin_vi.ts \
-  locale/scarycoin_vi_VN.ts \
-  locale/scarycoin_zh_CN.ts \
-  locale/scarycoin_zh_HK.ts \
-  locale/scarycoin_zh_TW.ts
+  locale/sidecoin_ach.ts \
+  locale/sidecoin_af_ZA.ts \
+  locale/sidecoin_ar.ts \
+  locale/sidecoin_be_BY.ts \
+  locale/sidecoin_bg.ts \
+  locale/sidecoin_bs.ts \
+  locale/sidecoin_ca_ES.ts \
+  locale/sidecoin_ca.ts \
+  locale/sidecoin_ca@valencia.ts \
+  locale/sidecoin_cmn.ts \
+  locale/sidecoin_cs.ts \
+  locale/sidecoin_cy.ts \
+  locale/sidecoin_da.ts \
+  locale/sidecoin_de_AT.ts \
+  locale/sidecoin_de.ts \
+  locale/sidecoin_el_GR.ts \
+  locale/sidecoin_en.ts \
+  locale/sidecoin_eo.ts \
+  locale/sidecoin_es_CL.ts \
+  locale/sidecoin_es_DO.ts \
+  locale/sidecoin_es_MX.ts \
+  locale/sidecoin_es.ts \
+  locale/sidecoin_es_UY.ts \
+  locale/sidecoin_et.ts \
+  locale/sidecoin_eu_ES.ts \
+  locale/sidecoin_fa_IR.ts \
+  locale/sidecoin_fa.ts \
+  locale/sidecoin_fi.ts \
+  locale/sidecoin_fr_CA.ts \
+  locale/sidecoin_fr.ts \
+  locale/sidecoin_gl.ts \
+  locale/sidecoin_gu_IN.ts \
+  locale/sidecoin_he.ts \
+  locale/sidecoin_hi_IN.ts \
+  locale/sidecoin_hr.ts \
+  locale/sidecoin_hu.ts \
+  locale/sidecoin_id_ID.ts \
+  locale/sidecoin_it.ts \
+  locale/sidecoin_ja.ts \
+  locale/sidecoin_ka.ts \
+  locale/sidecoin_kk_KZ.ts \
+  locale/sidecoin_ko_KR.ts \
+  locale/sidecoin_ky.ts \
+  locale/sidecoin_la.ts \
+  locale/sidecoin_lt.ts \
+  locale/sidecoin_lv_LV.ts \
+  locale/sidecoin_ms_MY.ts \
+  locale/sidecoin_nb.ts \
+  locale/sidecoin_nl.ts \
+  locale/sidecoin_pam.ts \
+  locale/sidecoin_pl.ts \
+  locale/sidecoin_pt_BR.ts \
+  locale/sidecoin_pt_PT.ts \
+  locale/sidecoin_ro_RO.ts \
+  locale/sidecoin_ru.ts \
+  locale/sidecoin_sah.ts \
+  locale/sidecoin_sk.ts \
+  locale/sidecoin_sl_SI.ts \
+  locale/sidecoin_sq.ts \
+  locale/sidecoin_sr.ts \
+  locale/sidecoin_sv.ts \
+  locale/sidecoin_th_TH.ts \
+  locale/sidecoin_tr.ts \
+  locale/sidecoin_uk.ts \
+  locale/sidecoin_ur_PK.ts \
+  locale/sidecoin_uz@Cyrl.ts \
+  locale/sidecoin_vi.ts \
+  locale/sidecoin_vi_VN.ts \
+  locale/sidecoin_zh_CN.ts \
+  locale/sidecoin_zh_HK.ts \
+  locale/sidecoin_zh_TW.ts
 
 QT_FORMS_UI = \
   forms/aboutdialog.ui \
@@ -107,10 +107,10 @@ QT_MOC_CPP = \
   moc_addressbookpage.cpp \
   moc_addresstablemodel.cpp \
   moc_askpassphrasedialog.cpp \
-  moc_scarycoinaddressvalidator.cpp \
-  moc_scarycoinamountfield.cpp \
-  moc_scarycoingui.cpp \
-  moc_scarycoinunits.cpp \
+  moc_sidecoinaddressvalidator.cpp \
+  moc_sidecoinamountfield.cpp \
+  moc_sidecoingui.cpp \
+  moc_sidecoinunits.cpp \
   moc_clientmodel.cpp \
   moc_coincontroldialog.cpp \
   moc_coincontroltreewidget.cpp \
@@ -148,31 +148,31 @@ QT_MOC_CPP = \
   moc_walletmodel.cpp \
   moc_walletview.cpp
 
-SCARYCOIN_MM = \
+SIDECOIN_MM = \
   macdockiconhandler.mm \
   macnotificationhandler.mm
 
 QT_MOC = \
-  scarycoin.moc \
+  sidecoin.moc \
   intro.moc \
   overviewpage.moc \
   rpcconsole.moc
 
-QT_QRC_CPP = qrc_scarycoin.cpp
-QT_QRC = scarycoin.qrc
+QT_QRC_CPP = qrc_sidecoin.cpp
+QT_QRC = sidecoin.qrc
 
 PROTOBUF_CC = paymentrequest.pb.cc
 PROTOBUF_H = paymentrequest.pb.h
 PROTOBUF_PROTO = paymentrequest.proto
 
-SCARYCOIN_QT_H = \
+SIDECOIN_QT_H = \
   addressbookpage.h \
   addresstablemodel.h \
   askpassphrasedialog.h \
-  scarycoinaddressvalidator.h \
-  scarycoinamountfield.h \
-  scarycoingui.h \
-  scarycoinunits.h \
+  sidecoinaddressvalidator.h \
+  sidecoinamountfield.h \
+  sidecoingui.h \
+  sidecoinunits.h \
   clientmodel.h \
   coincontroldialog.h \
   coincontroltreewidget.h \
@@ -217,10 +217,10 @@ SCARYCOIN_QT_H = \
 RES_ICONS = \
   res/icons/add.png \
   res/icons/address-book.png \
-  res/icons/scarycoin.ico \
-  res/icons/scarycoin.png \
-  res/icons/scarycoin_testnet.ico \
-  res/icons/scarycoin_testnet.png \
+  res/icons/sidecoin.ico \
+  res/icons/sidecoin.png \
+  res/icons/sidecoin_testnet.ico \
+  res/icons/sidecoin_testnet.png \
   res/icons/clock1.png \
   res/icons/clock2.png \
   res/icons/clock3.png \
@@ -259,12 +259,12 @@ RES_ICONS = \
   res/icons/tx_output.png \
   res/icons/tx_mined.png
 
-SCARYCOIN_QT_CPP = \
-  scarycoin.cpp \
-  scarycoinaddressvalidator.cpp \
-  scarycoinamountfield.cpp \
-  scarycoingui.cpp \
-  scarycoinunits.cpp \
+SIDECOIN_QT_CPP = \
+  sidecoin.cpp \
+  sidecoinaddressvalidator.cpp \
+  sidecoinamountfield.cpp \
+  sidecoingui.cpp \
+  sidecoinunits.cpp \
   clientmodel.cpp \
   csvmodelwriter.cpp \
   guiutil.cpp \
@@ -282,7 +282,7 @@ SCARYCOIN_QT_CPP = \
   utilitydialog.cpp
 
 if ENABLE_WALLET
-SCARYCOIN_QT_CPP += \
+SIDECOIN_QT_CPP += \
   addressbookpage.cpp \
   addresstablemodel.cpp \
   askpassphrasedialog.cpp \
@@ -317,40 +317,40 @@ RES_IMAGES = \
 
 RES_MOVIES = $(wildcard res/movies/spinner-*.png)
 
-SCARYCOIN_RC = res/scarycoin-qt-res.rc
+SIDECOIN_RC = res/sidecoin-qt-res.rc
 
-libscarycoinqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(QT_INCLUDES) \
+libsidecoinqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(QT_INCLUDES) \
   -I$(top_srcdir)/src/qt/forms $(QT_DBUS_INCLUDES)
-libscarycoinqt_a_SOURCES = $(SCARYCOIN_QT_CPP) $(SCARYCOIN_QT_H) $(QT_FORMS_UI) \
+libsidecoinqt_a_SOURCES = $(SIDECOIN_QT_CPP) $(SIDECOIN_QT_H) $(QT_FORMS_UI) \
   $(QT_QRC) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES)
 
-nodist_libscarycoinqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
+nodist_libsidecoinqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
   $(PROTOBUF_H) $(QT_QRC_CPP)
 
-BUILT_SOURCES = $(nodist_libscarycoinqt_a_SOURCES)
+BUILT_SOURCES = $(nodist_libsidecoinqt_a_SOURCES)
 
 #Generating these with a half-written protobuf header leads to wacky results.
 #This makes sure it's done.
 $(QT_MOC): $(PROTOBUF_H)
 $(QT_MOC_CPP): $(PROTOBUF_H)
 
-# scarycoin-qt binary #
-scarycoin_qt_CPPFLAGS = $(AM_CPPFLAGS) $(QT_INCLUDES) \
+# sidecoin-qt binary #
+sidecoin_qt_CPPFLAGS = $(AM_CPPFLAGS) $(QT_INCLUDES) \
   -I$(top_srcdir)/src/qt/forms
-scarycoin_qt_SOURCES = scarycoin.cpp
+sidecoin_qt_SOURCES = sidecoin.cpp
 if TARGET_DARWIN
-  scarycoin_qt_SOURCES += $(SCARYCOIN_MM)
+  sidecoin_qt_SOURCES += $(SIDECOIN_MM)
 endif
 if TARGET_WINDOWS
-  scarycoin_qt_SOURCES += $(SCARYCOIN_RC)
+  sidecoin_qt_SOURCES += $(SIDECOIN_RC)
 endif
-scarycoin_qt_LDADD = libscarycoinqt.a $(LIBSCARYCOIN_SERVER)
+sidecoin_qt_LDADD = libsidecoinqt.a $(LIBSIDECOIN_SERVER)
 if ENABLE_WALLET
-scarycoin_qt_LDADD += $(LIBSCARYCOIN_WALLET)
+sidecoin_qt_LDADD += $(LIBSIDECOIN_WALLET)
 endif
-scarycoin_qt_LDADD += $(LIBSCARYCOIN_CLI) $(LIBSCARYCOIN_COMMON) $(LIBLEVELDB) $(LIBMEMENV) \
+sidecoin_qt_LDADD += $(LIBSIDECOIN_CLI) $(LIBSIDECOIN_COMMON) $(LIBLEVELDB) $(LIBMEMENV) \
   $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS)
-scarycoin_qt_LDFLAGS = $(QT_LDFLAGS)
+sidecoin_qt_LDFLAGS = $(QT_LDFLAGS)
 
 # forms/foo.h -> forms/ui_foo.h
 QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:.ui=.h))))
@@ -361,15 +361,15 @@ QT_QM=$(QT_TS:.ts=.qm)
 .PHONY: FORCE
 .SECONDARY: $(QT_QM)
 
-scarycoinstrings.cpp: FORCE
-	$(MAKE) -C $(top_srcdir)/src qt/scarycoinstrings.cpp
+sidecoinstrings.cpp: FORCE
+	$(MAKE) -C $(top_srcdir)/src qt/sidecoinstrings.cpp
 
-translate: scarycoinstrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(SCARYCOIN_QT_CPP) $(SCARYCOIN_QT_H) $(SCARYCOIN_MM)
+translate: sidecoinstrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(SIDECOIN_QT_CPP) $(SIDECOIN_QT_H) $(SIDECOIN_MM)
 	@test -n $(LUPDATE) || echo "lupdate is required for updating translations"
-	@QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts locale/scarycoin_en.ts
+	@QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts locale/sidecoin_en.ts
 
 $(QT_QRC_CPP): $(QT_QRC) $(QT_QM) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES) $(PROTOBUF_H)
-	@cd $(abs_srcdir); test -f $(RCC) && QT_SELECT=$(QT_SELECT) $(RCC) -name scarycoin -o $(abs_builddir)/$@ $< || \
+	@cd $(abs_srcdir); test -f $(RCC) && QT_SELECT=$(QT_SELECT) $(RCC) -name sidecoin -o $(abs_builddir)/$@ $< || \
 	  echo error: could not build $@
 	$(SED) -i.bak -e '/^\*\*.*Created:/d' $@ && rm $@.bak
 	$(SED) -i.bak -e '/^\*\*.*by:/d' $@ && rm $@.bak

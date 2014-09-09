@@ -2,10 +2,10 @@
 
 # Exercise the listtransactions API
 
-# Add python-scarycoinrpc to module search path:
+# Add python-sidecoinrpc to module search path:
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "python-scarycoinrpc"))
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "python-sidecoinrpc"))
 
 import json
 import shutil
@@ -13,7 +13,7 @@ import subprocess
 import tempfile
 import traceback
 
-from scarycoinrpc.authproxy import AuthServiceProxy, JSONRPCException
+from sidecoinrpc.authproxy import AuthServiceProxy, JSONRPCException
 from util import *
 
 
@@ -103,9 +103,9 @@ def main():
 
     parser = optparse.OptionParser(usage="%prog [options]")
     parser.add_option("--nocleanup", dest="nocleanup", default=False, action="store_true",
-                      help="Leave scarycoinds and test.* datadir on exit or error")
+                      help="Leave sidecoinds and test.* datadir on exit or error")
     parser.add_option("--srcdir", dest="srcdir", default="../../src",
-                      help="Source directory containing scarycoind/scarycoin-cli (default: %default%)")
+                      help="Source directory containing sidecoind/sidecoin-cli (default: %default%)")
     parser.add_option("--tmpdir", dest="tmpdir", default=tempfile.mkdtemp(prefix="test"),
                       help="Root directory for datadirs")
     (options, args) = parser.parse_args()

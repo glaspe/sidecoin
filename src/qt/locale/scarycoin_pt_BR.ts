@@ -3,12 +3,12 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Scarycoin Core</source>
+        <source>About Sidecoin Core</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;Scarycoin Core&lt;/b&gt; version</source>
+        <source>&lt;b&gt;Sidecoin Core&lt;/b&gt; version</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -33,7 +33,7 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
     </message>
     <message>
         <location line="+0"/>
-        <source>The Scarycoin Core developers</source>
+        <source>The Sidecoin Core developers</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -121,12 +121,12 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
     </message>
     <message>
         <location line="+7"/>
-        <source>These are your Scarycoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Estes são os seus endereços Scarycoin para receber pagamentos. Você pode querer enviar um endereço diferente para cada remetente, para acompanhar quem está pagando.</translation>
+        <source>These are your Sidecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Estes são os seus endereços Sidecoin para receber pagamentos. Você pode querer enviar um endereço diferente para cada remetente, para acompanhar quem está pagando.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>These are your Scarycoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <source>These are your Sidecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -247,8 +247,8 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
     </message>
     <message>
         <location line="+1"/>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR SCARYCOINS&lt;/b&gt;!</source>
-        <translation>Aviso: Se você criptografar sua carteira e perder sua senha, você vai &lt;b&gt;perder todos os seus SCARYCOINS!&lt;/b&gt;</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR SIDECOINS&lt;/b&gt;!</source>
+        <translation>Aviso: Se você criptografar sua carteira e perder sua senha, você vai &lt;b&gt;perder todos os seus SIDECOINS!&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -274,8 +274,8 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
     </message>
     <message>
         <location line="-56"/>
-        <source>Scarycoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your scarycoins from being stolen by malware infecting your computer.</source>
-        <translation>O Scarycoin irá fechar agora para finalizar o processo de encriptação. Lembre-se de que encriptar sua carteira não protege totalmente suas scarycoins de serem roubadas por malwares que tenham infectado o seu computador.</translation>
+        <source>Sidecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your sidecoins from being stolen by malware infecting your computer.</source>
+        <translation>O Sidecoin irá fechar agora para finalizar o processo de encriptação. Lembre-se de que encriptar sua carteira não protege totalmente suas sidecoins de serem roubadas por malwares que tenham infectado o seu computador.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -320,9 +320,9 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
     </message>
 </context>
 <context>
-    <name>ScarycoinGUI</name>
+    <name>SidecoinGUI</name>
     <message>
-        <location filename="../scarycoingui.cpp" line="+295"/>
+        <location filename="../sidecoingui.cpp" line="+295"/>
         <source>Sign &amp;message...</source>
         <translation>&amp;Assinar Mensagem...</translation>
     </message>
@@ -368,8 +368,8 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
     </message>
     <message>
         <location line="+7"/>
-        <source>Show information about Scarycoin</source>
-        <translation>Mostrar informação sobre Scarycoin</translation>
+        <source>Show information about Sidecoin</source>
+        <translation>Mostrar informação sobre Sidecoin</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -429,13 +429,13 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
     </message>
     <message>
         <location line="-405"/>
-        <source>Send coins to a Scarycoin address</source>
-        <translation>Enviar moedas para um endereço scarycoin</translation>
+        <source>Send coins to a Sidecoin address</source>
+        <translation>Enviar moedas para um endereço sidecoin</translation>
     </message>
     <message>
         <location line="+49"/>
-        <source>Modify configuration options for Scarycoin</source>
-        <translation>Modificar opções de configuração para scarycoin</translation>
+        <source>Modify configuration options for Sidecoin</source>
+        <translation>Modificar opções de configuração para sidecoin</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -464,8 +464,8 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
     </message>
     <message>
         <location line="+430"/>
-        <source>Scarycoin</source>
-        <translation>Scarycoin</translation>
+        <source>Sidecoin</source>
+        <translation>Sidecoin</translation>
     </message>
     <message>
         <location line="-643"/>
@@ -500,13 +500,13 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
     </message>
     <message>
         <location line="+7"/>
-        <source>Sign messages with your Scarycoin addresses to prove you own them</source>
-        <translation>Assine mensagems com seus endereços Scarycoin para provar que você é dono deles</translation>
+        <source>Sign messages with your Sidecoin addresses to prove you own them</source>
+        <translation>Assine mensagems com seus endereços Sidecoin para provar que você é dono deles</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Verify messages to ensure they were signed with specified Scarycoin addresses</source>
-        <translation>Verificar mensagens para se assegurar que elas foram assinadas pelo dono de Endereços Scarycoin específicos</translation>
+        <source>Verify messages to ensure they were signed with specified Sidecoin addresses</source>
+        <translation>Verificar mensagens para se assegurar que elas foram assinadas pelo dono de Endereços Sidecoin específicos</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -536,18 +536,18 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
     </message>
     <message>
         <location line="-401"/>
-        <source>Scarycoin Core</source>
-        <translation>Núcleo Scarycoin</translation>
+        <source>Sidecoin Core</source>
+        <translation>Núcleo Sidecoin</translation>
     </message>
     <message>
         <location line="+163"/>
-        <source>Request payments (generates QR codes and scarycoin: URIs)</source>
+        <source>Request payments (generates QR codes and sidecoin: URIs)</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+29"/>
         <location line="+2"/>
-        <source>&amp;About Scarycoin Core</source>
+        <source>&amp;About Sidecoin Core</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -562,7 +562,7 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
     </message>
     <message>
         <location line="+3"/>
-        <source>Open a scarycoin: URI or payment request</source>
+        <source>Open a sidecoin: URI or payment request</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -572,19 +572,19 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
     </message>
     <message>
         <location line="+1"/>
-        <source>Show the Scarycoin Core help message to get a list with possible Scarycoin command-line options</source>
+        <source>Show the Sidecoin Core help message to get a list with possible Sidecoin command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+159"/>
         <location line="+5"/>
-        <source>Scarycoin client</source>
-        <translation>Cliente Scarycoin</translation>
+        <source>Sidecoin client</source>
+        <translation>Cliente Sidecoin</translation>
     </message>
     <message numerus="yes">
         <location line="+142"/>
-        <source>%n active connection(s) to Scarycoin network</source>
-        <translation><numerusform>%n conexão ativa na rede Scarycoin</numerusform><numerusform>%n conexões ativas na rede Scarycoin</numerusform></translation>
+        <source>%n active connection(s) to Sidecoin network</source>
+        <translation><numerusform>%n conexão ativa na rede Sidecoin</numerusform><numerusform>%n conexões ativas na rede Sidecoin</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>
@@ -689,9 +689,9 @@ Endereço: %4</translation>
         <translation>Carteira está &lt;b&gt;criptografada&lt;/b&gt; e atualmente &lt;b&gt;bloqueada&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../scarycoin.cpp" line="+438"/>
-        <source>A fatal error occurred. Scarycoin can no longer continue safely and will quit.</source>
-        <translation>Um erro fatal ocorreu. Scarycoin não pode continuar em segurança e irá fechar.</translation>
+        <location filename="../sidecoin.cpp" line="+438"/>
+        <source>A fatal error occurred. Sidecoin can no longer continue safely and will quit.</source>
+        <translation>Um erro fatal ocorreu. Sidecoin não pode continuar em segurança e irá fechar.</translation>
     </message>
 </context>
 <context>
@@ -1048,8 +1048,8 @@ Endereço: %4</translation>
     </message>
     <message>
         <location line="-5"/>
-        <source>The entered address &quot;%1&quot; is not a valid Scarycoin address.</source>
-        <translation>O endereço digitado &quot;%1&quot; não é um endereço Scarycoin válido.</translation>
+        <source>The entered address &quot;%1&quot; is not a valid Sidecoin address.</source>
+        <translation>O endereço digitado &quot;%1&quot; não é um endereço Sidecoin válido.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1094,13 +1094,13 @@ Endereço: %4</translation>
     <name>HelpMessageDialog</name>
     <message>
         <location filename="../forms/helpmessagedialog.ui" line="+19"/>
-        <source>Scarycoin Core - Command-line options</source>
+        <source>Sidecoin Core - Command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utilitydialog.cpp" line="+38"/>
-        <source>Scarycoin Core</source>
-        <translation>Núcleo Scarycoin</translation>
+        <source>Sidecoin Core</source>
+        <translation>Núcleo Sidecoin</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1152,17 +1152,17 @@ Endereço: %4</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Welcome to Scarycoin Core.</source>
+        <source>Welcome to Sidecoin Core.</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+26"/>
-        <source>As this is the first time the program is launched, you can choose where Scarycoin Core will store its data.</source>
+        <source>As this is the first time the program is launched, you can choose where Sidecoin Core will store its data.</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
-        <source>Scarycoin Core will download and store a copy of the Scarycoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <source>Sidecoin Core will download and store a copy of the Sidecoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1177,8 +1177,8 @@ Endereço: %4</translation>
     </message>
     <message>
         <location filename="../intro.cpp" line="+85"/>
-        <source>Scarycoin</source>
-        <translation>Scarycoin</translation>
+        <source>Sidecoin</source>
+        <translation>Sidecoin</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1253,13 +1253,13 @@ Endereço: %4</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Automatically start Scarycoin after logging in to the system.</source>
-        <translation>Iniciar Scarycoin automaticamente após se logar no sistema.</translation>
+        <source>Automatically start Sidecoin after logging in to the system.</source>
+        <translation>Iniciar Sidecoin automaticamente após se logar no sistema.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>&amp;Start Scarycoin on system login</source>
-        <translation>Iniciar Scarycoin no login do sistema</translation>
+        <source>&amp;Start Sidecoin on system login</source>
+        <translation>Iniciar Sidecoin no login do sistema</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1288,7 +1288,7 @@ Endereço: %4</translation>
     </message>
     <message>
         <location line="+58"/>
-        <source>Connect to the Scarycoin network through a SOCKS proxy.</source>
+        <source>Connect to the Sidecoin network through a SOCKS proxy.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1323,8 +1323,8 @@ Endereço: %4</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Automatically open the Scarycoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Abrir as portas do cliente Scarycoin automaticamente no roteador. Isto só funcionará se seu roteador suportar UPnP e esta função estiver habilitada.</translation>
+        <source>Automatically open the Sidecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Abrir as portas do cliente Sidecoin automaticamente no roteador. Isto só funcionará se seu roteador suportar UPnP e esta função estiver habilitada.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1393,8 +1393,8 @@ Endereço: %4</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>The user interface language can be set here. This setting will take effect after restarting Scarycoin.</source>
-        <translation>A língua da interface com usuário pode ser escolhida aqui. Esta configuração só surtirá efeito após reiniciar o Scarycoin.</translation>
+        <source>The user interface language can be set here. This setting will take effect after restarting Sidecoin.</source>
+        <translation>A língua da interface com usuário pode ser escolhida aqui. Esta configuração só surtirá efeito após reiniciar o Sidecoin.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1404,12 +1404,12 @@ Endereço: %4</translation>
     <message>
         <location line="+13"/>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Escolha a unidade padrão de subdivisão para interface mostrar quando enviar scarycoins.</translation>
+        <translation>Escolha a unidade padrão de subdivisão para interface mostrar quando enviar sidecoins.</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Whether to show Scarycoin addresses in the transaction list or not.</source>
-        <translation>Mostrar ou não endereços Scarycoin na lista de transações.</translation>
+        <source>Whether to show Sidecoin addresses in the transaction list or not.</source>
+        <translation>Mostrar ou não endereços Sidecoin na lista de transações.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1483,8 +1483,8 @@ Endereço: %4</translation>
     <message>
         <location line="+50"/>
         <location line="+231"/>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Scarycoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>A informação mostrada pode estar desatualizada. Sua carteira sincroniza automaticamente com a rede Scarycoin depois que a conexão é estabelecida, mas este processo pode não estar completo ainda.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Sidecoin network after a connection is established, but this process has not completed yet.</source>
+        <translation>A informação mostrada pode estar desatualizada. Sua carteira sincroniza automaticamente com a rede Sidecoin depois que a conexão é estabelecida, mas este processo pode não estar completo ainda.</translation>
     </message>
     <message>
         <location line="-155"/>
@@ -1553,8 +1553,8 @@ Endereço: %4</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>URI can not be parsed! This can be caused by an invalid Scarycoin address or malformed URI parameters.</source>
-        <translation>URI não pode ser decodificado! Isso pode ter sido causado por um endereço Scarycoin inválido ou por parâmetros URI malformados.</translation>
+        <source>URI can not be parsed! This can be caused by an invalid Sidecoin address or malformed URI parameters.</source>
+        <translation>URI não pode ser decodificado! Isso pode ter sido causado por um endereço Sidecoin inválido ou por parâmetros URI malformados.</translation>
     </message>
     <message>
         <location line="+96"/>
@@ -1573,8 +1573,8 @@ Endereço: %4</translation>
     </message>
     <message>
         <location line="-353"/>
-        <source>Cannot start scarycoin: click-to-pay handler</source>
-        <translation>Não foi possível iniciar scarycoin: manipulador clique-para-pagar</translation>
+        <source>Cannot start sidecoin: click-to-pay handler</source>
+        <translation>Não foi possível iniciar sidecoin: manipulador clique-para-pagar</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -1640,10 +1640,10 @@ Endereço: %4</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../scarycoin.cpp" line="+71"/>
+        <location filename="../sidecoin.cpp" line="+71"/>
         <location line="+11"/>
-        <source>Scarycoin</source>
-        <translation>Scarycoin</translation>
+        <source>Sidecoin</source>
+        <translation>Sidecoin</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1657,8 +1657,8 @@ Endereço: %4</translation>
     </message>
     <message>
         <location filename="../guiutil.cpp" line="+82"/>
-        <source>Enter a Scarycoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Digite um endereço Scarycoin (exemplo: 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <source>Enter a Sidecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
+        <translation>Digite um endereço Sidecoin (exemplo: 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
 </context>
 <context>
@@ -1818,8 +1818,8 @@ Endereço: %4</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Open the Scarycoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Abrir o arquivo de log de depuração do Scarycoin do diretório atual de dados. Isso pode levar alguns segundos para arquivos de log grandes.</translation>
+        <source>Open the Sidecoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Abrir o arquivo de log de depuração do Sidecoin do diretório atual de dados. Isso pode levar alguns segundos para arquivos de log grandes.</translation>
     </message>
     <message>
         <location line="+76"/>
@@ -1828,8 +1828,8 @@ Endereço: %4</translation>
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="-30"/>
-        <source>Welcome to the Scarycoin RPC console.</source>
-        <translation>Bem-vindo ao console Scarycoin RPC.</translation>
+        <source>Welcome to the Sidecoin RPC console.</source>
+        <translation>Bem-vindo ao console Sidecoin RPC.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1907,7 +1907,7 @@ Endereço: %4</translation>
     <message>
         <location line="+14"/>
         <location line="+23"/>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Scarycoin network.</source>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Sidecoin network.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2303,7 +2303,7 @@ Endereço: %4</translation>
     </message>
     <message>
         <location line="+113"/>
-        <source>Warning: Invalid Scarycoin address</source>
+        <source>Warning: Invalid Sidecoin address</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2415,7 +2415,7 @@ Endereço: %4</translation>
     </message>
     <message>
         <location line="+33"/>
-        <source>A message that was attached to the scarycoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Scarycoin network.</source>
+        <source>A message that was attached to the sidecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Sidecoin network.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2440,7 +2440,7 @@ Endereço: %4</translation>
     <name>ShutdownWindow</name>
     <message>
         <location filename="../utilitydialog.cpp" line="+48"/>
-        <source>Scarycoin Core is shutting down...</source>
+        <source>Sidecoin Core is shutting down...</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2510,8 +2510,8 @@ Endereço: %4</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Sign the message to prove you own this Scarycoin address</source>
-        <translation>Assinar mensagem para provar que você é dono deste endereço Scarycoin</translation>
+        <source>Sign the message to prove you own this Sidecoin address</source>
+        <translation>Assinar mensagem para provar que você é dono deste endereço Sidecoin</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2546,8 +2546,8 @@ Endereço: %4</translation>
     </message>
     <message>
         <location line="+37"/>
-        <source>Verify the message to ensure it was signed with the specified Scarycoin address</source>
-        <translation>Verificar mensagem para se assegurar que ela foi assinada pelo dono de um endereço Scarycoin específico.</translation>
+        <source>Verify the message to ensure it was signed with the specified Sidecoin address</source>
+        <translation>Verificar mensagem para se assegurar que ela foi assinada pelo dono de um endereço Sidecoin específico.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2561,8 +2561,8 @@ Endereço: %4</translation>
     </message>
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+30"/>
-        <source>Enter a Scarycoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Digite um endereço Scarycoin (exemplo: 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <source>Enter a Sidecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
+        <translation>Digite um endereço Sidecoin (exemplo: 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <location line="-1"/>
@@ -2640,12 +2640,12 @@ Endereço: %4</translation>
     <name>SplashScreen</name>
     <message>
         <location filename="../splashscreen.cpp" line="+28"/>
-        <source>Scarycoin Core</source>
-        <translation>Núcleo Scarycoin</translation>
+        <source>Sidecoin Core</source>
+        <translation>Núcleo Sidecoin</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>The Scarycoin Core developers</source>
+        <source>The Sidecoin Core developers</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3213,9 +3213,9 @@ Endereço: %4</translation>
     </message>
 </context>
 <context>
-    <name>scarycoin-core</name>
+    <name>sidecoin-core</name>
     <message>
-        <location filename="../scarycoinstrings.cpp" line="+221"/>
+        <location filename="../sidecoinstrings.cpp" line="+221"/>
         <source>Usage:</source>
         <translation>Uso:</translation>
     </message>
@@ -3236,13 +3236,13 @@ Endereço: %4</translation>
     </message>
     <message>
         <location line="+22"/>
-        <source>Specify configuration file (default: scarycoin.conf)</source>
-        <translation>Especifique um arquivo de configurações (padrão: scarycoin.conf)</translation>
+        <source>Specify configuration file (default: sidecoin.conf)</source>
+        <translation>Especifique um arquivo de configurações (padrão: sidecoin.conf)</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Specify pid file (default: scarycoind.pid)</source>
-        <translation>Especifique um arquivo de pid (padrão: scarycoind.pid)</translation>
+        <source>Specify pid file (default: sidecoind.pid)</source>
+        <translation>Especifique um arquivo de pid (padrão: sidecoind.pid)</translation>
     </message>
     <message>
         <location line="-1"/>
@@ -3319,24 +3319,24 @@ Endereço: %4</translation>
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=scarycoinrpc
+rpcuser=sidecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
 If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;Scarycoin Alert&quot; admin@foo.com
+for example: alertnotify=echo %%s | mail -s &quot;Sidecoin Alert&quot; admin@foo.com
 </source>
         <translation>%s, você deve especificar uma senha rpcpassword no arquivo de configuração:⏎
 %s⏎
 É recomendado que você use a seguinte senha aleatória:⏎
-rpcuser=scarycoinrpc⏎
+rpcuser=sidecoinrpc⏎
 rpcpassword=%s⏎
 (você não precisa lembrar esta senha)⏎
 O nome de usuário e a senha NÃO PODEM ser os mesmos.⏎
 Se o arquivo não existir, crie um com permissão de leitura apenas para o dono.⏎
 É recomendado também definir um alertnotify para que você seja notificado de problemas;⏎
-por exemplo: alertnotify=echo %%s | mail -s &quot;Scarycoin Alert&quot; admin@foo.com⏎
+por exemplo: alertnotify=echo %%s | mail -s &quot;Sidecoin Alert&quot; admin@foo.com⏎
 </translation>
     </message>
     <message>
@@ -3356,8 +3356,8 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Scarycoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+3"/>
-        <source>Cannot obtain a lock on data directory %s. Scarycoin is probably already running.</source>
-        <translation>Não foi possível obter exclusividade de escrita no endereço %s. O Scarycoin provavelmente já está rodando.</translation>
+        <source>Cannot obtain a lock on data directory %s. Sidecoin is probably already running.</source>
+        <translation>Não foi possível obter exclusividade de escrita no endereço %s. O Sidecoin provavelmente já está rodando.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3372,7 +3372,7 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Scarycoin Alert&quot; admin@fo
     <message>
         <location line="+3"/>
         <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Erro: A transação foi rejeitada. Isso pode acontecer se alguns dos scarycoins de sua carteira já haviam sido gastos, por exemplo se você usou uma cópia do arquivo wallet.dat e alguns scarycoins foram gastos na cópia mas não foram marcados como gastos aqui.</translation>
+        <translation>Erro: A transação foi rejeitada. Isso pode acontecer se alguns dos sidecoins de sua carteira já haviam sido gastos, por exemplo se você usou uma cópia do arquivo wallet.dat e alguns sidecoins foram gastos na cópia mas não foram marcados como gastos aqui.</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -3401,8 +3401,8 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Scarycoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+3"/>
-        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Scarycoin will not work properly.</source>
-        <translation>Cuidado: Por favor, verifique que a data e hora do seu computador estão corretas! If o seu relógio estiver errado, o Scarycoin não irá funcionar corretamente.</translation>
+        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Sidecoin will not work properly.</source>
+        <translation>Cuidado: Por favor, verifique que a data e hora do seu computador estão corretas! If o seu relógio estiver errado, o Sidecoin não irá funcionar corretamente.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3436,12 +3436,12 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Scarycoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+1"/>
-        <source>Scarycoin Core Daemon</source>
+        <source>Sidecoin Core Daemon</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Scarycoin RPC client version</source>
+        <source>Sidecoin RPC client version</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3641,7 +3641,7 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Scarycoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+1"/>
-        <source>Send command to Scarycoin server</source>
+        <source>Send command to Sidecoin server</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3661,8 +3661,8 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Scarycoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+2"/>
-        <source>Start Scarycoin server</source>
-        <translation>Iniciar servidor Scarycoin</translation>
+        <source>Start Sidecoin server</source>
+        <translation>Iniciar servidor Sidecoin</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3671,7 +3671,7 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Scarycoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+10"/>
-        <source>Usage (deprecated, use scarycoin-cli):</source>
+        <source>Usage (deprecated, use sidecoin-cli):</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3776,8 +3776,8 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Scarycoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+9"/>
-        <source>SSL options: (see the Scarycoin Wiki for SSL setup instructions)</source>
-        <translation>Opções SSL: (veja a Wiki do Scarycoin para instruções de configuração SSL)</translation>
+        <source>SSL options: (see the Sidecoin Wiki for SSL setup instructions)</source>
+        <translation>Opções SSL: (veja a Wiki do Sidecoin para instruções de configuração SSL)</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -3936,13 +3936,13 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Scarycoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+1"/>
-        <source>Error loading wallet.dat: Wallet requires newer version of Scarycoin</source>
-        <translation>Erro ao carregar wallet.dat: Carteira requer uma versão mais nova do Scarycoin</translation>
+        <source>Error loading wallet.dat: Wallet requires newer version of Sidecoin</source>
+        <translation>Erro ao carregar wallet.dat: Carteira requer uma versão mais nova do Sidecoin</translation>
     </message>
     <message>
         <location line="+98"/>
-        <source>Wallet needed to be rewritten: restart Scarycoin to complete</source>
-        <translation>A Carteira precisou ser reescrita: reinicie o Scarycoin para completar</translation>
+        <source>Wallet needed to be rewritten: restart Sidecoin to complete</source>
+        <translation>A Carteira precisou ser reescrita: reinicie o Sidecoin para completar</translation>
     </message>
     <message>
         <location line="-100"/>
@@ -4001,8 +4001,8 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Scarycoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="-32"/>
-        <source>Unable to bind to %s on this computer. Scarycoin is probably already running.</source>
-        <translation>Impossível vincular a %s neste computador. O Scarycoin provavelmente já está rodando.</translation>
+        <source>Unable to bind to %s on this computer. Sidecoin is probably already running.</source>
+        <translation>Impossível vincular a %s neste computador. O Sidecoin provavelmente já está rodando.</translation>
     </message>
     <message>
         <location line="+95"/>

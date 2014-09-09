@@ -4,10 +4,10 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "scarycoin-config.h"
+#include "sidecoin-config.h"
 #endif
 
-#include "scarycoingui.h"
+#include "sidecoingui.h"
 
 #include "clientmodel.h"
 #include "guiconstants.h"
@@ -71,7 +71,7 @@ static void InitMessage(const std::string &message)
  */
 static std::string Translate(const char* psz)
 {
-    return QCoreApplication::translate("scarycoin-core", psz).toStdString();
+    return QCoreApplication::translate("sidecoin-core", psz).toStdString();
 }
 
 /** Set up translations */
@@ -111,11 +111,11 @@ static void initTranslations(QTranslator &qtTranslatorBase, QTranslator &qtTrans
     if (qtTranslator.load("qt_" + lang_territory, QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
         QApplication::installTranslator(&qtTranslator);
 
-    // Load e.g. scarycoin_de.qm (shortcut "de" needs to be defined in scarycoin.qrc)
+    // Load e.g. sidecoin_de.qm (shortcut "de" needs to be defined in sidecoin.qrc)
     if (translatorBase.load(lang, ":/translations/"))
         QApplication::installTranslator(&translatorBase);
 
-    // Load e.g. scarycoin_de_DE.qm (shortcut "de_DE" needs to be defined in scarycoin.qrc)
+    // Load e.g. sidecoin_de_DE.qm (shortcut "de_DE" needs to be defined in sidecoin.qrc)
     if (translator.load(lang_territory, ":/translations/"))
         QApplication::installTranslator(&translator);
 }
@@ -136,14 +136,14 @@ void DebugMessageHandler(QtMsgType type, const QMessageLogContext& context, cons
 }
 #endif
 
-/** Class encapsulating Scarycoin Core startup and shutdown.
+/** Class encapsulating Sidecoin Core startup and shutdown.
  * Allows running startup and shutdown in a different thread from the UI thread.
  */
-class ScarycoinCore: public QObject
+class SidecoinCore: public QObject
 {
     Q_OBJECT
 public:
-    explicit ScarycoinCore();
+    explicit SidecoinCore();
 
 public slots:
     void initialize();
@@ -161,13 +161,13 @@ private:
     void handleRunawayException(std::exception *e);
 };
 
-/** Main Scarycoin application object */
-class ScarycoinApplication: public QApplication
+/** Main Sidecoin application object */
+class SidecoinApplication: public QApplication
 {
     Q_OBJECT
 public:
-    explicit ScarycoinApplication(int &argc, char **argv);
-    ~ScarycoinApplication();
+    explicit SidecoinApplication(int &argc, char **argv);
+    ~SidecoinApplication();
 
 #ifdef ENABLE_WALLET
     /// Create payment server
@@ -204,7 +204,7 @@ private:
     QThread *coreThread;
     OptionsModel *optionsModel;
     ClientModel *clientModel;
-    ScarycoinGUI *window;
+    SidecoinGUI *window;
     QTimer *pollShutdownTimer;
 #ifdef ENABLE_WALLET
     PaymentServer* paymentServer;
@@ -215,20 +215,20 @@ private:
     void startThread();
 };
 
-#include "scarycoin.moc"
+#include "sidecoin.moc"
 
-ScarycoinCore::ScarycoinCore():
+SidecoinCore::SidecoinCore():
     QObject()
 {
 }
 
-void ScarycoinCore::handleRunawayException(std::exception *e)
+void SidecoinCore::handleRunawayException(std::exception *e)
 {
     PrintExceptionContinue(e, "Runaway exception");
     emit runawayException(QString::fromStdString(strMiscWarning));
 }
 
-void ScarycoinCore::initialize()
+void SidecoinCore::initialize()
 {
     try
     {
@@ -249,7 +249,7 @@ void ScarycoinCore::initialize()
     }
 }
 
-void ScarycoinCore::shutdown()
+void SidecoinCore::shutdown()
 {
     try
     {
@@ -266,7 +266,7 @@ void ScarycoinCore::shutdown()
     }
 }
 
-ScarycoinApplication::ScarycoinApplication(int &argc, char **argv):
+SidecoinApplication::SidecoinApplication(int &argc, char **argv):
     QApplication(argc, argv),
     coreThread(0),
     optionsModel(0),
@@ -283,7 +283,7 @@ ScarycoinApplication::ScarycoinApplication(int &argc, char **argv):
     startThread();
 }
 
-ScarycoinApplication::~ScarycoinApplication()
+SidecoinApplication::~SidecoinApplication()
 {
     LogPrintf("Stopping thread\n");
     emit stopThread();
@@ -301,27 +301,27 @@ ScarycoinApplication::~ScarycoinApplication()
 }
 
 #ifdef ENABLE_WALLET
-void ScarycoinApplication::createPaymentServer()
+void SidecoinApplication::createPaymentServer()
 {
     paymentServer = new PaymentServer(this);
 }
 #endif
 
-void ScarycoinApplication::createOptionsModel()
+void SidecoinApplication::createOptionsModel()
 {
     optionsModel = new OptionsModel();
 }
 
-void ScarycoinApplication::createWindow(bool isaTestNet)
+void SidecoinApplication::createWindow(bool isaTestNet)
 {
-    window = new ScarycoinGUI(isaTestNet, 0);
+    window = new SidecoinGUI(isaTestNet, 0);
 
     pollShutdownTimer = new QTimer(window);
     connect(pollShutdownTimer, SIGNAL(timeout()), window, SLOT(detectShutdown()));
     pollShutdownTimer->start(200);
 }
 
-void ScarycoinApplication::createSplashScreen(bool isaTestNet)
+void SidecoinApplication::createSplashScreen(bool isaTestNet)
 {
     SplashScreen *splash = new SplashScreen(QPixmap(), 0, isaTestNet);
     splash->setAttribute(Qt::WA_DeleteOnClose);
@@ -329,10 +329,10 @@ void ScarycoinApplication::createSplashScreen(bool isaTestNet)
     connect(this, SIGNAL(splashFinished(QWidget*)), splash, SLOT(slotFinish(QWidget*)));
 }
 
-void ScarycoinApplication::startThread()
+void SidecoinApplication::startThread()
 {
     coreThread = new QThread(this);
-    ScarycoinCore *executor = new ScarycoinCore();
+    SidecoinCore *executor = new SidecoinCore();
     executor->moveToThread(coreThread);
 
     /*  communication to and from thread */
@@ -348,13 +348,13 @@ void ScarycoinApplication::startThread()
     coreThread->start();
 }
 
-void ScarycoinApplication::requestInitialize()
+void SidecoinApplication::requestInitialize()
 {
     LogPrintf("Requesting initialize\n");
     emit requestedInitialize();
 }
 
-void ScarycoinApplication::requestShutdown()
+void SidecoinApplication::requestShutdown()
 {
     LogPrintf("Requesting shutdown\n");
     window->hide();
@@ -376,7 +376,7 @@ void ScarycoinApplication::requestShutdown()
     emit requestedShutdown();
 }
 
-void ScarycoinApplication::initializeResult(int retval)
+void SidecoinApplication::initializeResult(int retval)
 {
     LogPrintf("Initialization result: %i\n", retval);
     // Set exit result: 0 if successful, 1 if failure
@@ -417,7 +417,7 @@ void ScarycoinApplication::initializeResult(int retval)
         }
 #ifdef ENABLE_WALLET
         // Now that initialization/startup is done, process any command-line
-        // scarycoin: URIs or payment requests:
+        // sidecoin: URIs or payment requests:
         connect(paymentServer, SIGNAL(receivedPaymentRequest(SendCoinsRecipient)),
                          window, SLOT(handlePaymentRequest(SendCoinsRecipient)));
         connect(window, SIGNAL(receivedURI(QString)),
@@ -431,19 +431,19 @@ void ScarycoinApplication::initializeResult(int retval)
     }
 }
 
-void ScarycoinApplication::shutdownResult(int retval)
+void SidecoinApplication::shutdownResult(int retval)
 {
     LogPrintf("Shutdown result: %i\n", retval);
     quit(); // Exit main loop after shutdown finished
 }
 
-void ScarycoinApplication::handleRunawayException(const QString &message)
+void SidecoinApplication::handleRunawayException(const QString &message)
 {
-    QMessageBox::critical(0, "Runaway exception", ScarycoinGUI::tr("A fatal error occurred. Scarycoin can no longer continue safely and will quit.") + QString("\n\n") + message);
+    QMessageBox::critical(0, "Runaway exception", SidecoinGUI::tr("A fatal error occurred. Sidecoin can no longer continue safely and will quit.") + QString("\n\n") + message);
     ::exit(1);
 }
 
-#ifndef SCARYCOIN_QT_TEST
+#ifndef SIDECOIN_QT_TEST
 int main(int argc, char *argv[])
 {
     /// 1. Parse command-line options. These take precedence over anything else.
@@ -459,8 +459,8 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForCStrings(QTextCodec::codecForTr());
 #endif
 
-    Q_INIT_RESOURCE(scarycoin);
-    ScarycoinApplication app(argc, argv);
+    Q_INIT_RESOURCE(sidecoin);
+    SidecoinApplication app(argc, argv);
 #if QT_VERSION > 0x050100
     // Generate high-dpi pixmaps
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
@@ -498,11 +498,11 @@ int main(int argc, char *argv[])
     // User language is set up: pick a data directory
     Intro::pickDataDirectory();
 
-    /// 6. Determine availability of data directory and parse scarycoin.conf
+    /// 6. Determine availability of data directory and parse sidecoin.conf
     /// - Do not call GetDataDir(true) before this step finishes
     if (!boost::filesystem::is_directory(GetDataDir(false)))
     {
-        QMessageBox::critical(0, QObject::tr("Scarycoin"),
+        QMessageBox::critical(0, QObject::tr("Sidecoin"),
                               QObject::tr("Error: Specified data directory \"%1\" does not exist.").arg(QString::fromStdString(mapArgs["-datadir"])));
         return 1;
     }
@@ -516,7 +516,7 @@ int main(int argc, char *argv[])
 
     // Check for -testnet or -regtest parameter (Params() calls are only valid after this clause)
     if (!SelectParamsFromCommandLine()) {
-        QMessageBox::critical(0, QObject::tr("Scarycoin"), QObject::tr("Error: Invalid combination of -regtest and -testnet."));
+        QMessageBox::critical(0, QObject::tr("Sidecoin"), QObject::tr("Error: Invalid combination of -regtest and -testnet."));
         return 1;
     }
 #ifdef ENABLE_WALLET
@@ -544,7 +544,7 @@ int main(int argc, char *argv[])
         exit(0);
 
     // Start up the payment server early, too, so impatient users that click on
-    // scarycoin: links repeatedly have their payment requests routed to this process:
+    // sidecoin: links repeatedly have their payment requests routed to this process:
     app.createPaymentServer();
 #endif
 
@@ -582,4 +582,4 @@ int main(int argc, char *argv[])
     }
     return app.getReturnValue();
 }
-#endif // SCARYCOIN_QT_TEST
+#endif // SIDECOIN_QT_TEST

@@ -7,7 +7,7 @@
 
 #include "addressbookpage.h"
 #include "askpassphrasedialog.h"
-#include "scarycoingui.h"
+#include "sidecoingui.h"
 #include "clientmodel.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
@@ -78,7 +78,7 @@ WalletView::~WalletView()
 {
 }
 
-void WalletView::setScarycoinGUI(ScarycoinGUI *gui)
+void WalletView::setSidecoinGUI(SidecoinGUI *gui)
 {
     if (gui)
     {

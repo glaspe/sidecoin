@@ -1,23 +1,23 @@
-Scarycoin version 0.7.1 is now available from:
-  http://sourceforge.net/projects/scarycoin/files/Scarycoin/scarycoin-0.7.1/
+Sidecoin version 0.7.1 is now available from:
+  http://sourceforge.net/projects/sidecoin/files/Sidecoin/sidecoin-0.7.1/
 
 This is a bug-fix minor release.
 
 Please report bugs using the issue tracker at github:
-  https://github.com/scarycoin/scarycoin/issues
+  https://github.com/sidecoin/sidecoin/issues
 
 Project source code is hosted at github; you can get
 source-only tarballs/zipballs directly from there:
-  https://github.com/scarycoin/scarycoin/tarball/v0.7.1  # .tar.gz
-  https://github.com/scarycoin/scarycoin/zipball/v0.7.1  # .zip
+  https://github.com/sidecoin/sidecoin/tarball/v0.7.1  # .tar.gz
+  https://github.com/sidecoin/sidecoin/zipball/v0.7.1  # .zip
 
 Ubuntu Linux users can use the "Personal Package Archive" (PPA)
 maintained by Matt Corallo to automatically keep 
 up-to-date.  Just type:
-  sudo apt-add-repository ppa:scarycoin/scarycoin
+  sudo apt-add-repository ppa:sidecoin/sidecoin
   sudo apt-get update
-in your terminal, then install the scarycoin-qt package:
-  sudo apt-get install scarycoin-qt
+in your terminal, then install the sidecoin-qt package:
+  sudo apt-get install sidecoin-qt
 
 KNOWN ISSUES
 ------------
@@ -30,7 +30,7 @@ How to Upgrade
 If you are running an older version, shut it down. Wait
 until it has completely shut down (which might take a few minutes for older
 versions), then run the installer (on Windows) or just copy over
-/Applications/Scarycoin-Qt (on Mac) or scarycoind/scarycoin-qt (on Linux).
+/Applications/Sidecoin-Qt (on Mac) or sidecoind/sidecoin-qt (on Linux).
 
 If you were running on Linux with a version that might have been compiled
 with a different version of Berkeley DB (for example, if you were using an
@@ -75,7 +75,7 @@ Dependency changes
 Bug fixes
 ---------
 
-* Clicking on a scarycoin: URI on Windows should now launch Scarycoin-Qt properly.
+* Clicking on a sidecoin: URI on Windows should now launch Sidecoin-Qt properly.
 
 * When running -testnet, use RPC port 18332 by default.
 

@@ -7,7 +7,7 @@
 #define NOTIFICATOR_H
 
 #if defined(HAVE_CONFIG_H)
-#include "scarycoin-config.h"
+#include "sidecoin-config.h"
 #endif
 
 #include <QIcon>

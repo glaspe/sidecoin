@@ -6,7 +6,7 @@
 #include "overviewpage.h"
 #include "ui_overviewpage.h"
 
-#include "scarycoinunits.h"
+#include "sidecoinunits.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
@@ -25,7 +25,7 @@ class TxViewDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
 public:
-    TxViewDelegate(): QAbstractItemDelegate(), unit(ScarycoinUnits::BTC)
+    TxViewDelegate(): QAbstractItemDelegate(), unit(SidecoinUnits::BTC)
     {
 
     }
@@ -73,7 +73,7 @@ public:
             foreground = option.palette.color(QPalette::Text);
         }
         painter->setPen(foreground);
-        QString amountText = ScarycoinUnits::formatWithUnit(unit, amount, true);
+        QString amountText = SidecoinUnits::formatWithUnit(unit, amount, true);
         if(!confirmed)
         {
             amountText = QString("[") + amountText + QString("]");
@@ -142,10 +142,10 @@ void OverviewPage::setBalance(qint64 balance, qint64 unconfirmedBalance, qint64 
     currentBalance = balance;
     currentUnconfirmedBalance = unconfirmedBalance;
     currentImmatureBalance = immatureBalance;
-    ui->labelBalance->setText(ScarycoinUnits::formatWithUnit(unit, balance));
-    ui->labelUnconfirmed->setText(ScarycoinUnits::formatWithUnit(unit, unconfirmedBalance));
-    ui->labelImmature->setText(ScarycoinUnits::formatWithUnit(unit, immatureBalance));
-    ui->labelTotal->setText(ScarycoinUnits::formatWithUnit(unit, balance + unconfirmedBalance + immatureBalance));
+    ui->labelBalance->setText(SidecoinUnits::formatWithUnit(unit, balance));
+    ui->labelUnconfirmed->setText(SidecoinUnits::formatWithUnit(unit, unconfirmedBalance));
+    ui->labelImmature->setText(SidecoinUnits::formatWithUnit(unit, immatureBalance));
+    ui->labelTotal->setText(SidecoinUnits::formatWithUnit(unit, balance + unconfirmedBalance + immatureBalance));
 
     // only show immature (newly mined) balance if it's non-zero, so as not to complicate things
     // for the non-mining users

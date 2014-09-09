@@ -1,5 +1,5 @@
 #!/bin/bash
-# rebuild headless scarycoind (no scarycoin-qt)
+# rebuild headless sidecoind (no sidecoin-qt)
 
 set -e
 trap "exit" INT
@@ -21,4 +21,4 @@ autoreconf --install --force --prepend-include=${BDB_PREFIX}/include/
 ./configure CPPFLAGS="-I${BDB_PREFIX}/include/ -O2" LDFLAGS="-L${BDB_PREFIX}/lib/" USE_UPNP= --without-gui --disable-tests
 
 make
-strip src/scarycoind
+strip src/sidecoind

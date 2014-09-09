@@ -12,7 +12,7 @@ static const int MODEL_UPDATE_DELAY = 250;
 /* AskPassphraseDialog -- Maximum passphrase length */
 static const int MAX_PASSPHRASE_SIZE = 1024;
 
-/* ScarycoinGUI -- Size of icons in status bar */
+/* SidecoinGUI -- Size of icons in status bar */
 static const int STATUSBAR_ICONSIZE = 16;
 
 /* Invalid field background style */
@@ -42,9 +42,9 @@ static const int MAX_PAYMENT_REQUEST_SIZE = 50000; // bytes
 /* Number of frames in spinner animation */
 #define SPINNER_FRAMES 35
 
-#define QAPP_ORG_NAME "Scarycoin"
-#define QAPP_ORG_DOMAIN "scarycoin.org"
-#define QAPP_APP_NAME_DEFAULT "Scarycoin-Qt"
-#define QAPP_APP_NAME_TESTNET "Scarycoin-Qt-testnet"
+#define QAPP_ORG_NAME "Sidecoin"
+#define QAPP_ORG_DOMAIN "sidecoin.org"
+#define QAPP_APP_NAME_DEFAULT "Sidecoin-Qt"
+#define QAPP_APP_NAME_TESTNET "Sidecoin-Qt-testnet"
 
 #endif // GUICONSTANTS_H

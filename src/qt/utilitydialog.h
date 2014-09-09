@@ -9,7 +9,7 @@
 #include <QDialog>
 #include <QObject>
 
-class ScarycoinGUI;
+class SidecoinGUI;
 class ClientModel;
 
 namespace Ui {
@@ -64,7 +64,7 @@ class ShutdownWindow : public QObject
     Q_OBJECT
 
 public:
-    static void showShutdownWindow(ScarycoinGUI *window);
+    static void showShutdownWindow(SidecoinGUI *window);
 };
 
 #endif // UTILITYDIALOG_H

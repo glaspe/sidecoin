@@ -3,28 +3,28 @@ include Makefile.include
 AM_CPPFLAGS += -I$(builddir)
 
 noinst_LIBRARIES = \
-  libscarycoin_server.a \
-  libscarycoin_common.a \
-  libscarycoin_cli.a
+  libsidecoin_server.a \
+  libsidecoin_common.a \
+  libsidecoin_cli.a
 if ENABLE_WALLET
-noinst_LIBRARIES += libscarycoin_wallet.a
+noinst_LIBRARIES += libsidecoin_wallet.a
 endif
 
 bin_PROGRAMS =
 
-if BUILD_SCARYCOIND
-  bin_PROGRAMS += scarycoind
+if BUILD_SIDECOIND
+  bin_PROGRAMS += sidecoind
 endif
 
-if BUILD_SCARYCOIN_CLI
-  bin_PROGRAMS += scarycoin-cli
+if BUILD_SIDECOIN_CLI
+  bin_PROGRAMS += sidecoin-cli
 endif
 
 SUBDIRS = . $(BUILD_QT) $(BUILD_TEST)
 DIST_SUBDIRS = . qt test
 .PHONY: FORCE
-# scarycoin core #
-SCARYCOIN_CORE_H = \
+# sidecoin core #
+SIDECOIN_CORE_H = \
   addrman.h \
   alert.h \
   allocators.h \
@@ -87,7 +87,7 @@ obj/build.h: FORCE
 	  $(abs_top_srcdir)
 version.o: obj/build.h
 
-libscarycoin_server_a_SOURCES = \
+libsidecoin_server_a_SOURCES = \
   addrman.cpp \
   alert.cpp \
   rpcserver.cpp \
@@ -110,18 +110,18 @@ libscarycoin_server_a_SOURCES = \
   txdb.cpp \
   txmempool.cpp \
   $(JSON_H) \
-  $(SCARYCOIN_CORE_H)
+  $(SIDECOIN_CORE_H)
 
-libscarycoin_wallet_a_SOURCES = \
+libsidecoin_wallet_a_SOURCES = \
   db.cpp \
   crypter.cpp \
   rpcdump.cpp \
   rpcwallet.cpp \
   wallet.cpp \
   walletdb.cpp \
-  $(SCARYCOIN_CORE_H)
+  $(SIDECOIN_CORE_H)
 
-libscarycoin_common_a_SOURCES = \
+libsidecoin_common_a_SOURCES = \
   allocators.cpp \
   chainparams.cpp \
   core.cpp \
@@ -134,45 +134,45 @@ libscarycoin_common_a_SOURCES = \
   sync.cpp \
   util.cpp \
   version.cpp \
-  $(SCARYCOIN_CORE_H)
+  $(SIDECOIN_CORE_H)
 
-libscarycoin_cli_a_SOURCES = \
+libsidecoin_cli_a_SOURCES = \
   rpcclient.cpp \
-  $(SCARYCOIN_CORE_H)
+  $(SIDECOIN_CORE_H)
 
-nodist_libscarycoin_common_a_SOURCES = $(top_srcdir)/src/obj/build.h
+nodist_libsidecoin_common_a_SOURCES = $(top_srcdir)/src/obj/build.h
 #
 
-# scarycoind binary #
-scarycoind_LDADD = \
-  libscarycoin_server.a \
-  libscarycoin_cli.a \
-  libscarycoin_common.a \
+# sidecoind binary #
+sidecoind_LDADD = \
+  libsidecoin_server.a \
+  libsidecoin_cli.a \
+  libsidecoin_common.a \
   $(LIBLEVELDB) \
   $(LIBMEMENV)
 if ENABLE_WALLET
-scarycoind_LDADD += libscarycoin_wallet.a
+sidecoind_LDADD += libsidecoin_wallet.a
 endif
-scarycoind_SOURCES = scarycoind.cpp
+sidecoind_SOURCES = sidecoind.cpp
 #
 
 if TARGET_WINDOWS
-scarycoind_SOURCES += scarycoind-res.rc
+sidecoind_SOURCES += sidecoind-res.rc
 endif
 
 AM_CPPFLAGS += $(BDB_CPPFLAGS)
-scarycoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS)
+sidecoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS)
 
-# scarycoin-cli binary #
-scarycoin_cli_LDADD = \
-  libscarycoin_cli.a \
-  libscarycoin_common.a \
+# sidecoin-cli binary #
+sidecoin_cli_LDADD = \
+  libsidecoin_cli.a \
+  libsidecoin_common.a \
   $(BOOST_LIBS)
-scarycoin_cli_SOURCES = scarycoin-cli.cpp
+sidecoin_cli_SOURCES = sidecoin-cli.cpp
 #
 
 if TARGET_WINDOWS
-scarycoin_cli_SOURCES += scarycoin-cli-res.rc
+sidecoin_cli_SOURCES += sidecoin-cli-res.rc
 endif
 
 # NOTE: This dependency is not strictly necessary, but without it make may try to build both in parallel, which breaks the LevelDB build system in a race
@@ -183,7 +183,7 @@ leveldb/%.a:
 	  CC="$(CC)" PLATFORM=$(TARGET_OS) AR="$(AR)" $(LEVELDB_TARGET_FLAGS) \
 	  OPT="$(CXXFLAGS) $(CPPFLAGS)"
 
-qt/scarycoinstrings.cpp: $(libscarycoin_server_a_SOURCES) $(libscarycoin_common_a_SOURCES) $(libscarycoin_cli_a_SOURCES)
+qt/sidecoinstrings.cpp: $(libsidecoin_server_a_SOURCES) $(libsidecoin_common_a_SOURCES) $(libsidecoin_cli_a_SOURCES)
 	@test -n $(XGETTEXT) || echo "xgettext is required for updating translations"
 	@cd $(top_srcdir); XGETTEXT=$(XGETTEXT) share/qt/extract_strings_qt.py
 

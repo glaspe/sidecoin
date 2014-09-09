@@ -31,10 +31,10 @@ SendCoinsEntry::SendCoinsEntry(QWidget *parent) :
     ui->addAsLabel->setPlaceholderText(tr("Enter a label for this address to add it to your address book"));
 #endif
 
-    // normal scarycoin address field
+    // normal sidecoin address field
     GUIUtil::setupAddressWidget(ui->payTo, this);
-    // just a label for displaying scarycoin address(es)
-    ui->payTo_is->setFont(GUIUtil::scarycoinAddressFont());
+    // just a label for displaying sidecoin address(es)
+    ui->payTo_is->setFont(GUIUtil::sidecoinAddressFont());
 }
 
 SendCoinsEntry::~SendCoinsEntry()

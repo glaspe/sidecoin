@@ -1,27 +1,27 @@
-Scarycoin version 0.5.1 is now available for download at:
-http://sourceforge.net/projects/scarycoin/files/Scarycoin/scarycoin-0.5.1/
+Sidecoin version 0.5.1 is now available for download at:
+http://sourceforge.net/projects/sidecoin/files/Sidecoin/sidecoin-0.5.1/
 
 This is a bugfix-only release.
 
 This release includes 13 translations, including 5 new translations:
 Italian, Hungarian, Ukranian, Portuguese (Brazilian) and Simplified Chinese.
 More translations are welcome; join the project at Transifex if you can help:
-https://www.transifex.net/projects/p/scarycoin/
+https://www.transifex.net/projects/p/sidecoin/
 
 Please report bugs using the issue tracker at github:
-https://github.com/scarycoin/scarycoin/issues
+https://github.com/sidecoin/sidecoin/issues
 
 Project source code is hosted at github; we are no longer
 distributing .tar.gz files here, you can get them
 directly from github:
-https://github.com/scarycoin/scarycoin/tarball/v0.5.1  # .tar.gz
-https://github.com/scarycoin/scarycoin/zipball/v0.5.1  # .zip
+https://github.com/sidecoin/sidecoin/tarball/v0.5.1  # .tar.gz
+https://github.com/sidecoin/sidecoin/zipball/v0.5.1  # .zip
 
 For Ubuntu users, there is a new ppa maintained by Matt Corallo which
 you can add to your system so that it will automatically keep
-scarycoin up-to-date.  Just type
-sudo apt-add-repository ppa:scarycoin/scarycoin
-in your terminal, then install the scarycoin-qt package.
+sidecoin up-to-date.  Just type
+sudo apt-add-repository ppa:sidecoin/sidecoin
+in your terminal, then install the sidecoin-qt package.
 
 
 BUG FIXES
@@ -29,15 +29,15 @@ BUG FIXES
 Re-enable SSL support for the JSON-RPC interface (it was unintentionally
 disabled for the 0.5.0 release binaries).
 
-The code that finds peers via "dns seeds" no longer stops scarycoin startup
+The code that finds peers via "dns seeds" no longer stops sidecoin startup
 if one of the dns seed machines is down.
 
 Tooltips on the transaction list view were rendering incorrectly (as black boxes
 or with a transparent background).
 
-Prevent a denial-of-service attack involving flooding a scarycoin node with
+Prevent a denial-of-service attack involving flooding a sidecoin node with
 orphan blocks.
 
 The wallet passphrase dialog now warns you if the caps lock key was pressed.
 
-Improved searching in addresses and labels in scarycoin-qt.
+Improved searching in addresses and labels in sidecoin-qt.

@@ -3,8 +3,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOIN_LEVELDBWRAPPER_H
-#define SCARYCOIN_LEVELDBWRAPPER_H
+#ifndef SIDECOIN_LEVELDBWRAPPER_H
+#define SIDECOIN_LEVELDBWRAPPER_H
 
 #include "serialize.h"
 #include "util.h"
@@ -153,4 +153,4 @@ public:
     }
 };
 
-#endif // SCARYCOIN_LEVELDBWRAPPER_H
+#endif // SIDECOIN_LEVELDBWRAPPER_H

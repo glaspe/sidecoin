@@ -147,7 +147,7 @@ void WalletModel::updateAddressBook(const QString &address, const QString &label
 
 bool WalletModel::validateAddress(const QString &address)
 {
-    CScarycoinAddress addressParsed(address.toStdString());
+    CSidecoinAddress addressParsed(address.toStdString());
     return addressParsed.IsValid();
 }
 
@@ -188,7 +188,7 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
             total += subtotal;
         }
         else
-        {   // User-entered scarycoin address / amount:
+        {   // User-entered sidecoin address / amount:
             if(!validateAddress(rcp.address))
             {
                 return InvalidAddress;
@@ -201,7 +201,7 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
             ++nAddresses;
 
             CScript scriptPubKey;
-            scriptPubKey.SetDestination(CScarycoinAddress(rcp.address.toStdString()).Get());
+            scriptPubKey.SetDestination(CSidecoinAddress(rcp.address.toStdString()).Get());
             vecSend.push_back(std::pair<CScript, int64_t>(scriptPubKey, rcp.amount));
 
             total += rcp.amount;
@@ -270,7 +270,7 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(WalletModelTransaction &tran
                 rcp.paymentRequest.SerializeToString(&value);
                 newTx->vOrderForm.push_back(make_pair(key, value));
             }
-            else if (!rcp.message.isEmpty()) // Message from normal scarycoin:URI (scarycoin:123...?message=example)
+            else if (!rcp.message.isEmpty()) // Message from normal sidecoin:URI (sidecoin:123...?message=example)
                 newTx->vOrderForm.push_back(make_pair("Message", rcp.message.toStdString()));
         }
 
@@ -292,7 +292,7 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(WalletModelTransaction &tran
         if (!rcp.paymentRequest.IsInitialized())
         {
             std::string strAddress = rcp.address.toStdString();
-            CTxDestination dest = CScarycoinAddress(strAddress).Get();
+            CTxDestination dest = CSidecoinAddress(strAddress).Get();
             std::string strLabel = rcp.label.toStdString();
             {
                 LOCK(wallet->cs_wallet);
@@ -407,7 +407,7 @@ static void NotifyAddressBookChanged(WalletModel *walletmodel, CWallet *wallet,
         const CTxDestination &address, const std::string &label, bool isMine,
         const std::string &purpose, ChangeType status)
 {
-    QString strAddress = QString::fromStdString(CScarycoinAddress(address).ToString());
+    QString strAddress = QString::fromStdString(CSidecoinAddress(address).ToString());
     QString strLabel = QString::fromStdString(label);
     QString strPurpose = QString::fromStdString(purpose);
 
@@ -540,7 +540,7 @@ void WalletModel::listCoins(std::map<QString, std::vector<COutput> >& mapCoins) 
 
         CTxDestination address;
         if(!ExtractDestination(cout.tx->vout[cout.i].scriptPubKey, address)) continue;
-        mapCoins[CScarycoinAddress(address).ToString().c_str()].push_back(out);
+        mapCoins[CSidecoinAddress(address).ToString().c_str()].push_back(out);
     }
 }
 
@@ -579,7 +579,7 @@ void WalletModel::loadReceiveRequests(std::vector<std::string>& vReceiveRequests
 
 bool WalletModel::saveReceiveRequest(const std::string &sAddress, const int64_t nId, const std::string &sRequest)
 {
-    CTxDestination dest = CScarycoinAddress(sAddress).Get();
+    CTxDestination dest = CSidecoinAddress(sAddress).Get();
 
     std::stringstream ss;
     ss << nId;

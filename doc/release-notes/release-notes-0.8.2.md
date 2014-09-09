@@ -1,11 +1,11 @@
-Scarycoin-Qt version 0.8.2 is now available from:
-  http://sourceforge.net/projects/scarycoin/files/Scarycoin/scarycoin-0.8.2/
+Sidecoin-Qt version 0.8.2 is now available from:
+  http://sourceforge.net/projects/sidecoin/files/Sidecoin/sidecoin-0.8.2/
 
 This is a maintenance release that fixes many bugs and includes
 a few small new features.
 
 Please report bugs using the issue tracker at github:
-  https://github.com/scarycoin/scarycoin/issues
+  https://github.com/sidecoin/sidecoin/issues
 
 
 How to Upgrade
@@ -13,7 +13,7 @@ How to Upgrade
 If you are running an older version, shut it down. Wait
 until it has completely shut down (which might take a few minutes for older
 versions), then run the installer (on Windows) or just copy over
-/Applications/Scarycoin-Qt (on Mac) or scarycoind/scarycoin-qt (on Linux).
+/Applications/Sidecoin-Qt (on Mac) or sidecoind/sidecoin-qt (on Linux).
 
 If you are upgrading from version 0.7.2 or earlier, the first time you
 run 0.8.2 your blockchain files will be re-indexed, which will take
@@ -43,7 +43,7 @@ with code that automatically calculates and suggests appropriate fees in the
 0.9 release and note that if you set a fee policy significantly different from
 the rest of the network your transactions may never confirm.
 
-Scarycoin-Qt changes
+Sidecoin-Qt changes
 
 * New icon and splash screen
 * Improve reporting of synchronization process
@@ -58,7 +58,7 @@ Scarycoin-Qt changes
   to current translations
 
 MacOSX:
-* OSX support for click-to-pay (scarycoin:) links
+* OSX support for click-to-pay (sidecoin:) links
 * Fix GUI disappearing problem on MacOSX (issue #1522)
 
 Linux/Unix:
@@ -97,8 +97,8 @@ Wallet compatibility/rescuing
 
 Known Bugs
 
-* Entering the 'getblocktemplate' or 'getwork' RPC commands into the Scarycoin-Qt debug
-console will cause Scarycoin-Qt to crash. Run Scarycoin-Qt with the -server command-line
+* Entering the 'getblocktemplate' or 'getwork' RPC commands into the Sidecoin-Qt debug
+console will cause Sidecoin-Qt to crash. Run Sidecoin-Qt with the -server command-line
 option to workaround.
 
 Thanks to everybody who contributed to the 0.8.2 release!

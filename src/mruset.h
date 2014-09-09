@@ -3,8 +3,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOIN_MRUSET_H
-#define SCARYCOIN_MRUSET_H
+#ifndef SIDECOIN_MRUSET_H
+#define SIDECOIN_MRUSET_H
 
 #include <deque>
 #include <set>

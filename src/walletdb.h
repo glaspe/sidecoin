@@ -3,8 +3,8 @@
 // Copyright (c) 2014 Dyffy, Inc.
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef SCARYCOIN_WALLETDB_H
-#define SCARYCOIN_WALLETDB_H
+#ifndef SIDECOIN_WALLETDB_H
+#define SIDECOIN_WALLETDB_H
 
 #include "db.h"
 #include "key.h"
@@ -131,4 +131,4 @@ public:
 
 bool BackupWallet(const CWallet& wallet, const std::string& strDest);
 
-#endif // SCARYCOIN_WALLETDB_H
+#endif // SIDECOIN_WALLETDB_H

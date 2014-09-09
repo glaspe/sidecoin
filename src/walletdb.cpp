@@ -338,13 +338,13 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
         {
             string strAddress;
             ssKey >> strAddress;
-            ssValue >> pwallet->mapAddressBook[CScarycoinAddress(strAddress).Get()].name;
+            ssValue >> pwallet->mapAddressBook[CSidecoinAddress(strAddress).Get()].name;
         }
         else if (strType == "purpose")
         {
             string strAddress;
             ssKey >> strAddress;
-            ssValue >> pwallet->mapAddressBook[CScarycoinAddress(strAddress).Get()].purpose;
+            ssValue >> pwallet->mapAddressBook[CSidecoinAddress(strAddress).Get()].purpose;
         }
         else if (strType == "tx")
         {
@@ -563,7 +563,7 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
             ssKey >> strAddress;
             ssKey >> strKey;
             ssValue >> strValue;
-            if (!pwallet->LoadDestData(CScarycoinAddress(strAddress).Get(), strKey, strValue))
+            if (!pwallet->LoadDestData(CSidecoinAddress(strAddress).Get(), strKey, strValue))
             {
                 strErr = "Error reading wallet database: LoadDestData failed";
                 return false;
@@ -766,7 +766,7 @@ DBErrors CWalletDB::ZapWalletTx(CWallet* pwallet)
 void ThreadFlushWalletDB(const string& strFile)
 {
     // Make this thread recognisable as the wallet flushing thread
-    RenameThread("scarycoin-wallet");
+    RenameThread("sidecoin-wallet");
 
     static bool fOneThread;
     if (fOneThread)

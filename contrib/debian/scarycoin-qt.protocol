@@ -1,6 +1,6 @@
 [Protocol]
-exec=scarycoin-qt '%u'
-protocol=scarycoin
+exec=sidecoin-qt '%u'
+protocol=sidecoin
 input=none
 output=none
 helper=true

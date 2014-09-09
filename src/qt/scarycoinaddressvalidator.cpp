@@ -3,7 +3,7 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "scarycoinaddressvalidator.h"
+#include "sidecoinaddressvalidator.h"
 
 #include "base58.h"
 
@@ -16,12 +16,12 @@
   - All lower-case letters except for 'l'
 */
 
-ScarycoinAddressEntryValidator::ScarycoinAddressEntryValidator(QObject *parent) :
+SidecoinAddressEntryValidator::SidecoinAddressEntryValidator(QObject *parent) :
     QValidator(parent)
 {
 }
 
-QValidator::State ScarycoinAddressEntryValidator::validate(QString &input, int &pos) const
+QValidator::State SidecoinAddressEntryValidator::validate(QString &input, int &pos) const
 {
     Q_UNUSED(pos);
 
@@ -81,16 +81,16 @@ QValidator::State ScarycoinAddressEntryValidator::validate(QString &input, int &
     return state;
 }
 
-ScarycoinAddressCheckValidator::ScarycoinAddressCheckValidator(QObject *parent) :
+SidecoinAddressCheckValidator::SidecoinAddressCheckValidator(QObject *parent) :
     QValidator(parent)
 {
 }
 
-QValidator::State ScarycoinAddressCheckValidator::validate(QString &input, int &pos) const
+QValidator::State SidecoinAddressCheckValidator::validate(QString &input, int &pos) const
 {
     Q_UNUSED(pos);
-    // Validate the passed Scarycoin address
-    CScarycoinAddress addr(input.toStdString());
+    // Validate the passed Sidecoin address
+    CSidecoinAddress addr(input.toStdString());
     if (addr.IsValid())
         return QValidator::Acceptable;
 

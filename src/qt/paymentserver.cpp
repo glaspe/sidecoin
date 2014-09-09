@@ -5,7 +5,7 @@
 
 #include "paymentserver.h"
 
-#include "scarycoinunits.h"
+#include "sidecoinunits.h"
 #include "guiconstants.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
@@ -47,11 +47,11 @@
 
 using namespace boost;
 
-const int SCARYCOIN_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
-const QString SCARYCOIN_IPC_PREFIX("scarycoin:");
-const char* SCARYCOIN_REQUEST_MIMETYPE = "application/scarycoin-paymentrequest";
-const char* SCARYCOIN_PAYMENTACK_MIMETYPE = "application/scarycoin-paymentack";
-const char* SCARYCOIN_PAYMENTACK_CONTENTTYPE = "application/scarycoin-payment";
+const int SIDECOIN_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
+const QString SIDECOIN_IPC_PREFIX("sidecoin:");
+const char* SIDECOIN_REQUEST_MIMETYPE = "application/sidecoin-paymentrequest";
+const char* SIDECOIN_PAYMENTACK_MIMETYPE = "application/sidecoin-paymentack";
+const char* SIDECOIN_PAYMENTACK_CONTENTTYPE = "application/sidecoin-payment";
 
 X509_STORE* PaymentServer::certStore = NULL;
 void PaymentServer::freeCertStore()
@@ -70,7 +70,7 @@ void PaymentServer::freeCertStore()
 //
 static QString ipcServerName()
 {
-    QString name("ScarycoinQt");
+    QString name("SidecoinQt");
 
     // Append a simple hash of the datadir
     // Note that GetDataDir(true) returns a different path
@@ -187,14 +187,14 @@ bool PaymentServer::ipcParseCommandLine(int argc, char* argv[])
         if (arg.startsWith("-"))
             continue;
 
-        if (arg.startsWith(SCARYCOIN_IPC_PREFIX, Qt::CaseInsensitive)) // scarycoin: URI
+        if (arg.startsWith(SIDECOIN_IPC_PREFIX, Qt::CaseInsensitive)) // sidecoin: URI
         {
             savedPaymentRequests.append(arg);
 
             SendCoinsRecipient r;
-            if (GUIUtil::parseScarycoinURI(arg, &r))
+            if (GUIUtil::parseSidecoinURI(arg, &r))
             {
-                CScarycoinAddress address(r.address.toStdString());
+                CSidecoinAddress address(r.address.toStdString());
 
                 SelectParams(CChainParams::MAIN);
                 if (!address.IsValid())
@@ -239,7 +239,7 @@ bool PaymentServer::ipcSendCommandLine()
     {
         QLocalSocket* socket = new QLocalSocket();
         socket->connectToServer(ipcServerName(), QIODevice::WriteOnly);
-        if (!socket->waitForConnected(SCARYCOIN_IPC_CONNECT_TIMEOUT))
+        if (!socket->waitForConnected(SIDECOIN_IPC_CONNECT_TIMEOUT))
         {
             delete socket;
             return false;
@@ -253,7 +253,7 @@ bool PaymentServer::ipcSendCommandLine()
         socket->write(block);
         socket->flush();
 
-        socket->waitForBytesWritten(SCARYCOIN_IPC_CONNECT_TIMEOUT);
+        socket->waitForBytesWritten(SIDECOIN_IPC_CONNECT_TIMEOUT);
         socket->disconnectFromServer();
         delete socket;
         fResult = true;
@@ -274,7 +274,7 @@ PaymentServer::PaymentServer(QObject* parent, bool startLocalServer) :
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
     // Install global event filter to catch QFileOpenEvents
-    // on Mac: sent when you click scarycoin: links
+    // on Mac: sent when you click sidecoin: links
     // other OSes: helpful when dealing with payment request files (in the future)
     if (parent)
         parent->installEventFilter(this);
@@ -291,7 +291,7 @@ PaymentServer::PaymentServer(QObject* parent, bool startLocalServer) :
         if (!uriServer->listen(name)) {
             // constructor is called early in init, so don't use "emit message()" here
             QMessageBox::critical(0, tr("Payment request error"),
-                tr("Cannot start scarycoin: click-to-pay handler"));
+                tr("Cannot start sidecoin: click-to-pay handler"));
         }
         else {
             connect(uriServer, SIGNAL(newConnection()), this, SLOT(handleURIConnection()));
@@ -306,12 +306,12 @@ PaymentServer::~PaymentServer()
 }
 
 //
-// OSX-specific way of handling scarycoin: URIs and
+// OSX-specific way of handling sidecoin: URIs and
 // PaymentRequest mime types
 //
 bool PaymentServer::eventFilter(QObject *object, QEvent *event)
 {
-    // clicking on scarycoin: URIs creates FileOpen events on the Mac
+    // clicking on sidecoin: URIs creates FileOpen events on the Mac
     if (event->type() == QEvent::FileOpen)
     {
         QFileOpenEvent *fileEvent = static_cast<QFileOpenEvent*>(event);
@@ -333,7 +333,7 @@ void PaymentServer::initNetManager()
     if (netManager != NULL)
         delete netManager;
 
-    // netManager is used to fetch paymentrequests given in scarycoin: URIs
+    // netManager is used to fetch paymentrequests given in sidecoin: URIs
     netManager = new QNetworkAccessManager(this);
 
     QNetworkProxy proxy;
@@ -379,7 +379,7 @@ void PaymentServer::handleURIOrFile(const QString& s)
         return;
     }
 
-    if (s.startsWith(SCARYCOIN_IPC_PREFIX, Qt::CaseInsensitive)) // scarycoin: URI
+    if (s.startsWith(SIDECOIN_IPC_PREFIX, Qt::CaseInsensitive)) // sidecoin: URI
     {
 #if QT_VERSION < 0x050000
         QUrl uri(s);
@@ -411,11 +411,11 @@ void PaymentServer::handleURIOrFile(const QString& s)
         else // normal URI
         {
             SendCoinsRecipient recipient;
-            if (GUIUtil::parseScarycoinURI(s, &recipient))
+            if (GUIUtil::parseSidecoinURI(s, &recipient))
                 emit receivedPaymentRequest(recipient);
             else
                 emit message(tr("URI handling"),
-                    tr("URI can not be parsed! This can be caused by an invalid Scarycoin address or malformed URI parameters."),
+                    tr("URI can not be parsed! This can be caused by an invalid Sidecoin address or malformed URI parameters."),
                     CClientUIInterface::ICON_WARNING);
 
             return;
@@ -496,10 +496,10 @@ bool PaymentServer::processPaymentRequest(PaymentRequestPlus& request, SendCoins
         CTxDestination dest;
         if (ExtractDestination(sendingTo.first, dest)) {
             // Append destination address
-            addresses.append(QString::fromStdString(CScarycoinAddress(dest).ToString()));
+            addresses.append(QString::fromStdString(CSidecoinAddress(dest).ToString()));
         }
         else if (!recipient.authenticatedMerchant.isEmpty()){
-            // Insecure payments to custom scarycoin addresses are not supported
+            // Insecure payments to custom sidecoin addresses are not supported
             // (there is no good way to tell the user where they are paying in a way
             // they'd have a chance of understanding).
             emit message(tr("Payment request error"),
@@ -512,7 +512,7 @@ bool PaymentServer::processPaymentRequest(PaymentRequestPlus& request, SendCoins
         CTxOut txOut(sendingTo.second, sendingTo.first);
         if (txOut.IsDust(CTransaction::nMinRelayTxFee)) {
             QString msg = tr("Requested payment amount of %1 is too small (considered dust).")
-                .arg(ScarycoinUnits::formatWithUnit(optionsModel->getDisplayUnit(), sendingTo.second));
+                .arg(SidecoinUnits::formatWithUnit(optionsModel->getDisplayUnit(), sendingTo.second));
 
             qDebug() << "PaymentServer::processPaymentRequest : " << msg;
             emit message(tr("Payment request error"), msg, CClientUIInterface::MSG_ERROR);
@@ -540,7 +540,7 @@ void PaymentServer::fetchRequest(const QUrl& url)
     netRequest.setAttribute(QNetworkRequest::User, "PaymentRequest");
     netRequest.setUrl(url);
     netRequest.setRawHeader("User-Agent", CLIENT_NAME.c_str());
-    netRequest.setRawHeader("Accept", SCARYCOIN_REQUEST_MIMETYPE);
+    netRequest.setRawHeader("Accept", SIDECOIN_REQUEST_MIMETYPE);
     netManager->get(netRequest);
 }
 
@@ -553,9 +553,9 @@ void PaymentServer::fetchPaymentACK(CWallet* wallet, SendCoinsRecipient recipien
     QNetworkRequest netRequest;
     netRequest.setAttribute(QNetworkRequest::User, "PaymentACK");
     netRequest.setUrl(QString::fromStdString(details.payment_url()));
-    netRequest.setHeader(QNetworkRequest::ContentTypeHeader, SCARYCOIN_PAYMENTACK_CONTENTTYPE);
+    netRequest.setHeader(QNetworkRequest::ContentTypeHeader, SIDECOIN_PAYMENTACK_CONTENTTYPE);
     netRequest.setRawHeader("User-Agent", CLIENT_NAME.c_str());
-    netRequest.setRawHeader("Accept", SCARYCOIN_PAYMENTACK_MIMETYPE);
+    netRequest.setRawHeader("Accept", SIDECOIN_PAYMENTACK_MIMETYPE);
 
     payments::Payment payment;
     payment.set_merchant_data(details.merchant_data());

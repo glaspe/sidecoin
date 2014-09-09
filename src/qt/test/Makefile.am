@@ -5,8 +5,8 @@ AM_CPPFLAGS += -I$(top_srcdir)/src \
   -I$(top_builddir)/src/qt \
   $(PROTOBUF_CFLAGS) \
     $(QR_CFLAGS)
-bin_PROGRAMS = test_scarycoin-qt
-TESTS = test_scarycoin-qt
+bin_PROGRAMS = test_sidecoin-qt
+TESTS = test_sidecoin-qt
 
 TEST_QT_MOC_CPP = moc_uritests.cpp
 
@@ -21,26 +21,26 @@ TEST_QT_H = \
 
 BUILT_SOURCES = $(TEST_QT_MOC_CPP)
 
-test_scarycoin_qt_CPPFLAGS = $(AM_CPPFLAGS) $(QT_INCLUDES) $(QT_TEST_INCLUDES)
+test_sidecoin_qt_CPPFLAGS = $(AM_CPPFLAGS) $(QT_INCLUDES) $(QT_TEST_INCLUDES)
 
-test_scarycoin_qt_SOURCES = \
+test_sidecoin_qt_SOURCES = \
   test_main.cpp \
   uritests.cpp \
   $(TEST_QT_H)
 if ENABLE_WALLET
-test_scarycoin_qt_SOURCES += \
+test_sidecoin_qt_SOURCES += \
   paymentservertests.cpp
 endif
 
-nodist_test_scarycoin_qt_SOURCES = $(TEST_QT_MOC_CPP)
+nodist_test_sidecoin_qt_SOURCES = $(TEST_QT_MOC_CPP)
 
-test_scarycoin_qt_LDADD = $(LIBSCARYCOINQT) $(LIBSCARYCOIN_SERVER)
+test_sidecoin_qt_LDADD = $(LIBSIDECOINQT) $(LIBSIDECOIN_SERVER)
 if ENABLE_WALLET
-test_scarycoin_qt_LDADD += $(LIBSCARYCOIN_WALLET)
+test_sidecoin_qt_LDADD += $(LIBSIDECOIN_WALLET)
 endif
-test_scarycoin_qt_LDADD += $(LIBSCARYCOIN_CLI) $(LIBSCARYCOIN_COMMON) $(LIBLEVELDB) \
+test_sidecoin_qt_LDADD += $(LIBSIDECOIN_CLI) $(LIBSIDECOIN_COMMON) $(LIBLEVELDB) \
   $(LIBMEMENV) $(BOOST_LIBS) $(QT_DBUS_LIBS) $(QT_TEST_LIBS) $(QT_LIBS) \
   $(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS)
-test_scarycoin_qt_LDFLAGS = $(QT_LDFLAGS)
+test_sidecoin_qt_LDFLAGS = $(QT_LDFLAGS)
 
 CLEANFILES = $(BUILT_SOURCES) *.gcda *.gcno

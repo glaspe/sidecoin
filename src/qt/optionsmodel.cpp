@@ -4,12 +4,12 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "scarycoin-config.h"
+#include "sidecoin-config.h"
 #endif
 
 #include "optionsmodel.h"
 
-#include "scarycoinunits.h"
+#include "sidecoinunits.h"
 #include "guiutil.h"
 
 #include "init.h"
@@ -52,7 +52,7 @@ void OptionsModel::Init()
 
     // Display
     if (!settings.contains("nDisplayUnit"))
-        settings.setValue("nDisplayUnit", ScarycoinUnits::BTC);
+        settings.setValue("nDisplayUnit", SidecoinUnits::BTC);
     nDisplayUnit = settings.value("nDisplayUnit").toInt();
 
     if (!settings.contains("bDisplayAddresses"))

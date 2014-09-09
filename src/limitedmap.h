@@ -3,8 +3,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOIN_LIMITEDMAP_H
-#define SCARYCOIN_LIMITEDMAP_H
+#ifndef SIDECOIN_LIMITEDMAP_H
+#define SIDECOIN_LIMITEDMAP_H
 
 #include <assert.h> // TODO: remove
 #include <map>

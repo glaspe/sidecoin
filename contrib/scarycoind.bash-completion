@@ -1,12 +1,12 @@
-# bash programmable completion for scarycoind(1) and scarycoin-cli(1)
+# bash programmable completion for sidecoind(1) and sidecoin-cli(1)
 # Copyright (c) 2012,2014 Christian von Roques <roques@mti.ag>
 # Distributed under the MIT/X11 software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-have scarycoind && {
+have sidecoind && {
 
-# call $scarycoind for RPC
-_scarycoin_rpc() {
+# call $sidecoind for RPC
+_sidecoin_rpc() {
     # determine already specified args necessary for RPC
     local rpcargs=()
     for i in ${COMP_LINE}; do
@@ -16,23 +16,23 @@ _scarycoin_rpc() {
                 ;;
         esac
     done
-    $scarycoind "${rpcargs[@]}" "$@"
+    $sidecoind "${rpcargs[@]}" "$@"
 }
 
-# Add scarycoin accounts to COMPREPLY
-_scarycoin_accounts() {
+# Add sidecoin accounts to COMPREPLY
+_sidecoin_accounts() {
     local accounts
-    accounts=$(_scarycoin_rpc listaccounts | awk '/".*"/ { a=$1; gsub(/"/, "", a); print a}')
+    accounts=$(_sidecoin_rpc listaccounts | awk '/".*"/ { a=$1; gsub(/"/, "", a); print a}')
     COMPREPLY=( "${COMPREPLY[@]}" $( compgen -W "$accounts" -- "$cur" ) )
 }
 
-_scarycoind() {
+_sidecoind() {
     local cur prev words=() cword
-    local scarycoind
+    local sidecoind
 
-    # save and use original argument to invoke scarycoind
-    # scarycoind might not be in $PATH
-    scarycoind="$1"
+    # save and use original argument to invoke sidecoind
+    # sidecoind might not be in $PATH
+    sidecoind="$1"
 
     COMPREPLY=()
     _get_comp_words_by_ref -n = cur prev words cword
@@ -49,7 +49,7 @@ _scarycoind() {
     if ((cword > 3)); then
         case ${words[cword-3]} in
             addmultisigaddress)
-                _scarycoin_accounts
+                _sidecoin_accounts
                 return 0
                 ;;
             gettxout|importprivkey)
@@ -70,7 +70,7 @@ _scarycoind() {
                 return 0
                 ;;
             move|setaccount)
-                _scarycoin_accounts
+                _sidecoin_accounts
                 return 0
                 ;;
         esac
@@ -86,7 +86,7 @@ _scarycoind() {
             return 0
             ;;
         getaccountaddress|getaddressesbyaccount|getbalance|getnewaddress|getreceivedbyaccount|listtransactions|move|sendfrom|sendmany)
-            _scarycoin_accounts
+            _sidecoin_accounts
             return 0
             ;;
     esac
@@ -110,12 +110,12 @@ _scarycoind() {
 
             # only parse --help if senseful
             if [[ -z "$cur" || "$cur" =~ ^- ]]; then
-                helpopts=$($scarycoind --help 2>&1 | awk '$1 ~ /^-/ { sub(/=.*/, "="); print $1 }' )
+                helpopts=$($sidecoind --help 2>&1 | awk '$1 ~ /^-/ { sub(/=.*/, "="); print $1 }' )
             fi
 
             # only parse help if senseful
             if [[ -z "$cur" || "$cur" =~ ^[a-z] ]]; then
-                commands=$(_scarycoin_rpc help 2>/dev/null | awk '{ print $1; }')
+                commands=$(_sidecoin_rpc help 2>/dev/null | awk '{ print $1; }')
             fi
 
             COMPREPLY=( $( compgen -W "$helpopts $commands" -- "$cur" ) )
@@ -129,7 +129,7 @@ _scarycoind() {
     esac
 }
 
-complete -F _scarycoind scarycoind scarycoin-cli
+complete -F _sidecoind sidecoind sidecoin-cli
 }
 
 # Local variables:

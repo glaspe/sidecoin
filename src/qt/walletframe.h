@@ -9,7 +9,7 @@
 #include <QFrame>
 #include <QMap>
 
-class ScarycoinGUI;
+class SidecoinGUI;
 class ClientModel;
 class SendCoinsRecipient;
 class WalletModel;
@@ -24,7 +24,7 @@ class WalletFrame : public QFrame
     Q_OBJECT
 
 public:
-    explicit WalletFrame(ScarycoinGUI *_gui = 0);
+    explicit WalletFrame(SidecoinGUI *_gui = 0);
     ~WalletFrame();
 
     void setClientModel(ClientModel *clientModel);
@@ -40,7 +40,7 @@ public:
 
 private:
     QStackedWidget *walletStack;
-    ScarycoinGUI *gui;
+    SidecoinGUI *gui;
     ClientModel *clientModel;
     QMap<QString, WalletView*> mapWalletViews;
 

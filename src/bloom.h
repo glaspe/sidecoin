@@ -3,8 +3,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOIN_BLOOM_H
-#define SCARYCOIN_BLOOM_H
+#ifndef SIDECOIN_BLOOM_H
+#define SIDECOIN_BLOOM_H
 
 #include "serialize.h"
 
@@ -90,4 +90,4 @@ public:
     void UpdateEmptyFull();
 };
 
-#endif /* SCARYCOIN_BLOOM_H */
+#endif /* SIDECOIN_BLOOM_H */

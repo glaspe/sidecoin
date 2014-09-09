@@ -22,7 +22,7 @@ QT_BEGIN_NAMESPACE
 class QModelIndex;
 QT_END_NAMESPACE
 
-/** Dialog for requesting payment of scarycoins */
+/** Dialog for requesting payment of sidecoins */
 class ReceiveCoinsDialog : public QDialog
 {
     Q_OBJECT

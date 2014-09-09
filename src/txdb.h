@@ -4,8 +4,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOIN_TXDB_LEVELDB_H
-#define SCARYCOIN_TXDB_LEVELDB_H
+#ifndef SIDECOIN_TXDB_LEVELDB_H
+#define SIDECOIN_TXDB_LEVELDB_H
 
 #include "leveldbwrapper.h"
 #include "main.h"
@@ -67,4 +67,4 @@ public:
     bool LoadBlockIndexGuts();
 };
 
-#endif // SCARYCOIN_TXDB_LEVELDB_H
+#endif // SIDECOIN_TXDB_LEVELDB_H

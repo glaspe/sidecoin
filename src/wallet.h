@@ -3,8 +3,8 @@
 // Copyright (c) 2014 Dyffy, Inc.
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef SCARYCOIN_WALLET_H
-#define SCARYCOIN_WALLET_H
+#ifndef SIDECOIN_WALLET_H
+#define SIDECOIN_WALLET_H
 
 #include "core.h"
 #include "crypter.h"

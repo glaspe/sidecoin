@@ -14,7 +14,7 @@ namespace Ui {
     class RPCConsole;
 }
 
-/** Local Scarycoin RPC console. */
+/** Local Sidecoin RPC console. */
 class RPCConsole: public QDialog
 {
     Q_OBJECT

@@ -1,10 +1,10 @@
 #!/bin/sh
 # Helper script for pull-tester.
-#Param 1: path to scarycoin srcroot
+#Param 1: path to sidecoin srcroot
 #Param ...: arguments for build-test.sh
 
 if [ $# -lt 1 ]; then
-  echo "usage: $0 [scarycoin srcroot] build-test arguments..."
+  echo "usage: $0 [sidecoin srcroot] build-test arguments..."
 fi
 
 cd $1

@@ -23,7 +23,7 @@ namespace Ui {
     class SendCoinsDialog;
 }
 
-/** Dialog for sending scarycoins */
+/** Dialog for sending sidecoins */
 class SendCoinsDialog : public QDialog
 {
     Q_OBJECT

@@ -5,8 +5,8 @@
 
 #include "guiutil.h"
 
-#include "scarycoinaddressvalidator.h"
-#include "scarycoinunits.h"
+#include "sidecoinaddressvalidator.h"
+#include "sidecoinunits.h"
 #include "qvalidatedlineedit.h"
 #include "walletmodel.h"
 
@@ -67,7 +67,7 @@ QString dateTimeStr(qint64 nTime)
     return dateTimeStr(QDateTime::fromTime_t((qint32)nTime));
 }
 
-QFont scarycoinAddressFont()
+QFont sidecoinAddressFont()
 {
     QFont font("Monospace");
     font.setStyleHint(QFont::TypeWriter);
@@ -78,12 +78,12 @@ void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent)
 {
     parent->setFocusProxy(widget);
 
-    widget->setFont(scarycoinAddressFont());
+    widget->setFont(sidecoinAddressFont());
 #if QT_VERSION >= 0x040700
-    widget->setPlaceholderText(QObject::tr("Enter a Scarycoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)"));
+    widget->setPlaceholderText(QObject::tr("Enter a Sidecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)"));
 #endif
-    widget->setValidator(new ScarycoinAddressEntryValidator(parent));
-    widget->setCheckValidator(new ScarycoinAddressCheckValidator(parent));
+    widget->setValidator(new SidecoinAddressEntryValidator(parent));
+    widget->setCheckValidator(new SidecoinAddressCheckValidator(parent));
 }
 
 void setupAmountWidget(QLineEdit *widget, QWidget *parent)
@@ -95,10 +95,10 @@ void setupAmountWidget(QLineEdit *widget, QWidget *parent)
     widget->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
 }
 
-bool parseScarycoinURI(const QUrl &uri, SendCoinsRecipient *out)
+bool parseSidecoinURI(const QUrl &uri, SendCoinsRecipient *out)
 {
-    // return if URI is not valid or is no scarycoin: URI
-    if(!uri.isValid() || uri.scheme() != QString("scarycoin"))
+    // return if URI is not valid or is no sidecoin: URI
+    if(!uri.isValid() || uri.scheme() != QString("sidecoin"))
         return false;
 
     SendCoinsRecipient rv;
@@ -134,7 +134,7 @@ bool parseScarycoinURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                if(!ScarycoinUnits::parse(ScarycoinUnits::BTC, i->second, &rv.amount))
+                if(!SidecoinUnits::parse(SidecoinUnits::BTC, i->second, &rv.amount))
                 {
                     return false;
                 }
@@ -152,28 +152,28 @@ bool parseScarycoinURI(const QUrl &uri, SendCoinsRecipient *out)
     return true;
 }
 
-bool parseScarycoinURI(QString uri, SendCoinsRecipient *out)
+bool parseSidecoinURI(QString uri, SendCoinsRecipient *out)
 {
-    // Convert scarycoin:// to scarycoin:
+    // Convert sidecoin:// to sidecoin:
     //
-    //    Cannot handle this later, because scarycoin:// will cause Qt to see the part after // as host,
+    //    Cannot handle this later, because sidecoin:// will cause Qt to see the part after // as host,
     //    which will lower-case it (and thus invalidate the address).
-    if(uri.startsWith("scarycoin://", Qt::CaseInsensitive))
+    if(uri.startsWith("sidecoin://", Qt::CaseInsensitive))
     {
-        uri.replace(0, 10, "scarycoin:");
+        uri.replace(0, 10, "sidecoin:");
     }
     QUrl uriInstance(uri);
-    return parseScarycoinURI(uriInstance, out);
+    return parseSidecoinURI(uriInstance, out);
 }
 
-QString formatScarycoinURI(const SendCoinsRecipient &info)
+QString formatSidecoinURI(const SendCoinsRecipient &info)
 {
-    QString ret = QString("scarycoin:%1").arg(info.address);
+    QString ret = QString("sidecoin:%1").arg(info.address);
     int paramCount = 0;
 
     if (info.amount)
     {
-        ret += QString("?amount=%1").arg(ScarycoinUnits::format(ScarycoinUnits::BTC, info.amount));
+        ret += QString("?amount=%1").arg(SidecoinUnits::format(SidecoinUnits::BTC, info.amount));
         paramCount++;
     }
 
@@ -196,7 +196,7 @@ QString formatScarycoinURI(const SendCoinsRecipient &info)
 
 bool isDust(const QString& address, qint64 amount)
 {
-    CTxDestination dest = CScarycoinAddress(address.toStdString()).Get();
+    CTxDestination dest = CSidecoinAddress(address.toStdString()).Get();
     CScript script; script.SetDestination(dest);
     CTxOut txOut(amount, script);
     return txOut.IsDust(CTransaction::nMinRelayTxFee);
@@ -383,12 +383,12 @@ bool ToolTipToRichTextFilter::eventFilter(QObject *obj, QEvent *evt)
 #ifdef WIN32
 boost::filesystem::path static StartupShortcutPath()
 {
-    return GetSpecialFolderPath(CSIDL_STARTUP) / "Scarycoin.lnk";
+    return GetSpecialFolderPath(CSIDL_STARTUP) / "Sidecoin.lnk";
 }
 
 bool GetStartOnSystemStartup()
 {
-    // check for Scarycoin.lnk
+    // check for Sidecoin.lnk
     return boost::filesystem::exists(StartupShortcutPath());
 }
 
@@ -465,7 +465,7 @@ boost::filesystem::path static GetAutostartDir()
 
 boost::filesystem::path static GetAutostartFilePath()
 {
-    return GetAutostartDir() / "scarycoin.desktop";
+    return GetAutostartDir() / "sidecoin.desktop";
 }
 
 bool GetStartOnSystemStartup()
@@ -503,10 +503,10 @@ bool SetStartOnSystemStartup(bool fAutoStart)
         boost::filesystem::ofstream optionFile(GetAutostartFilePath(), std::ios_base::out|std::ios_base::trunc);
         if (!optionFile.good())
             return false;
-        // Write a scarycoin.desktop file to the autostart directory:
+        // Write a sidecoin.desktop file to the autostart directory:
         optionFile << "[Desktop Entry]\n";
         optionFile << "Type=Application\n";
-        optionFile << "Name=Scarycoin\n";
+        optionFile << "Name=Sidecoin\n";
         optionFile << "Exec=" << pszExePath << " -min\n";
         optionFile << "Terminal=false\n";
         optionFile << "Hidden=false\n";
@@ -525,7 +525,7 @@ bool SetStartOnSystemStartup(bool fAutoStart)
 LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef findUrl);
 LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef findUrl)
 {
-    // loop through the list of startup items and try to find the scarycoin app
+    // loop through the list of startup items and try to find the sidecoin app
     CFArrayRef listSnapshot = LSSharedFileListCopySnapshot(list, NULL);
     for(int i = 0; i < CFArrayGetCount(listSnapshot); i++) {
         LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(listSnapshot, i);
@@ -546,21 +546,21 @@ LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef
 
 bool GetStartOnSystemStartup()
 {
-    CFURLRef scarycoinAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    CFURLRef sidecoinAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
     LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
-    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, scarycoinAppUrl);
+    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, sidecoinAppUrl);
     return !!foundItem; // return boolified object
 }
 
 bool SetStartOnSystemStartup(bool fAutoStart)
 {
-    CFURLRef scarycoinAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    CFURLRef sidecoinAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
     LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
-    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, scarycoinAppUrl);
+    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, sidecoinAppUrl);
 
     if(fAutoStart && !foundItem) {
-        // add scarycoin app to startup item list
-        LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, NULL, NULL, scarycoinAppUrl, NULL, NULL);
+        // add sidecoin app to startup item list
+        LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, NULL, NULL, sidecoinAppUrl, NULL, NULL);
     }
     else if(!fAutoStart && foundItem) {
         // remove item

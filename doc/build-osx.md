@@ -1,6 +1,6 @@
 Mac OS X Build Instructions and Notes
 ====================================
-This guide will show you how to build scarycoind(headless client) for OSX.
+This guide will show you how to build sidecoind(headless client) for OSX.
 
 Notes
 -----
@@ -52,14 +52,14 @@ Optional: install Qt4
 
     sudo port install qt4-mac qrencode protobuf-cpp
 
-### Building `scarycoind`
+### Building `sidecoind`
 
 1. Clone the github tree to get the source code and go into the directory.
 
-        git clone git@github.com:scarycoin/scarycoin.git scarycoin
-        cd scarycoin
+        git clone git@github.com:sidecoin/sidecoin.git sidecoin
+        cd sidecoin
 
-2.  Build scarycoind (and Scarycoin-Qt, if configured):
+2.  Build sidecoind (and Sidecoin-Qt, if configured):
 
         ./autogen.sh
         ./configure
@@ -88,14 +88,14 @@ If not, you can ensure that the Homebrew OpenSSL is correctly linked by running
 
 Rerunning "openssl version" should now return the correct version.
 
-### Building `scarycoind`
+### Building `sidecoind`
 
 1. Clone the github tree to get the source code and go into the directory.
 
-        git clone https://github.com/scarycoin/scarycoin.git
-        cd scarycoin
+        git clone https://github.com/sidecoin/sidecoin.git
+        cd sidecoin
 
-2.  Build scarycoind:
+2.  Build sidecoind:
 
         ./autogen.sh
         ./configure
@@ -107,11 +107,11 @@ Rerunning "openssl version" should now return the correct version.
 
 Creating a release build
 ------------------------
-You can ignore this section if you are building `scarycoind` for your own use.
+You can ignore this section if you are building `sidecoind` for your own use.
 
-scarycoind/scarycoin-cli binaries are not included in the Scarycoin-Qt.app bundle.
+sidecoind/sidecoin-cli binaries are not included in the Sidecoin-Qt.app bundle.
 
-If you are building `scarycoind` or `Scarycoin-Qt` for others, your build machine should be set up
+If you are building `sidecoind` or `Sidecoin-Qt` for others, your build machine should be set up
 as follows for maximum compatibility:
 
 All dependencies should be compiled with these flags:
@@ -129,32 +129,32 @@ For MacPorts, that means editing your macports.conf and setting
 ... and then uninstalling and re-installing, or simply rebuilding, all ports.
 
 As of December 2012, the `boost` port does not obey `macosx_deployment_target`.
-Download `http://gavinandresen-scarycoin.s3.amazonaws.com/boost_macports_fix.zip`
+Download `http://gavinandresen-sidecoin.s3.amazonaws.com/boost_macports_fix.zip`
 for a fix.
 
-Once dependencies are compiled, see release-process.md for how the Scarycoin-Qt.app
+Once dependencies are compiled, see release-process.md for how the Sidecoin-Qt.app
 bundle is packaged and signed to create the .dmg disk image that is distributed.
 
 Running
 -------
 
-It's now available at `./scarycoind`, provided that you are still in the `src`
+It's now available at `./sidecoind`, provided that you are still in the `src`
 directory. We have to first create the RPC configuration file, though.
 
-Run `./scarycoind` to get the filename where it should be put, or just try these
+Run `./sidecoind` to get the filename where it should be put, or just try these
 commands:
 
-    echo -e "rpcuser=scarycoinrpc\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > "/Users/${USER}/Library/Application Support/Scarycoin/scarycoin.conf"
-    chmod 600 "/Users/${USER}/Library/Application Support/Scarycoin/scarycoin.conf"
+    echo -e "rpcuser=sidecoinrpc\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > "/Users/${USER}/Library/Application Support/Sidecoin/sidecoin.conf"
+    chmod 600 "/Users/${USER}/Library/Application Support/Sidecoin/sidecoin.conf"
 
 When next you run it, it will start downloading the blockchain, but it won't
 output anything while it's doing this. This process may take several hours;
 you can monitor its process by looking at the debug.log file, like this:
 
-    tail -f $HOME/Library/Application\ Support/Scarycoin/debug.log
+    tail -f $HOME/Library/Application\ Support/Sidecoin/debug.log
 
 Other commands:
 
-    ./scarycoind -daemon # to start the scarycoin daemon.
-    ./scarycoin-cli --help  # for a list of command-line options.
-    ./scarycoin-cli help    # When the daemon is running, to get a list of RPC commands
+    ./sidecoind -daemon # to start the sidecoin daemon.
+    ./sidecoin-cli --help  # for a list of command-line options.
+    ./sidecoin-cli help    # When the daemon is running, to get a list of RPC commands

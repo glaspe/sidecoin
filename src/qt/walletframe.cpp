@@ -5,7 +5,7 @@
 
 #include "walletframe.h"
 
-#include "scarycoingui.h"
+#include "sidecoingui.h"
 #include "walletview.h"
 
 #include <cstdio>
@@ -13,7 +13,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 
-WalletFrame::WalletFrame(ScarycoinGUI *_gui) :
+WalletFrame::WalletFrame(SidecoinGUI *_gui) :
     QFrame(_gui),
     gui(_gui)
 {
@@ -44,7 +44,7 @@ bool WalletFrame::addWallet(const QString& name, WalletModel *walletModel)
         return false;
 
     WalletView *walletView = new WalletView(this);
-    walletView->setScarycoinGUI(gui);
+    walletView->setSidecoinGUI(gui);
     walletView->setClientModel(clientModel);
     walletView->setWalletModel(walletModel);
     walletView->showOutOfSyncWarning(bOutOfSync);

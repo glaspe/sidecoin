@@ -21,8 +21,8 @@
  *
  * \section intro_sec Introduction
  *
- * This is the developer documentation of the reference client for an experimental new digital currency called Scarycoin (http://www.scarycoin.org/),
- * which enables instant payments to anyone, anywhere in the world. Scarycoin uses peer-to-peer technology to operate
+ * This is the developer documentation of the reference client for an experimental new digital currency called Sidecoin (http://www.sidecoin.org/),
+ * which enables instant payments to anyone, anywhere in the world. Sidecoin uses peer-to-peer technology to operate
  * with no central authority: managing transactions and issuing money are carried out collectively by the network.
  *
  * The software is a community-driven open source project, released under the MIT license.
@@ -64,7 +64,7 @@ bool AppInit(int argc, char* argv[])
         //
         // Parameters
         //
-        // If Qt is used, parameters/scarycoin.conf are parsed in qt/scarycoin.cpp's main()
+        // If Qt is used, parameters/sidecoin.conf are parsed in qt/sidecoin.cpp's main()
         ParseParameters(argc, argv);
         if (!boost::filesystem::is_directory(GetDataDir(false)))
         {
@@ -80,16 +80,16 @@ bool AppInit(int argc, char* argv[])
 
         if (mapArgs.count("-?") || mapArgs.count("--help"))
         {
-            // First part of help message is specific to scarycoind / RPC client
-            std::string strUsage = _("Scarycoin Core Daemon") + " " + _("version") + " " + FormatFullVersion() + "\n\n" +
+            // First part of help message is specific to sidecoind / RPC client
+            std::string strUsage = _("Sidecoin Core Daemon") + " " + _("version") + " " + FormatFullVersion() + "\n\n" +
                 _("Usage:") + "\n" +
-                  "  scarycoind [options]                     " + _("Start Scarycoin server") + "\n" +
-                _("Usage (deprecated, use scarycoin-cli):") + "\n" +
-                  "  scarycoind [options] <command> [params]  " + _("Send command to Scarycoin server") + "\n" +
-                  "  scarycoind [options] help                " + _("List commands") + "\n" +
-                  "  scarycoind [options] help <command>      " + _("Get help for a command") + "\n";
+                  "  sidecoind [options]                     " + _("Start Sidecoin server") + "\n" +
+                _("Usage (deprecated, use sidecoin-cli):") + "\n" +
+                  "  sidecoind [options] <command> [params]  " + _("Send command to Sidecoin server") + "\n" +
+                  "  sidecoind [options] help                " + _("List commands") + "\n" +
+                  "  sidecoind [options] help <command>      " + _("Get help for a command") + "\n";
 
-            strUsage += "\n" + HelpMessage(HMM_SCARYCOIND);
+            strUsage += "\n" + HelpMessage(HMM_SIDECOIND);
             strUsage += "\n" + HelpMessageCli(false);
 
             fprintf(stdout, "%s", strUsage.c_str());
@@ -99,7 +99,7 @@ bool AppInit(int argc, char* argv[])
         // Command-line RPC
         bool fCommandLine = false;
         for (int i = 1; i < argc; i++)
-            if (!IsSwitchChar(argv[i][0]) && !boost::algorithm::istarts_with(argv[i], "scarycoin:"))
+            if (!IsSwitchChar(argv[i][0]) && !boost::algorithm::istarts_with(argv[i], "sidecoin:"))
                 fCommandLine = true;
 
         if (fCommandLine)
@@ -111,7 +111,7 @@ bool AppInit(int argc, char* argv[])
         fDaemon = GetBoolArg("-daemon", false);
         if (fDaemon)
         {
-            fprintf(stdout, "Scarycoin server starting\n");
+            fprintf(stdout, "Sidecoin server starting\n");
 
             // Daemonize
             pid_t pid = fork();
@@ -169,7 +169,7 @@ int main(int argc, char* argv[])
 {
     bool fRet = false;
 
-    // Connect scarycoind signal handlers
+    // Connect sidecoind signal handlers
     noui_connect();
 
     fRet = AppInit(argc, argv);

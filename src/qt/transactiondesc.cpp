@@ -5,7 +5,7 @@
 
 #include "transactiondesc.h"
 
-#include "scarycoinunits.h"
+#include "sidecoinunits.h"
 #include "guiutil.h"
 
 #include "base58.h"
@@ -98,7 +98,7 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
                             {
                                 strHTML += "<b>" + tr("From") + ":</b> " + tr("unknown") + "<br>";
                                 strHTML += "<b>" + tr("To") + ":</b> ";
-                                strHTML += GUIUtil::HtmlEscape(CScarycoinAddress(address).ToString());
+                                strHTML += GUIUtil::HtmlEscape(CSidecoinAddress(address).ToString());
                                 if (!wallet->mapAddressBook[address].name.empty())
                                     strHTML += " (" + tr("own address") + ", " + tr("label") + ": " + GUIUtil::HtmlEscape(wallet->mapAddressBook[address].name) + ")";
                                 else
@@ -120,7 +120,7 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
             // Online transaction
             std::string strAddress = wtx.mapValue["to"];
             strHTML += "<b>" + tr("To") + ":</b> ";
-            CTxDestination dest = CScarycoinAddress(strAddress).Get();
+            CTxDestination dest = CSidecoinAddress(strAddress).Get();
             if (wallet->mapAddressBook.count(dest) && !wallet->mapAddressBook[dest].name.empty())
                 strHTML += GUIUtil::HtmlEscape(wallet->mapAddressBook[dest].name) + " ";
             strHTML += GUIUtil::HtmlEscape(strAddress) + "<br>";
@@ -139,7 +139,7 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
                 nUnmatured += wallet->GetCredit(txout);
             strHTML += "<b>" + tr("Credit") + ":</b> ";
             if (wtx.IsInMainChain())
-                strHTML += ScarycoinUnits::formatWithUnit(unit, nUnmatured)+ " (" + tr("matures in %n more block(s)", "", wtx.GetBlocksToMaturity()) + ")";
+                strHTML += SidecoinUnits::formatWithUnit(unit, nUnmatured)+ " (" + tr("matures in %n more block(s)", "", wtx.GetBlocksToMaturity()) + ")";
             else
                 strHTML += "(" + tr("not accepted") + ")";
             strHTML += "<br>";
@@ -149,7 +149,7 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
             //
             // Credit
             //
-            strHTML += "<b>" + tr("Credit") + ":</b> " + ScarycoinUnits::formatWithUnit(unit, nNet) + "<br>";
+            strHTML += "<b>" + tr("Credit") + ":</b> " + SidecoinUnits::formatWithUnit(unit, nNet) + "<br>";
         }
         else
         {
@@ -180,12 +180,12 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
                             strHTML += "<b>" + tr("To") + ":</b> ";
                             if (wallet->mapAddressBook.count(address) && !wallet->mapAddressBook[address].name.empty())
                                 strHTML += GUIUtil::HtmlEscape(wallet->mapAddressBook[address].name) + " ";
-                            strHTML += GUIUtil::HtmlEscape(CScarycoinAddress(address).ToString());
+                            strHTML += GUIUtil::HtmlEscape(CSidecoinAddress(address).ToString());
                             strHTML += "<br>";
                         }
                     }
 
-                    strHTML += "<b>" + tr("Debit") + ":</b> " + ScarycoinUnits::formatWithUnit(unit, -txout.nValue) + "<br>";
+                    strHTML += "<b>" + tr("Debit") + ":</b> " + SidecoinUnits::formatWithUnit(unit, -txout.nValue) + "<br>";
                 }
 
                 if (fAllToMe)
@@ -193,13 +193,13 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
                     // Payment to self
                     int64_t nChange = wtx.GetChange();
                     int64_t nValue = nCredit - nChange;
-                    strHTML += "<b>" + tr("Debit") + ":</b> " + ScarycoinUnits::formatWithUnit(unit, -nValue) + "<br>";
-                    strHTML += "<b>" + tr("Credit") + ":</b> " + ScarycoinUnits::formatWithUnit(unit, nValue) + "<br>";
+                    strHTML += "<b>" + tr("Debit") + ":</b> " + SidecoinUnits::formatWithUnit(unit, -nValue) + "<br>";
+                    strHTML += "<b>" + tr("Credit") + ":</b> " + SidecoinUnits::formatWithUnit(unit, nValue) + "<br>";
                 }
 
                 int64_t nTxFee = nDebit - wtx.GetValueOut();
                 if (nTxFee > 0)
-                    strHTML += "<b>" + tr("Transaction fee") + ":</b> " + ScarycoinUnits::formatWithUnit(unit, -nTxFee) + "<br>";
+                    strHTML += "<b>" + tr("Transaction fee") + ":</b> " + SidecoinUnits::formatWithUnit(unit, -nTxFee) + "<br>";
             }
             else
             {
@@ -208,14 +208,14 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
                 //
                 BOOST_FOREACH(const CTxIn& txin, wtx.vin)
                     if (wallet->IsMine(txin))
-                        strHTML += "<b>" + tr("Debit") + ":</b> " + ScarycoinUnits::formatWithUnit(unit, -wallet->GetDebit(txin)) + "<br>";
+                        strHTML += "<b>" + tr("Debit") + ":</b> " + SidecoinUnits::formatWithUnit(unit, -wallet->GetDebit(txin)) + "<br>";
                 BOOST_FOREACH(const CTxOut& txout, wtx.vout)
                     if (wallet->IsMine(txout))
-                        strHTML += "<b>" + tr("Credit") + ":</b> " + ScarycoinUnits::formatWithUnit(unit, wallet->GetCredit(txout)) + "<br>";
+                        strHTML += "<b>" + tr("Credit") + ":</b> " + SidecoinUnits::formatWithUnit(unit, wallet->GetCredit(txout)) + "<br>";
             }
         }
 
-        strHTML += "<b>" + tr("Net amount") + ":</b> " + ScarycoinUnits::formatWithUnit(unit, nNet, true) + "<br>";
+        strHTML += "<b>" + tr("Net amount") + ":</b> " + SidecoinUnits::formatWithUnit(unit, nNet, true) + "<br>";
 
         //
         // Message
@@ -227,7 +227,7 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
 
         strHTML += "<b>" + tr("Transaction ID") + ":</b> " + TransactionRecord::formatSubTxId(wtx.GetHash(), vout) + "<br>";
 
-        // Message from normal scarycoin:URI (scarycoin:123...?message=example)
+        // Message from normal sidecoin:URI (sidecoin:123...?message=example)
         foreach (const PAIRTYPE(string, string)& r, wtx.vOrderForm)
             if (r.first == "Message")
                 strHTML += "<br><b>" + tr("Message") + ":</b><br>" + GUIUtil::HtmlEscape(r.second, true) + "<br>";
@@ -261,10 +261,10 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
             strHTML += "<hr><br>" + tr("Debug information") + "<br><br>";
             BOOST_FOREACH(const CTxIn& txin, wtx.vin)
                 if(wallet->IsMine(txin))
-                    strHTML += "<b>" + tr("Debit") + ":</b> " + ScarycoinUnits::formatWithUnit(unit, -wallet->GetDebit(txin)) + "<br>";
+                    strHTML += "<b>" + tr("Debit") + ":</b> " + SidecoinUnits::formatWithUnit(unit, -wallet->GetDebit(txin)) + "<br>";
             BOOST_FOREACH(const CTxOut& txout, wtx.vout)
                 if(wallet->IsMine(txout))
-                    strHTML += "<b>" + tr("Credit") + ":</b> " + ScarycoinUnits::formatWithUnit(unit, wallet->GetCredit(txout)) + "<br>";
+                    strHTML += "<b>" + tr("Credit") + ":</b> " + SidecoinUnits::formatWithUnit(unit, wallet->GetCredit(txout)) + "<br>";
 
             strHTML += "<br><b>" + tr("Transaction") + ":</b><br>";
             strHTML += GUIUtil::HtmlEscape(wtx.ToString(), true);
@@ -290,9 +290,9 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
                             {
                                 if (wallet->mapAddressBook.count(address) && !wallet->mapAddressBook[address].name.empty())
                                     strHTML += GUIUtil::HtmlEscape(wallet->mapAddressBook[address].name) + " ";
-                                strHTML += QString::fromStdString(CScarycoinAddress(address).ToString());
+                                strHTML += QString::fromStdString(CSidecoinAddress(address).ToString());
                             }
-                            strHTML = strHTML + " " + tr("Amount") + "=" + ScarycoinUnits::formatWithUnit(unit, vout.nValue);
+                            strHTML = strHTML + " " + tr("Amount") + "=" + SidecoinUnits::formatWithUnit(unit, vout.nValue);
                             strHTML = strHTML + " IsMine=" + (wallet->IsMine(vout) ? tr("true") : tr("false")) + "</li>";
                         }
                     }

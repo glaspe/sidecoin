@@ -7,7 +7,7 @@
 #include "ui_receivecoinsdialog.h"
 
 #include "walletmodel.h"
-#include "scarycoinunits.h"
+#include "sidecoinunits.h"
 #include "addressbookpage.h"
 #include "optionsmodel.h"
 #include "guiutil.h"

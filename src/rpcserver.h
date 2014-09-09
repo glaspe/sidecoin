@@ -4,8 +4,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef _SCARYCOINRPC_SERVER_H_
-#define _SCARYCOINRPC_SERVER_H_ 1
+#ifndef _SIDECOINRPC_SERVER_H_
+#define _SIDECOINRPC_SERVER_H_ 1
 
 #include "uint256.h"
 #include "rpcprotocol.h"
@@ -64,7 +64,7 @@ public:
 };
 
 /**
- * Scarycoin RPC command dispatcher.
+ * Sidecoin RPC command dispatcher.
  */
 class CRPCTable
 {

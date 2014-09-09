@@ -1,8 +1,8 @@
 Regression tests of RPC interface
 =================================
 
-python-scarycoinrpc: git subtree of https://github.com/jgarzik/python-scarycoinrpc
-Changes to python-scarycoinrpc should be made upstream, and then
+python-sidecoinrpc: git subtree of https://github.com/jgarzik/python-sidecoinrpc
+Changes to python-sidecoinrpc should be made upstream, and then
 pulled here using git subtree
 
 skeleton.py : Copy this to create new regression tests.
@@ -33,4 +33,4 @@ test state.
 If you get into a bad state, you should be able
 to recover with:
   rm -rf cache
-  killall scarycoind
+  killall sidecoind

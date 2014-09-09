@@ -3,8 +3,8 @@
 // Copyright (c) 2014 Dyffy, Inc.
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef SCARYCOIN_TXMEMPOOL_H
-#define SCARYCOIN_TXMEMPOOL_H
+#ifndef SIDECOIN_TXMEMPOOL_H
+#define SIDECOIN_TXMEMPOOL_H
 
 #include <list>
 
@@ -111,4 +111,4 @@ public:
     bool HaveCoins(const uint256 &txid);
 };
 
-#endif /* SCARYCOIN_TXMEMPOOL_H */
+#endif /* SIDECOIN_TXMEMPOOL_H */

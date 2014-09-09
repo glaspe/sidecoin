@@ -3,34 +3,34 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOINADDRESSVALIDATOR_H
-#define SCARYCOINADDRESSVALIDATOR_H
+#ifndef SIDECOINADDRESSVALIDATOR_H
+#define SIDECOINADDRESSVALIDATOR_H
 
 #include <QValidator>
 
 /** Base58 entry widget validator, checks for valid characters and
  * removes some whitespace.
  */
-class ScarycoinAddressEntryValidator : public QValidator
+class SidecoinAddressEntryValidator : public QValidator
 {
     Q_OBJECT
 
 public:
-    explicit ScarycoinAddressEntryValidator(QObject *parent);
+    explicit SidecoinAddressEntryValidator(QObject *parent);
 
     State validate(QString &input, int &pos) const;
 };
 
-/** Scarycoin address widget validator, checks for a valid scarycoin address.
+/** Sidecoin address widget validator, checks for a valid sidecoin address.
  */
-class ScarycoinAddressCheckValidator : public QValidator
+class SidecoinAddressCheckValidator : public QValidator
 {
     Q_OBJECT
 
 public:
-    explicit ScarycoinAddressCheckValidator(QObject *parent);
+    explicit SidecoinAddressCheckValidator(QObject *parent);
 
     State validate(QString &input, int &pos) const;
 };
 
-#endif // SCARYCOINADDRESSVALIDATOR_H
+#endif // SIDECOINADDRESSVALIDATOR_H

@@ -4,8 +4,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOIN_HASH_H
-#define SCARYCOIN_HASH_H
+#ifndef SIDECOIN_HASH_H
+#define SIDECOIN_HASH_H
 
 #include "serialize.h"
 #include "uint256.h"

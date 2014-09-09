@@ -3,8 +3,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOINAMOUNTFIELD_H
-#define SCARYCOINAMOUNTFIELD_H
+#ifndef SIDECOINAMOUNTFIELD_H
+#define SIDECOINAMOUNTFIELD_H
 
 #include <QWidget>
 
@@ -13,16 +13,16 @@ class QDoubleSpinBox;
 class QValueComboBox;
 QT_END_NAMESPACE
 
-/** Widget for entering scarycoin amounts.
+/** Widget for entering sidecoin amounts.
   */
-class ScarycoinAmountField: public QWidget
+class SidecoinAmountField: public QWidget
 {
     Q_OBJECT
 
     Q_PROPERTY(qint64 value READ value WRITE setValue NOTIFY textChanged USER true)
 
 public:
-    explicit ScarycoinAmountField(QWidget *parent = 0);
+    explicit SidecoinAmountField(QWidget *parent = 0);
 
     qint64 value(bool *valid=0) const;
     void setValue(qint64 value);
@@ -70,4 +70,4 @@ private slots:
 
 };
 
-#endif // SCARYCOINAMOUNTFIELD_H
+#endif // SIDECOINAMOUNTFIELD_H

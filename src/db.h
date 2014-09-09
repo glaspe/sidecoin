@@ -4,8 +4,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOIN_DB_H
-#define SCARYCOIN_DB_H
+#ifndef SIDECOIN_DB_H
+#define SIDECOIN_DB_H
 
 #include "serialize.h"
 #include "sync.h"
@@ -306,4 +306,4 @@ public:
     bool static Rewrite(const std::string& strFile, const char* pszSkip = NULL);
 };
 
-#endif // SCARYCOIN_DB_H
+#endif // SIDECOIN_DB_H

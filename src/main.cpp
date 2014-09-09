@@ -28,7 +28,7 @@ using namespace std;
 using namespace boost;
 
 #if defined(NDEBUG)
-# error "Scarycoin cannot be compiled without assertions."
+# error "Sidecoin cannot be compiled without assertions."
 #endif
 
 //
@@ -71,7 +71,7 @@ map<uint256, set<uint256> > mapOrphanTransactionsByPrev;
 // Constant stuff for coinbase transactions we create:
 CScript COINBASE_FLAGS;
 
-const string strMessageMagic = "Scarycoin Signed Message:\n";
+const string strMessageMagic = "Sidecoin Signed Message:\n";
 
 // Internal stuff
 namespace {
@@ -1624,7 +1624,7 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 static CCheckQueue<CScriptCheck> scriptcheckqueue(128);
 
 void ThreadScriptCheck() {
-    RenameThread("scarycoin-scriptch");
+    RenameThread("sidecoin-scriptch");
     scriptcheckqueue.Thread();
 }
 

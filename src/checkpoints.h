@@ -3,8 +3,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOIN_CHECKPOINT_H
-#define SCARYCOIN_CHECKPOINT_H
+#ifndef SIDECOIN_CHECKPOINT_H
+#define SIDECOIN_CHECKPOINT_H
 
 #include <map>
 

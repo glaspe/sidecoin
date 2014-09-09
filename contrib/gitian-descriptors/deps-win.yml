@@ -1,5 +1,5 @@
 ---
-name: "scarycoin-deps"
+name: "sidecoin-deps"
 suites:
 - "precise"
 architectures:
@@ -124,5 +124,5 @@ script: |
     done
     #
     cd $INSTALLPREFIX
-    find include lib | sort | zip -X@ $OUTDIR/scarycoin-deps-win$BITS-gitian-r11.zip
+    find include lib | sort | zip -X@ $OUTDIR/sidecoin-deps-win$BITS-gitian-r11.zip
   done # for BITS in

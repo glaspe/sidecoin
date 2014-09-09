@@ -93,7 +93,7 @@ public:
     )
 };
 
-/** Interface to Scarycoin wallet from Qt view code. */
+/** Interface to Sidecoin wallet from Qt view code. */
 class WalletModel : public QObject
 {
     Q_OBJECT

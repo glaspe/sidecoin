@@ -3,9 +3,9 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "scarycoinamountfield.h"
+#include "sidecoinamountfield.h"
 
-#include "scarycoinunits.h"
+#include "sidecoinunits.h"
 #include "guiconstants.h"
 #include "qvaluecombobox.h"
 
@@ -15,7 +15,7 @@
 #include <QKeyEvent>
 #include <qmath.h> // for qPow()
 
-ScarycoinAmountField::ScarycoinAmountField(QWidget *parent) :
+SidecoinAmountField::SidecoinAmountField(QWidget *parent) :
     QWidget(parent),
     amount(0),
     currentUnit(-1)
@@ -30,7 +30,7 @@ ScarycoinAmountField::ScarycoinAmountField(QWidget *parent) :
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(amount);
     unit = new QValueComboBox(this);
-    unit->setModel(new ScarycoinUnits(this));
+    unit->setModel(new SidecoinUnits(this));
     layout->addWidget(unit);
     layout->addStretch(1);
     layout->setContentsMargins(0,0,0,0);
@@ -48,7 +48,7 @@ ScarycoinAmountField::ScarycoinAmountField(QWidget *parent) :
     unitChanged(unit->currentIndex());
 }
 
-void ScarycoinAmountField::setText(const QString &text)
+void SidecoinAmountField::setText(const QString &text)
 {
     if (text.isEmpty())
         amount->clear();
@@ -56,20 +56,20 @@ void ScarycoinAmountField::setText(const QString &text)
         amount->setValue(text.toDouble());
 }
 
-void ScarycoinAmountField::clear()
+void SidecoinAmountField::clear()
 {
     amount->clear();
     unit->setCurrentIndex(0);
 }
 
-bool ScarycoinAmountField::validate()
+bool SidecoinAmountField::validate()
 {
     bool valid = true;
     if (amount->value() == 0.0)
         valid = false;
-    else if (!ScarycoinUnits::parse(currentUnit, text(), 0))
+    else if (!SidecoinUnits::parse(currentUnit, text(), 0))
         valid = false;
-    else if (amount->value() > ScarycoinUnits::maxAmount(currentUnit))
+    else if (amount->value() > SidecoinUnits::maxAmount(currentUnit))
         valid = false;
 
     setValid(valid);
@@ -77,7 +77,7 @@ bool ScarycoinAmountField::validate()
     return valid;
 }
 
-void ScarycoinAmountField::setValid(bool valid)
+void SidecoinAmountField::setValid(bool valid)
 {
     if (valid)
         amount->setStyleSheet("");
@@ -85,7 +85,7 @@ void ScarycoinAmountField::setValid(bool valid)
         amount->setStyleSheet(STYLE_INVALID);
 }
 
-QString ScarycoinAmountField::text() const
+QString SidecoinAmountField::text() const
 {
     if (amount->text().isEmpty())
         return QString();
@@ -93,7 +93,7 @@ QString ScarycoinAmountField::text() const
         return amount->text();
 }
 
-bool ScarycoinAmountField::eventFilter(QObject *object, QEvent *event)
+bool SidecoinAmountField::eventFilter(QObject *object, QEvent *event)
 {
     if (event->type() == QEvent::FocusIn)
     {
@@ -114,17 +114,17 @@ bool ScarycoinAmountField::eventFilter(QObject *object, QEvent *event)
     return QWidget::eventFilter(object, event);
 }
 
-QWidget *ScarycoinAmountField::setupTabChain(QWidget *prev)
+QWidget *SidecoinAmountField::setupTabChain(QWidget *prev)
 {
     QWidget::setTabOrder(prev, amount);
     QWidget::setTabOrder(amount, unit);
     return unit;
 }
 
-qint64 ScarycoinAmountField::value(bool *valid_out) const
+qint64 SidecoinAmountField::value(bool *valid_out) const
 {
     qint64 val_out = 0;
-    bool valid = ScarycoinUnits::parse(currentUnit, text(), &val_out);
+    bool valid = SidecoinUnits::parse(currentUnit, text(), &val_out);
     if (valid_out)
     {
         *valid_out = valid;
@@ -132,24 +132,24 @@ qint64 ScarycoinAmountField::value(bool *valid_out) const
     return val_out;
 }
 
-void ScarycoinAmountField::setValue(qint64 value)
+void SidecoinAmountField::setValue(qint64 value)
 {
-    setText(ScarycoinUnits::format(currentUnit, value));
+    setText(SidecoinUnits::format(currentUnit, value));
 }
 
-void ScarycoinAmountField::setReadOnly(bool fReadOnly)
+void SidecoinAmountField::setReadOnly(bool fReadOnly)
 {
     amount->setReadOnly(fReadOnly);
     unit->setEnabled(!fReadOnly);
 }
 
-void ScarycoinAmountField::unitChanged(int idx)
+void SidecoinAmountField::unitChanged(int idx)
 {
     // Use description tooltip for current unit for the combobox
     unit->setToolTip(unit->itemData(idx, Qt::ToolTipRole).toString());
 
     // Determine new unit ID
-    int newUnit = unit->itemData(idx, ScarycoinUnits::UnitRole).toInt();
+    int newUnit = unit->itemData(idx, SidecoinUnits::UnitRole).toInt();
 
     // Parse current value and convert to new unit
     bool valid = false;
@@ -158,9 +158,9 @@ void ScarycoinAmountField::unitChanged(int idx)
     currentUnit = newUnit;
 
     // Set max length after retrieving the value, to prevent truncation
-    amount->setDecimals(ScarycoinUnits::decimals(currentUnit));
-    amount->setMaximum(qPow(10, ScarycoinUnits::amountDigits(currentUnit)) - qPow(10, -amount->decimals()));
-    amount->setSingleStep((double)nSingleStep / (double)ScarycoinUnits::factor(currentUnit));
+    amount->setDecimals(SidecoinUnits::decimals(currentUnit));
+    amount->setMaximum(qPow(10, SidecoinUnits::amountDigits(currentUnit)) - qPow(10, -amount->decimals()));
+    amount->setSingleStep((double)nSingleStep / (double)SidecoinUnits::factor(currentUnit));
 
     if (valid)
     {
@@ -175,12 +175,12 @@ void ScarycoinAmountField::unitChanged(int idx)
     setValid(true);
 }
 
-void ScarycoinAmountField::setDisplayUnit(int newUnit)
+void SidecoinAmountField::setDisplayUnit(int newUnit)
 {
     unit->setValue(newUnit);
 }
 
-void ScarycoinAmountField::setSingleStep(qint64 step)
+void SidecoinAmountField::setSingleStep(qint64 step)
 {
     nSingleStep = step;
     unitChanged(unit->currentIndex());

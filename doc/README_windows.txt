@@ -1,6 +1,6 @@
-Scarycoin 0.9.1 BETA
+Sidecoin 0.9.1 BETA
 
-Copyright (c) 2009-2014 Scarycoin Core Developers
+Copyright (c) 2009-2014 Sidecoin Core Developers
 
 Distributed under the MIT/X11 software license, see the accompanying
 file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -11,7 +11,7 @@ cryptographic software written by Eric Young (eay@cryptsoft.com).
 
 Intro
 -----
-Scarycoin is a free open source peer-to-peer electronic cash system that is
+Sidecoin is a free open source peer-to-peer electronic cash system that is
 completely decentralized, without the need for a central server or trusted
 parties.  Users hold the crypto keys to their own money and transact directly
 with each other, with the help of a P2P network to check for double-spending.
@@ -19,13 +19,13 @@ with each other, with the help of a P2P network to check for double-spending.
 
 Setup
 -----
-Unpack the files into a directory and run scarycoin-qt.exe.
+Unpack the files into a directory and run sidecoin-qt.exe.
 
-Scarycoin Core is the original Scarycoin client and it builds the backbone of the network.
-However, it downloads and stores the entire history of Scarycoin transactions;
+Sidecoin Core is the original Sidecoin client and it builds the backbone of the network.
+However, it downloads and stores the entire history of Sidecoin transactions;
 depending on the speed of your computer and network connection, the synchronization
 process can take anywhere from a few hours to a day or more.
 
-See the scarycoin wiki at:
-  https://en.scarycoin.it/wiki/Main_Page
+See the sidecoin wiki at:
+  https://en.sidecoin.it/wiki/Main_Page
 for more help and information.

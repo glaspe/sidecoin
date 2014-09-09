@@ -255,7 +255,7 @@ std::string HelpMessageCli(bool mainProgram)
     if (mainProgram) {
         strUsage += _("Options:") + "\n";
         strUsage += "  -?                     " + _("This help message") + "\n";
-        strUsage += "  -conf=<file>           " + _("Specify configuration file (default: scarycoin.conf)") + "\n";
+        strUsage += "  -conf=<file>           " + _("Specify configuration file (default: sidecoin.conf)") + "\n";
         strUsage += "  -datadir=<dir>         " + _("Specify data directory") + "\n";
         strUsage += "  -testnet               " + _("Use the test network") + "\n";
         strUsage += "  -regtest               " + _("Enter regression test mode, which uses a special chain in which blocks can be "
@@ -269,7 +269,7 @@ std::string HelpMessageCli(bool mainProgram)
     strUsage += "  -rpcuser=<user>        " + _("Username for JSON-RPC connections") + "\n";
     strUsage += "  -rpcpassword=<pw>      " + _("Password for JSON-RPC connections") + "\n";
     if (mainProgram) {
-        strUsage += "\n" + _("SSL options: (see the Scarycoin Wiki for SSL setup instructions)") + "\n";
+        strUsage += "\n" + _("SSL options: (see the Sidecoin Wiki for SSL setup instructions)") + "\n";
         strUsage += "  -rpcssl                " + _("Use OpenSSL (https) for JSON-RPC connections") + "\n";
     }
     return strUsage;

@@ -12,8 +12,8 @@
 // - E-mail usually won't line-break if there's no punctuation to break at.
 // - Double-clicking selects the whole number as one word if it's all alphanumeric.
 //
-#ifndef SCARYCOIN_BASE58_H
-#define SCARYCOIN_BASE58_H
+#ifndef SIDECOIN_BASE58_H
+#define SIDECOIN_BASE58_H
 
 #include "bignum.h"
 #include "chainparams.h"
@@ -254,25 +254,25 @@ public:
     bool operator> (const CBase58Data& b58) const { return CompareTo(b58) >  0; }
 };
 
-/** base58-encoded Scarycoin addresses.
+/** base58-encoded Sidecoin addresses.
  * Public-key-hash-addresses have version 0 (or 111 testnet).
  * The data vector contains RIPEMD160(SHA256(pubkey)), where pubkey is the serialized public key.
  * Script-hash-addresses have version 5 (or 196 testnet).
  * The data vector contains RIPEMD160(SHA256(cscript)), where cscript is the serialized redemption script.
  */
-class CScarycoinAddress;
-class CScarycoinAddressVisitor : public boost::static_visitor<bool>
+class CSidecoinAddress;
+class CSidecoinAddressVisitor : public boost::static_visitor<bool>
 {
 private:
-    CScarycoinAddress *addr;
+    CSidecoinAddress *addr;
 public:
-    CScarycoinAddressVisitor(CScarycoinAddress *addrIn) : addr(addrIn) { }
+    CSidecoinAddressVisitor(CSidecoinAddress *addrIn) : addr(addrIn) { }
     bool operator()(const CKeyID &id) const;
     bool operator()(const CScriptID &id) const;
     bool operator()(const CNoDestination &no) const;
 };
 
-class CScarycoinAddress : public CBase58Data
+class CSidecoinAddress : public CBase58Data
 {
 public:
     bool Set(const CKeyID &id) {
@@ -287,7 +287,7 @@ public:
 
     bool Set(const CTxDestination &dest)
     {
-        return boost::apply_visitor(CScarycoinAddressVisitor(this), dest);
+        return boost::apply_visitor(CSidecoinAddressVisitor(this), dest);
     }
 
     bool IsValid() const
@@ -298,21 +298,21 @@ public:
         return fCorrectSize && fKnownVersion;
     }
 
-    CScarycoinAddress()
+    CSidecoinAddress()
     {
     }
 
-    CScarycoinAddress(const CTxDestination &dest)
+    CSidecoinAddress(const CTxDestination &dest)
     {
         Set(dest);
     }
 
-    CScarycoinAddress(const std::string& strAddress)
+    CSidecoinAddress(const std::string& strAddress)
     {
         SetString(strAddress);
     }
 
-    CScarycoinAddress(const char* pszAddress)
+    CSidecoinAddress(const char* pszAddress)
     {
         SetString(pszAddress);
     }
@@ -344,12 +344,12 @@ public:
     }
 };
 
-bool inline CScarycoinAddressVisitor::operator()(const CKeyID &id) const         { return addr->Set(id); }
-bool inline CScarycoinAddressVisitor::operator()(const CScriptID &id) const      { return addr->Set(id); }
-bool inline CScarycoinAddressVisitor::operator()(const CNoDestination &id) const { return false; }
+bool inline CSidecoinAddressVisitor::operator()(const CKeyID &id) const         { return addr->Set(id); }
+bool inline CSidecoinAddressVisitor::operator()(const CScriptID &id) const      { return addr->Set(id); }
+bool inline CSidecoinAddressVisitor::operator()(const CNoDestination &id) const { return false; }
 
 /** A base58-encoded secret key */
-class CScarycoinSecret : public CBase58Data
+class CSidecoinSecret : public CBase58Data
 {
 public:
     void SetKey(const CKey& vchSecret)
@@ -384,18 +384,18 @@ public:
         return SetString(strSecret.c_str());
     }
 
-    CScarycoinSecret(const CKey& vchSecret)
+    CSidecoinSecret(const CKey& vchSecret)
     {
         SetKey(vchSecret);
     }
 
-    CScarycoinSecret()
+    CSidecoinSecret()
     {
     }
 };
 
 
-template<typename K, int Size, CChainParams::Base58Type Type> class CScarycoinExtKeyBase : public CBase58Data
+template<typename K, int Size, CChainParams::Base58Type Type> class CSidecoinExtKeyBase : public CBase58Data
 {
 public:
     void SetKey(const K &key) {
@@ -410,14 +410,14 @@ public:
         return ret;
     }
 
-    CScarycoinExtKeyBase(const K &key) {
+    CSidecoinExtKeyBase(const K &key) {
         SetKey(key);
     }
 
-    CScarycoinExtKeyBase() {}
+    CSidecoinExtKeyBase() {}
 };
 
-typedef CScarycoinExtKeyBase<CExtKey, 74, CChainParams::EXT_SECRET_KEY> CScarycoinExtKey;
-typedef CScarycoinExtKeyBase<CExtPubKey, 74, CChainParams::EXT_PUBLIC_KEY> CScarycoinExtPubKey;
+typedef CSidecoinExtKeyBase<CExtKey, 74, CChainParams::EXT_SECRET_KEY> CSidecoinExtKey;
+typedef CSidecoinExtKeyBase<CExtPubKey, 74, CChainParams::EXT_PUBLIC_KEY> CSidecoinExtPubKey;
 
-#endif // SCARYCOIN_BASE58_H
+#endif // SIDECOIN_BASE58_H

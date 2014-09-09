@@ -3,9 +3,9 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "scarycoingui.h"
+#include "sidecoingui.h"
 
-#include "scarycoinunits.h"
+#include "sidecoinunits.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
@@ -56,9 +56,9 @@
 #include <QUrlQuery>
 #endif
 
-const QString ScarycoinGUI::DEFAULT_WALLET = "~Default";
+const QString SidecoinGUI::DEFAULT_WALLET = "~Default";
 
-ScarycoinGUI::ScarycoinGUI(bool fIsTestnet, QWidget *parent) :
+SidecoinGUI::SidecoinGUI(bool fIsTestnet, QWidget *parent) :
     QMainWindow(parent),
     clientModel(0),
     walletFrame(0),
@@ -73,7 +73,7 @@ ScarycoinGUI::ScarycoinGUI(bool fIsTestnet, QWidget *parent) :
 {
     GUIUtil::restoreWindowGeometry("nWindow", QSize(850, 550), this);
 
-    QString windowTitle = tr("Scarycoin Core") + " - ";
+    QString windowTitle = tr("Sidecoin Core") + " - ";
 #ifdef ENABLE_WALLET
     /* if compiled with wallet support, -disablewallet can still disable the wallet */
     bool enableWallet = !GetBoolArg("-disablewallet", false);
@@ -90,20 +90,20 @@ ScarycoinGUI::ScarycoinGUI(bool fIsTestnet, QWidget *parent) :
     if (!fIsTestnet)
     {
 #ifndef Q_OS_MAC
-        QApplication::setWindowIcon(QIcon(":icons/scarycoin"));
-        setWindowIcon(QIcon(":icons/scarycoin"));
+        QApplication::setWindowIcon(QIcon(":icons/sidecoin"));
+        setWindowIcon(QIcon(":icons/sidecoin"));
 #else
-        MacDockIconHandler::instance()->setIcon(QIcon(":icons/scarycoin"));
+        MacDockIconHandler::instance()->setIcon(QIcon(":icons/sidecoin"));
 #endif
     }
     else
     {
         windowTitle += " " + tr("[testnet]");
 #ifndef Q_OS_MAC
-        QApplication::setWindowIcon(QIcon(":icons/scarycoin_testnet"));
-        setWindowIcon(QIcon(":icons/scarycoin_testnet"));
+        QApplication::setWindowIcon(QIcon(":icons/sidecoin_testnet"));
+        setWindowIcon(QIcon(":icons/sidecoin_testnet"));
 #else
-        MacDockIconHandler::instance()->setIcon(QIcon(":icons/scarycoin_testnet"));
+        MacDockIconHandler::instance()->setIcon(QIcon(":icons/sidecoin_testnet"));
 #endif
     }
     setWindowTitle(windowTitle);
@@ -202,7 +202,7 @@ ScarycoinGUI::ScarycoinGUI(bool fIsTestnet, QWidget *parent) :
     subscribeToCoreSignals();
 }
 
-ScarycoinGUI::~ScarycoinGUI()
+SidecoinGUI::~SidecoinGUI()
 {
     // Unsubscribe from notifications from core
     unsubscribeFromCoreSignals();
@@ -216,7 +216,7 @@ ScarycoinGUI::~ScarycoinGUI()
 #endif
 }
 
-void ScarycoinGUI::createActions(bool fIsTestnet)
+void SidecoinGUI::createActions(bool fIsTestnet)
 {
     QActionGroup *tabGroup = new QActionGroup(this);
 
@@ -228,14 +228,14 @@ void ScarycoinGUI::createActions(bool fIsTestnet)
     tabGroup->addAction(overviewAction);
 
     sendCoinsAction = new QAction(QIcon(":/icons/send"), tr("&Send"), this);
-    sendCoinsAction->setStatusTip(tr("Send coins to a Scarycoin address"));
+    sendCoinsAction->setStatusTip(tr("Send coins to a Sidecoin address"));
     sendCoinsAction->setToolTip(sendCoinsAction->statusTip());
     sendCoinsAction->setCheckable(true);
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
     tabGroup->addAction(sendCoinsAction);
 
     receiveCoinsAction = new QAction(QIcon(":/icons/receiving_addresses"), tr("&Receive"), this);
-    receiveCoinsAction->setStatusTip(tr("Request payments (generates QR codes and scarycoin: URIs)"));
+    receiveCoinsAction->setStatusTip(tr("Request payments (generates QR codes and sidecoin: URIs)"));
     receiveCoinsAction->setToolTip(receiveCoinsAction->statusTip());
     receiveCoinsAction->setCheckable(true);
     receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
@@ -264,10 +264,10 @@ void ScarycoinGUI::createActions(bool fIsTestnet)
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
     quitAction->setMenuRole(QAction::QuitRole);
     if (!fIsTestnet)
-        aboutAction = new QAction(QIcon(":/icons/scarycoin"), tr("&About Scarycoin Core"), this);
+        aboutAction = new QAction(QIcon(":/icons/sidecoin"), tr("&About Sidecoin Core"), this);
     else
-        aboutAction = new QAction(QIcon(":/icons/scarycoin_testnet"), tr("&About Scarycoin Core"), this);
-    aboutAction->setStatusTip(tr("Show information about Scarycoin"));
+        aboutAction = new QAction(QIcon(":/icons/sidecoin_testnet"), tr("&About Sidecoin Core"), this);
+    aboutAction->setStatusTip(tr("Show information about Sidecoin"));
     aboutAction->setMenuRole(QAction::AboutRole);
 #if QT_VERSION < 0x050000
     aboutQtAction = new QAction(QIcon(":/trolltech/qmessagebox/images/qtlogo-64.png"), tr("About &Qt"), this);
@@ -277,12 +277,12 @@ void ScarycoinGUI::createActions(bool fIsTestnet)
     aboutQtAction->setStatusTip(tr("Show information about Qt"));
     aboutQtAction->setMenuRole(QAction::AboutQtRole);
     optionsAction = new QAction(QIcon(":/icons/options"), tr("&Options..."), this);
-    optionsAction->setStatusTip(tr("Modify configuration options for Scarycoin"));
+    optionsAction->setStatusTip(tr("Modify configuration options for Sidecoin"));
     optionsAction->setMenuRole(QAction::PreferencesRole);
     if (!fIsTestnet)
-        toggleHideAction = new QAction(QIcon(":/icons/scarycoin"), tr("&Show / Hide"), this);
+        toggleHideAction = new QAction(QIcon(":/icons/sidecoin"), tr("&Show / Hide"), this);
     else
-        toggleHideAction = new QAction(QIcon(":/icons/scarycoin_testnet"), tr("&Show / Hide"), this);
+        toggleHideAction = new QAction(QIcon(":/icons/sidecoin_testnet"), tr("&Show / Hide"), this);
     toggleHideAction->setStatusTip(tr("Show or hide the main Window"));
 
     encryptWalletAction = new QAction(QIcon(":/icons/lock_closed"), tr("&Encrypt Wallet..."), this);
@@ -293,9 +293,9 @@ void ScarycoinGUI::createActions(bool fIsTestnet)
     changePassphraseAction = new QAction(QIcon(":/icons/key"), tr("&Change Passphrase..."), this);
     changePassphraseAction->setStatusTip(tr("Change the passphrase used for wallet encryption"));
     signMessageAction = new QAction(QIcon(":/icons/edit"), tr("Sign &message..."), this);
-    signMessageAction->setStatusTip(tr("Sign messages with your Scarycoin addresses to prove you own them"));
+    signMessageAction->setStatusTip(tr("Sign messages with your Sidecoin addresses to prove you own them"));
     verifyMessageAction = new QAction(QIcon(":/icons/transaction_0"), tr("&Verify message..."), this);
-    verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Scarycoin addresses"));
+    verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Sidecoin addresses"));
 
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug window"), this);
     openRPCConsoleAction->setStatusTip(tr("Open debugging and diagnostic console"));
@@ -306,10 +306,10 @@ void ScarycoinGUI::createActions(bool fIsTestnet)
     usedReceivingAddressesAction->setStatusTip(tr("Show the list of used receiving addresses and labels"));
 
     openAction = new QAction(QApplication::style()->standardIcon(QStyle::SP_FileIcon), tr("Open &URI..."), this);
-    openAction->setStatusTip(tr("Open a scarycoin: URI or payment request"));
+    openAction->setStatusTip(tr("Open a sidecoin: URI or payment request"));
 
     showHelpMessageAction = new QAction(QApplication::style()->standardIcon(QStyle::SP_MessageBoxInformation), tr("&Command-line options"), this);
-    showHelpMessageAction->setStatusTip(tr("Show the Scarycoin Core help message to get a list with possible Scarycoin command-line options"));
+    showHelpMessageAction->setStatusTip(tr("Show the Sidecoin Core help message to get a list with possible Sidecoin command-line options"));
 
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(aboutClicked()));
@@ -332,7 +332,7 @@ void ScarycoinGUI::createActions(bool fIsTestnet)
 #endif
 }
 
-void ScarycoinGUI::createMenuBar()
+void SidecoinGUI::createMenuBar()
 {
 #ifdef Q_OS_MAC
     // Create a decoupled menu bar on Mac which stays even if the window is closed
@@ -377,7 +377,7 @@ void ScarycoinGUI::createMenuBar()
     help->addAction(aboutQtAction);
 }
 
-void ScarycoinGUI::createToolBars()
+void SidecoinGUI::createToolBars()
 {
     if(walletFrame)
     {
@@ -391,7 +391,7 @@ void ScarycoinGUI::createToolBars()
     }
 }
 
-void ScarycoinGUI::setClientModel(ClientModel *clientModel)
+void SidecoinGUI::setClientModel(ClientModel *clientModel)
 {
     this->clientModel = clientModel;
     if(clientModel)
@@ -421,7 +421,7 @@ void ScarycoinGUI::setClientModel(ClientModel *clientModel)
 }
 
 #ifdef ENABLE_WALLET
-bool ScarycoinGUI::addWallet(const QString& name, WalletModel *walletModel)
+bool SidecoinGUI::addWallet(const QString& name, WalletModel *walletModel)
 {
     if(!walletFrame)
         return false;
@@ -429,14 +429,14 @@ bool ScarycoinGUI::addWallet(const QString& name, WalletModel *walletModel)
     return walletFrame->addWallet(name, walletModel);
 }
 
-bool ScarycoinGUI::setCurrentWallet(const QString& name)
+bool SidecoinGUI::setCurrentWallet(const QString& name)
 {
     if(!walletFrame)
         return false;
     return walletFrame->setCurrentWallet(name);
 }
 
-void ScarycoinGUI::removeAllWallets()
+void SidecoinGUI::removeAllWallets()
 {
     if(!walletFrame)
         return;
@@ -445,7 +445,7 @@ void ScarycoinGUI::removeAllWallets()
 }
 #endif
 
-void ScarycoinGUI::setWalletActionsEnabled(bool enabled)
+void SidecoinGUI::setWalletActionsEnabled(bool enabled)
 {
     overviewAction->setEnabled(enabled);
     sendCoinsAction->setEnabled(enabled);
@@ -461,19 +461,19 @@ void ScarycoinGUI::setWalletActionsEnabled(bool enabled)
     openAction->setEnabled(enabled);
 }
 
-void ScarycoinGUI::createTrayIcon(bool fIsTestnet)
+void SidecoinGUI::createTrayIcon(bool fIsTestnet)
 {
 #ifndef Q_OS_MAC
     trayIcon = new QSystemTrayIcon(this);
 
     if (!fIsTestnet)
     {
-        trayIcon->setToolTip(tr("Scarycoin client"));
+        trayIcon->setToolTip(tr("Sidecoin client"));
         trayIcon->setIcon(QIcon(":/icons/toolbar"));
     }
     else
     {
-        trayIcon->setToolTip(tr("Scarycoin client") + " " + tr("[testnet]"));
+        trayIcon->setToolTip(tr("Sidecoin client") + " " + tr("[testnet]"));
         trayIcon->setIcon(QIcon(":/icons/toolbar_testnet"));
     }
 
@@ -483,7 +483,7 @@ void ScarycoinGUI::createTrayIcon(bool fIsTestnet)
     notificator = new Notificator(QApplication::applicationName(), trayIcon, this);
 }
 
-void ScarycoinGUI::createTrayIconMenu()
+void SidecoinGUI::createTrayIconMenu()
 {
     QMenu *trayIconMenu;
 #ifndef Q_OS_MAC
@@ -521,7 +521,7 @@ void ScarycoinGUI::createTrayIconMenu()
 }
 
 #ifndef Q_OS_MAC
-void ScarycoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
+void SidecoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if(reason == QSystemTrayIcon::Trigger)
     {
@@ -531,7 +531,7 @@ void ScarycoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 }
 #endif
 
-void ScarycoinGUI::optionsClicked()
+void SidecoinGUI::optionsClicked()
 {
     if(!clientModel || !clientModel->getOptionsModel())
         return;
@@ -541,7 +541,7 @@ void ScarycoinGUI::optionsClicked()
     dlg.exec();
 }
 
-void ScarycoinGUI::aboutClicked()
+void SidecoinGUI::aboutClicked()
 {
     if(!clientModel)
         return;
@@ -551,7 +551,7 @@ void ScarycoinGUI::aboutClicked()
     dlg.exec();
 }
 
-void ScarycoinGUI::showHelpMessageClicked()
+void SidecoinGUI::showHelpMessageClicked()
 {
     HelpMessageDialog *help = new HelpMessageDialog(this);
     help->setAttribute(Qt::WA_DeleteOnClose);
@@ -559,7 +559,7 @@ void ScarycoinGUI::showHelpMessageClicked()
 }
 
 #ifdef ENABLE_WALLET
-void ScarycoinGUI::openClicked()
+void SidecoinGUI::openClicked()
 {
     OpenURIDialog dlg(this);
     if(dlg.exec())
@@ -568,42 +568,42 @@ void ScarycoinGUI::openClicked()
     }
 }
 
-void ScarycoinGUI::gotoOverviewPage()
+void SidecoinGUI::gotoOverviewPage()
 {
     overviewAction->setChecked(true);
     if (walletFrame) walletFrame->gotoOverviewPage();
 }
 
-void ScarycoinGUI::gotoHistoryPage()
+void SidecoinGUI::gotoHistoryPage()
 {
     historyAction->setChecked(true);
     if (walletFrame) walletFrame->gotoHistoryPage();
 }
 
-void ScarycoinGUI::gotoReceiveCoinsPage()
+void SidecoinGUI::gotoReceiveCoinsPage()
 {
     receiveCoinsAction->setChecked(true);
     if (walletFrame) walletFrame->gotoReceiveCoinsPage();
 }
 
-void ScarycoinGUI::gotoSendCoinsPage(QString addr)
+void SidecoinGUI::gotoSendCoinsPage(QString addr)
 {
     sendCoinsAction->setChecked(true);
     if (walletFrame) walletFrame->gotoSendCoinsPage(addr);
 }
 
-void ScarycoinGUI::gotoSignMessageTab(QString addr)
+void SidecoinGUI::gotoSignMessageTab(QString addr)
 {
     if (walletFrame) walletFrame->gotoSignMessageTab(addr);
 }
 
-void ScarycoinGUI::gotoVerifyMessageTab(QString addr)
+void SidecoinGUI::gotoVerifyMessageTab(QString addr)
 {
     if (walletFrame) walletFrame->gotoVerifyMessageTab(addr);
 }
 #endif
 
-void ScarycoinGUI::setNumConnections(int count)
+void SidecoinGUI::setNumConnections(int count)
 {
     QString icon;
     switch(count)
@@ -615,10 +615,10 @@ void ScarycoinGUI::setNumConnections(int count)
     default: icon = ":/icons/connect_4"; break;
     }
     labelConnectionsIcon->setPixmap(QIcon(icon).pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-    labelConnectionsIcon->setToolTip(tr("%n active connection(s) to Scarycoin network", "", count));
+    labelConnectionsIcon->setToolTip(tr("%n active connection(s) to Sidecoin network", "", count));
 }
 
-void ScarycoinGUI::setNumBlocks(int count, int nTotalBlocks)
+void SidecoinGUI::setNumBlocks(int count, int nTotalBlocks)
 {
     // Prevent orphan statusbar messages (e.g. hover Quit in main menu, wait until chain-sync starts -> garbelled text)
     statusBar()->clearMessage();
@@ -722,9 +722,9 @@ void ScarycoinGUI::setNumBlocks(int count, int nTotalBlocks)
     progressBar->setToolTip(tooltip);
 }
 
-void ScarycoinGUI::message(const QString &title, const QString &message, unsigned int style, bool *ret)
+void SidecoinGUI::message(const QString &title, const QString &message, unsigned int style, bool *ret)
 {
-    QString strTitle = tr("Scarycoin"); // default title
+    QString strTitle = tr("Sidecoin"); // default title
     // Default to information icon
     int nMBoxIcon = QMessageBox::Information;
     int nNotifyIcon = Notificator::Information;
@@ -750,7 +750,7 @@ void ScarycoinGUI::message(const QString &title, const QString &message, unsigne
             break;
         }
     }
-    // Append title to "Scarycoin - "
+    // Append title to "Sidecoin - "
     if (!msgType.isEmpty())
         strTitle += " - " + msgType;
 
@@ -785,7 +785,7 @@ void ScarycoinGUI::message(const QString &title, const QString &message, unsigne
         notificator->notify((Notificator::Class)nNotifyIcon, strTitle, message);
 }
 
-void ScarycoinGUI::changeEvent(QEvent *e)
+void SidecoinGUI::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
 #ifndef Q_OS_MAC // Ignored on Mac
@@ -804,7 +804,7 @@ void ScarycoinGUI::changeEvent(QEvent *e)
 #endif
 }
 
-void ScarycoinGUI::closeEvent(QCloseEvent *event)
+void SidecoinGUI::closeEvent(QCloseEvent *event)
 {
     if(clientModel)
     {
@@ -820,7 +820,7 @@ void ScarycoinGUI::closeEvent(QCloseEvent *event)
 }
 
 #ifdef ENABLE_WALLET
-void ScarycoinGUI::incomingTransaction(const QString& date, int unit, qint64 amount, const QString& type, const QString& address)
+void SidecoinGUI::incomingTransaction(const QString& date, int unit, qint64 amount, const QString& type, const QString& address)
 {
     // On new transaction, make an info balloon
     message((amount)<0 ? tr("Sent transaction") : tr("Incoming transaction"),
@@ -829,20 +829,20 @@ void ScarycoinGUI::incomingTransaction(const QString& date, int unit, qint64 amo
                 "Type: %3\n"
                 "Address: %4\n")
                   .arg(date)
-                  .arg(ScarycoinUnits::formatWithUnit(unit, amount, true))
+                  .arg(SidecoinUnits::formatWithUnit(unit, amount, true))
                   .arg(type)
                   .arg(address), CClientUIInterface::MSG_INFORMATION);
 }
 #endif
 
-void ScarycoinGUI::dragEnterEvent(QDragEnterEvent *event)
+void SidecoinGUI::dragEnterEvent(QDragEnterEvent *event)
 {
     // Accept only URIs
     if(event->mimeData()->hasUrls())
         event->acceptProposedAction();
 }
 
-void ScarycoinGUI::dropEvent(QDropEvent *event)
+void SidecoinGUI::dropEvent(QDropEvent *event)
 {
     if(event->mimeData()->hasUrls())
     {
@@ -854,7 +854,7 @@ void ScarycoinGUI::dropEvent(QDropEvent *event)
     event->acceptProposedAction();
 }
 
-bool ScarycoinGUI::eventFilter(QObject *object, QEvent *event)
+bool SidecoinGUI::eventFilter(QObject *object, QEvent *event)
 {
     // Catch status tip events
     if (event->type() == QEvent::StatusTip)
@@ -867,7 +867,7 @@ bool ScarycoinGUI::eventFilter(QObject *object, QEvent *event)
 }
 
 #ifdef ENABLE_WALLET
-bool ScarycoinGUI::handlePaymentRequest(const SendCoinsRecipient& recipient)
+bool SidecoinGUI::handlePaymentRequest(const SendCoinsRecipient& recipient)
 {
     // URI has to be valid
     if (walletFrame && walletFrame->handlePaymentRequest(recipient))
@@ -880,7 +880,7 @@ bool ScarycoinGUI::handlePaymentRequest(const SendCoinsRecipient& recipient)
         return false;
 }
 
-void ScarycoinGUI::setEncryptionStatus(int status)
+void SidecoinGUI::setEncryptionStatus(int status)
 {
     switch(status)
     {
@@ -910,7 +910,7 @@ void ScarycoinGUI::setEncryptionStatus(int status)
 }
 #endif
 
-void ScarycoinGUI::showNormalIfMinimized(bool fToggleHidden)
+void SidecoinGUI::showNormalIfMinimized(bool fToggleHidden)
 {
     // activateWindow() (sometimes) helps with keyboard focus on Windows
     if (isHidden())
@@ -932,12 +932,12 @@ void ScarycoinGUI::showNormalIfMinimized(bool fToggleHidden)
         hide();
 }
 
-void ScarycoinGUI::toggleHidden()
+void SidecoinGUI::toggleHidden()
 {
     showNormalIfMinimized(true);
 }
 
-void ScarycoinGUI::detectShutdown()
+void SidecoinGUI::detectShutdown()
 {
     if (ShutdownRequested())
     {
@@ -947,7 +947,7 @@ void ScarycoinGUI::detectShutdown()
     }
 }
 
-static bool ThreadSafeMessageBox(ScarycoinGUI *gui, const std::string& message, const std::string& caption, unsigned int style)
+static bool ThreadSafeMessageBox(SidecoinGUI *gui, const std::string& message, const std::string& caption, unsigned int style)
 {
     bool modal = (style & CClientUIInterface::MODAL);
     bool ret = false;
@@ -961,13 +961,13 @@ static bool ThreadSafeMessageBox(ScarycoinGUI *gui, const std::string& message, 
     return ret;
 }
 
-void ScarycoinGUI::subscribeToCoreSignals()
+void SidecoinGUI::subscribeToCoreSignals()
 {
     // Connect signals to client
     uiInterface.ThreadSafeMessageBox.connect(boost::bind(ThreadSafeMessageBox, this, _1, _2, _3));
 }
 
-void ScarycoinGUI::unsubscribeFromCoreSignals()
+void SidecoinGUI::unsubscribeFromCoreSignals()
 {
     // Disconnect signals from client
     uiInterface.ThreadSafeMessageBox.disconnect(boost::bind(ThreadSafeMessageBox, this, _1, _2, _3));

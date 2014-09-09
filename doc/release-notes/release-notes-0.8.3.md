@@ -1,11 +1,11 @@
-Scarycoin-Qt version 0.8.3 is now available from:
-  http://sourceforge.net/projects/scarycoin/files/Scarycoin/scarycoin-0.8.3/
+Sidecoin-Qt version 0.8.3 is now available from:
+  http://sourceforge.net/projects/sidecoin/files/Sidecoin/sidecoin-0.8.3/
 
 This is a maintenance release to fix a denial-of-service attack that
 can cause nodes to crash.
 
 Please report bugs using the issue tracker at github:
-  https://github.com/scarycoin/scarycoin/issues
+  https://github.com/sidecoin/sidecoin/issues
 
 0.8.3 Release notes
 

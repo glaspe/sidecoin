@@ -38,11 +38,11 @@ static bool AppInitRPC(int argc, char* argv[])
     if (argc<2 || mapArgs.count("-?") || mapArgs.count("--help"))
     {
         // First part of help message is specific to RPC client
-        std::string strUsage = _("Scarycoin RPC client version") + " " + FormatFullVersion() + "\n\n" +
+        std::string strUsage = _("Sidecoin RPC client version") + " " + FormatFullVersion() + "\n\n" +
             _("Usage:") + "\n" +
-              "  scarycoin-cli [options] <command> [params]  " + _("Send command to Scarycoin server") + "\n" +
-              "  scarycoin-cli [options] help                " + _("List commands") + "\n" +
-              "  scarycoin-cli [options] help <command>      " + _("Get help for a command") + "\n";
+              "  sidecoin-cli [options] <command> [params]  " + _("Send command to Sidecoin server") + "\n" +
+              "  sidecoin-cli [options] help                " + _("List commands") + "\n" +
+              "  sidecoin-cli [options] help <command>      " + _("Get help for a command") + "\n";
 
         strUsage += "\n" + HelpMessageCli(true);
 

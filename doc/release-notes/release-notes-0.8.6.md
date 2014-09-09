@@ -1,12 +1,12 @@
-Scarycoin-Qt version 0.8.6 final is now available from:
+Sidecoin-Qt version 0.8.6 final is now available from:
 
-  http://sourceforge.net/projects/scarycoin/files/Scarycoin/scarycoin-0.8.6/
+  http://sourceforge.net/projects/sidecoin/files/Sidecoin/sidecoin-0.8.6/
 
 This is a maintenance release to fix a critical bug; we urge all users to upgrade.
 
 Please report bugs using the issue tracker at github:
 
-  https://github.com/scarycoin/scarycoin/issues
+  https://github.com/sidecoin/sidecoin/issues
 
 How to Upgrade
 --------------
@@ -16,7 +16,7 @@ If you already downloaded 0.8.6rc1 you do not need to re-download. This release 
 If you are running an older version, shut it down. Wait
 until it has completely shut down (which might take a few minutes for older
 versions), then run the installer (on Windows) or just copy over
-/Applications/Scarycoin-Qt (on Mac) or scarycoind/scarycoin-qt (on Linux).
+/Applications/Sidecoin-Qt (on Mac) or sidecoind/sidecoin-qt (on Linux).
 
 If you are upgrading from version 0.7.2 or earlier, the first time you
 run 0.8.6 your blockchain files will be re-indexed, which will take
@@ -47,7 +47,7 @@ your machine.
 
 - Additional debug.log logging for diagnosis of network problems, log timestamps by default
 
-- Fix Scarycoin-Qt startup crash when clicking dock icon on OSX 
+- Fix Sidecoin-Qt startup crash when clicking dock icon on OSX 
 
 - Fix memory leaks in CKey::SetCompactSignature() and Key::SignCompact()
 
@@ -63,4 +63,4 @@ Warning
   Hence it is recommended to use a 64-bit executable if possible.
   A 64-bit executable for Windows is planned for 0.9.
 
-Note: Gavin Andresen's GPG signing key for SHA256SUMS.asc has been changed from  key id 1FC730C1 to sub key 7BF6E212 (see https://github.com/scarycoin/scarycoin.org/pull/279).
+Note: Gavin Andresen's GPG signing key for SHA256SUMS.asc has been changed from  key id 1FC730C1 to sub key 7BF6E212 (see https://github.com/sidecoin/sidecoin.org/pull/279).

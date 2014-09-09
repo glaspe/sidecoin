@@ -1,4 +1,4 @@
-AC_DEFUN([SCARYCOIN_FIND_BDB48],[
+AC_DEFUN([SIDECOIN_FIND_BDB48],[
   AC_MSG_CHECKING([for Berkeley DB C++ headers])
   BDB_CPPFLAGS=
   BDB_LIBS=
@@ -46,7 +46,7 @@ AC_DEFUN([SCARYCOIN_FIND_BDB48],[
     AC_MSG_RESULT([no])
     AC_MSG_ERROR(libdb_cxx headers missing)
   elif test "x$bdb48path" = "xX"; then
-    SCARYCOIN_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdbpath}],db_cxx)
+    SIDECOIN_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdbpath}],db_cxx)
     AC_ARG_WITH([incompatible-bdb],[AS_HELP_STRING([--with-incompatible-bdb], [allow using a bdb version other than 4.8])],[
       AC_MSG_WARN([Found Berkeley DB other than 4.8; wallets opened by this build will not be portable!])
     ],[
@@ -54,7 +54,7 @@ AC_DEFUN([SCARYCOIN_FIND_BDB48],[
     ])
   else
     AC_MSG_RESULT([yes])
-    SCARYCOIN_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdb48path}],db_cxx)
+    SIDECOIN_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdb48path}],db_cxx)
     bdbpath="${bdb48path}"
   fi
   AC_SUBST(BDB_CPPFLAGS)

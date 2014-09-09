@@ -72,12 +72,12 @@ MSYS shell:
 	mkdir miniupnpc
 	cp *.h miniupnpc/
 
-Scarycoin
+Sidecoin
 -------
 MSYS shell:
 
-	cd \scarycoin
+	cd \sidecoin
 	sh autogen.sh
 	sh configure
 	mingw32-make
-	strip scarycoind.exe
+	strip sidecoind.exe

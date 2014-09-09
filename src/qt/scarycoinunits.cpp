@@ -3,26 +3,26 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "scarycoinunits.h"
+#include "sidecoinunits.h"
 
 #include <QStringList>
 
-ScarycoinUnits::ScarycoinUnits(QObject *parent):
+SidecoinUnits::SidecoinUnits(QObject *parent):
         QAbstractListModel(parent),
         unitlist(availableUnits())
 {
 }
 
-QList<ScarycoinUnits::Unit> ScarycoinUnits::availableUnits()
+QList<SidecoinUnits::Unit> SidecoinUnits::availableUnits()
 {
-    QList<ScarycoinUnits::Unit> unitlist;
+    QList<SidecoinUnits::Unit> unitlist;
     unitlist.append(BTC);
     unitlist.append(mBTC);
     unitlist.append(uBTC);
     return unitlist;
 }
 
-bool ScarycoinUnits::valid(int unit)
+bool SidecoinUnits::valid(int unit)
 {
     switch(unit)
     {
@@ -35,7 +35,7 @@ bool ScarycoinUnits::valid(int unit)
     }
 }
 
-QString ScarycoinUnits::name(int unit)
+QString SidecoinUnits::name(int unit)
 {
     switch(unit)
     {
@@ -46,18 +46,18 @@ QString ScarycoinUnits::name(int unit)
     }
 }
 
-QString ScarycoinUnits::description(int unit)
+QString SidecoinUnits::description(int unit)
 {
     switch(unit)
     {
-    case BTC: return QString("Scarycoins");
-    case mBTC: return QString("Milli-Scarycoins (1 / 1,000)");
-    case uBTC: return QString("Micro-Scarycoins (1 / 1,000,000)");
+    case BTC: return QString("Sidecoins");
+    case mBTC: return QString("Milli-Sidecoins (1 / 1,000)");
+    case uBTC: return QString("Micro-Sidecoins (1 / 1,000,000)");
     default: return QString("???");
     }
 }
 
-qint64 ScarycoinUnits::factor(int unit)
+qint64 SidecoinUnits::factor(int unit)
 {
     switch(unit)
     {
@@ -68,7 +68,7 @@ qint64 ScarycoinUnits::factor(int unit)
     }
 }
 
-qint64 ScarycoinUnits::maxAmount(int unit)
+qint64 SidecoinUnits::maxAmount(int unit)
 {
     switch(unit)
     {
@@ -79,7 +79,7 @@ qint64 ScarycoinUnits::maxAmount(int unit)
     }
 }
 
-int ScarycoinUnits::amountDigits(int unit)
+int SidecoinUnits::amountDigits(int unit)
 {
     switch(unit)
     {
@@ -90,7 +90,7 @@ int ScarycoinUnits::amountDigits(int unit)
     }
 }
 
-int ScarycoinUnits::decimals(int unit)
+int SidecoinUnits::decimals(int unit)
 {
     switch(unit)
     {
@@ -101,7 +101,7 @@ int ScarycoinUnits::decimals(int unit)
     }
 }
 
-QString ScarycoinUnits::format(int unit, qint64 n, bool fPlus)
+QString SidecoinUnits::format(int unit, qint64 n, bool fPlus)
 {
     // Note: not using straight sprintf here because we do NOT want
     // localized number formatting.
@@ -128,12 +128,12 @@ QString ScarycoinUnits::format(int unit, qint64 n, bool fPlus)
     return quotient_str + QString(".") + remainder_str;
 }
 
-QString ScarycoinUnits::formatWithUnit(int unit, qint64 amount, bool plussign)
+QString SidecoinUnits::formatWithUnit(int unit, qint64 amount, bool plussign)
 {
     return format(unit, amount, plussign) + QString(" ") + name(unit);
 }
 
-bool ScarycoinUnits::parse(int unit, const QString &value, qint64 *val_out)
+bool SidecoinUnits::parse(int unit, const QString &value, qint64 *val_out)
 {
     if(!valid(unit) || value.isEmpty())
         return false; // Refuse to parse invalid unit or empty string
@@ -170,13 +170,13 @@ bool ScarycoinUnits::parse(int unit, const QString &value, qint64 *val_out)
     return ok;
 }
 
-int ScarycoinUnits::rowCount(const QModelIndex &parent) const
+int SidecoinUnits::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return unitlist.size();
 }
 
-QVariant ScarycoinUnits::data(const QModelIndex &index, int role) const
+QVariant SidecoinUnits::data(const QModelIndex &index, int role) const
 {
     int row = index.row();
     if(row >= 0 && row < unitlist.size())

@@ -12,7 +12,7 @@ QT_BEGIN_NAMESPACE
 class QNetworkProxy;
 QT_END_NAMESPACE
 
-/** Interface from Qt to configuration data structure for Scarycoin client.
+/** Interface from Qt to configuration data structure for Sidecoin client.
    To Qt, the options are presented as a list with the different options
    laid out vertically.
    This can be changed to a tree once the settings become sufficiently
@@ -35,7 +35,7 @@ public:
         ProxyPort,              // int
         ProxySocksVersion,      // int
         Fee,                    // qint64
-        DisplayUnit,            // ScarycoinUnits::Unit
+        DisplayUnit,            // SidecoinUnits::Unit
         DisplayAddresses,       // bool
         Language,               // QString
         CoinControlFeatures,    // bool

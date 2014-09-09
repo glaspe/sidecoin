@@ -17,7 +17,7 @@ namespace Ui {
 }
 
 /**
- * A single entry in the dialog for sending scarycoins.
+ * A single entry in the dialog for sending sidecoins.
  * Stacked widget, with different UIs for payment requests
  * with a strong payee identity.
  */

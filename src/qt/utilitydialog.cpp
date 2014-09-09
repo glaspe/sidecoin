@@ -8,7 +8,7 @@
 #include "ui_aboutdialog.h"
 #include "ui_helpmessagedialog.h"
 
-#include "scarycoingui.h"
+#include "sidecoingui.h"
 #include "clientmodel.h"
 #include "guiutil.h"
 
@@ -27,7 +27,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui->setupUi(this);
 
     // Set current copyright year
-    ui->copyrightLabel->setText(tr("Copyright") + QString(" &copy; 2009-%1 ").arg(COPYRIGHT_YEAR) + tr("The Scarycoin Core developers"));
+    ui->copyrightLabel->setText(tr("Copyright") + QString(" &copy; 2009-%1 ").arg(COPYRIGHT_YEAR) + tr("The Sidecoin Core developers"));
 }
 
 void AboutDialog::setModel(ClientModel *model)
@@ -65,12 +65,12 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent) :
     ui->setupUi(this);
     GUIUtil::restoreWindowGeometry("nHelpMessageDialogWindow", this->size(), this);
 
-    header = tr("Scarycoin Core") + " " + tr("version") + " " +
+    header = tr("Sidecoin Core") + " " + tr("version") + " " +
         QString::fromStdString(FormatFullVersion()) + "\n\n" +
         tr("Usage:") + "\n" +
-        "  scarycoin-qt [" + tr("command-line options") + "]                     " + "\n";
+        "  sidecoin-qt [" + tr("command-line options") + "]                     " + "\n";
 
-    coreOptions = QString::fromStdString(HelpMessage(HMM_SCARYCOIN_QT));
+    coreOptions = QString::fromStdString(HelpMessage(HMM_SIDECOIN_QT));
 
     uiOptions = tr("UI options") + ":\n" +
         "  -lang=<lang>           " + tr("Set language, for example \"de_DE\" (default: system locale)") + "\n" +
@@ -78,7 +78,7 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent) :
         "  -splash                " + tr("Show splash screen on startup (default: 1)") + "\n" +
         "  -choosedatadir         " + tr("Choose data directory on startup (default: 0)");
 
-    ui->helpMessageLabel->setFont(GUIUtil::scarycoinAddressFont());
+    ui->helpMessageLabel->setFont(GUIUtil::sidecoinAddressFont());
 
     // Set help message text
     ui->helpMessageLabel->setText(header + "\n" + coreOptions + "\n" + uiOptions);
@@ -115,7 +115,7 @@ void HelpMessageDialog::on_okButton_accepted()
 
 
 /** "Shutdown" window */
-void ShutdownWindow::showShutdownWindow(ScarycoinGUI *window)
+void ShutdownWindow::showShutdownWindow(SidecoinGUI *window)
 {
     if (!window)
         return;
@@ -124,7 +124,7 @@ void ShutdownWindow::showShutdownWindow(ScarycoinGUI *window)
     QWidget *shutdownWindow = new QWidget();
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(new QLabel(
-        tr("Scarycoin Core is shutting down...") + "<br /><br />" +
+        tr("Sidecoin Core is shutting down...") + "<br /><br />" +
         tr("Do not shut down the computer until this window disappears.")));
     shutdownWindow->setLayout(layout);
 

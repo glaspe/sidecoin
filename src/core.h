@@ -4,8 +4,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOIN_CORE_H
-#define SCARYCOIN_CORE_H
+#ifndef SIDECOIN_CORE_H
+#define SIDECOIN_CORE_H
 
 #include "script.h"
 #include "serialize.h"

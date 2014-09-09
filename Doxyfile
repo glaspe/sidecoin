@@ -5,7 +5,7 @@
 #---------------------------------------------------------------------------
 
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = "Scarycoin"
+PROJECT_NAME           = "Sidecoin"
 PROJECT_NUMBER         =
 PROJECT_BRIEF          = "Bitcoin with all the opcodes turned on"
 PROJECT_LOGO           =

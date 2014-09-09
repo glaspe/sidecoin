@@ -3,11 +3,11 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOIN_NETBASE_H
-#define SCARYCOIN_NETBASE_H
+#ifndef SIDECOIN_NETBASE_H
+#define SIDECOIN_NETBASE_H
 
 #if defined(HAVE_CONFIG_H)
-#include "scarycoin-config.h"
+#include "sidecoin-config.h"
 #endif
 
 #include "compat.h"

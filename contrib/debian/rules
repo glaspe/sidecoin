@@ -1,33 +1,33 @@
 #!/usr/bin/make -f
 # -*- mode: makefile; coding: utf-8 -*-
 
-#DEB_MAKE_CHECK_TARGET = test_scarycoin
-#build/scarycoind::
-#	$(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),,src/test_scarycoin)
+#DEB_MAKE_CHECK_TARGET = test_sidecoin
+#build/sidecoind::
+#	$(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),,src/test_sidecoin)
 
-DEB_INSTALL_EXAMPLES_scarycoind += debian/examples/*
-DEB_INSTALL_MANPAGES_scarycoind += debian/manpages/*
+DEB_INSTALL_EXAMPLES_sidecoind += debian/examples/*
+DEB_INSTALL_MANPAGES_sidecoind += debian/manpages/*
 
 %:
 	dh --with bash-completion $@
 
 override_dh_auto_build:
-	cd src; $(MAKE) -f makefile.unix scarycoind
+	cd src; $(MAKE) -f makefile.unix sidecoind
 	$(MAKE)
 
 override_dh_auto_clean:
-	if [ -f Makefile ]; then $(MAKE) clean; else rm -rf build/; rm -f scarycoin-qt; fi
+	if [ -f Makefile ]; then $(MAKE) clean; else rm -rf build/; rm -f sidecoin-qt; fi
 	cd src; $(MAKE) -f makefile.unix clean
 
 override_dh_auto_configure:
-	qmake scarycoin-qt.pro USE_QRCODE=1
+	qmake sidecoin-qt.pro USE_QRCODE=1
 
 override_dh_auto_test:
-	cd src; $(MAKE) -f makefile.unix test_scarycoin
-	src/test_scarycoin
+	cd src; $(MAKE) -f makefile.unix test_sidecoin
+	src/test_sidecoin
 
 # Ensure wrapper is set executable
-binary-post-install/scarycoind:
-	chmod +x $(cdbs_curdestdir)usr/bin/scarycoind
-binary-post-install/scarycoin-qt:
-	chmod +x $(cdbs_curdestdir)usr/bin/scarycoin-qt
+binary-post-install/sidecoind:
+	chmod +x $(cdbs_curdestdir)usr/bin/sidecoind
+binary-post-install/sidecoin-qt:
+	chmod +x $(cdbs_curdestdir)usr/bin/sidecoin-qt

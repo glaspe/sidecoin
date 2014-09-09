@@ -26,7 +26,7 @@ enum BlockSource {
     BLOCK_SOURCE_NETWORK
 };
 
-/** Model for Scarycoin network client. */
+/** Model for Sidecoin network client. */
 class ClientModel : public QObject
 {
     Q_OBJECT

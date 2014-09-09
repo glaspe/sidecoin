@@ -3,24 +3,24 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOINUNITS_H
-#define SCARYCOINUNITS_H
+#ifndef SIDECOINUNITS_H
+#define SIDECOINUNITS_H
 
 #include <QAbstractListModel>
 #include <QString>
 
-/** Scarycoin unit definitions. Encapsulates parsing and formatting
+/** Sidecoin unit definitions. Encapsulates parsing and formatting
    and serves as list model for drop-down selection boxes.
 */
-class ScarycoinUnits: public QAbstractListModel
+class SidecoinUnits: public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    explicit ScarycoinUnits(QObject *parent);
+    explicit SidecoinUnits(QObject *parent);
 
-    /** Scarycoin units.
-      @note Source: https://en.scarycoin.it/wiki/Units . Please add only sensible ones
+    /** Sidecoin units.
+      @note Source: https://en.sidecoin.it/wiki/Units . Please add only sensible ones
      */
     enum Unit
     {
@@ -69,8 +69,8 @@ public:
     ///@}
 
 private:
-    QList<ScarycoinUnits::Unit> unitlist;
+    QList<SidecoinUnits::Unit> unitlist;
 };
-typedef ScarycoinUnits::Unit ScarycoinUnit;
+typedef SidecoinUnits::Unit SidecoinUnit;
 
-#endif // SCARYCOINUNITS_H
+#endif // SIDECOINUNITS_H

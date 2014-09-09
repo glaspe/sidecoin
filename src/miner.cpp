@@ -14,7 +14,7 @@
 #endif
 //////////////////////////////////////////////////////////////////////////////
 //
-// ScarycoinMiner
+// SidecoinMiner
 //
 
 int static FormatHashBlocks(void* pbuffer, unsigned int len)
@@ -470,7 +470,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
         return false;
 
     //// debug print
-    LogPrintf("ScarycoinMiner:\n");
+    LogPrintf("SidecoinMiner:\n");
     LogPrintf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex(), hashTarget.GetHex());
     pblock->print();
     LogPrintf("generated %s\n", FormatMoney(pblock->vtx[0].vout[0].nValue));
@@ -479,7 +479,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
     {
         LOCK(cs_main);
         if (pblock->hashPrevBlock != chainActive.Tip()->GetBlockHash())
-            return error("ScarycoinMiner : generated block is stale");
+            return error("SidecoinMiner : generated block is stale");
 
         // Remove key from key pool
         reservekey.KeepKey();
@@ -493,17 +493,17 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
         // Process this block the same as if we had received it from another node
         CValidationState state;
         if (!ProcessBlock(state, NULL, pblock))
-            return error("ScarycoinMiner : ProcessBlock, block not accepted");
+            return error("SidecoinMiner : ProcessBlock, block not accepted");
     }
 
     return true;
 }
 
-void static ScarycoinMiner(CWallet *pwallet)
+void static SidecoinMiner(CWallet *pwallet)
 {
-    LogPrintf("ScarycoinMiner started\n");
+    LogPrintf("SidecoinMiner started\n");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-    RenameThread("scarycoin-miner");
+    RenameThread("sidecoin-miner");
 
     // Each thread has its own key and counter
     CReserveKey reservekey(pwallet);
@@ -529,7 +529,7 @@ void static ScarycoinMiner(CWallet *pwallet)
         CBlock *pblock = &pblocktemplate->block;
         IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
 
-        LogPrintf("Running ScarycoinMiner with %"PRIszu" transactions in block (%u bytes)\n", pblock->vtx.size(),
+        LogPrintf("Running SidecoinMiner with %"PRIszu" transactions in block (%u bytes)\n", pblock->vtx.size(),
                ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
 
         //
@@ -640,12 +640,12 @@ void static ScarycoinMiner(CWallet *pwallet)
     } }
     catch (boost::thread_interrupted)
     {
-        LogPrintf("ScarycoinMiner terminated\n");
+        LogPrintf("SidecoinMiner terminated\n");
         throw;
     }
 }
 
-void GenerateScarycoins(bool fGenerate, CWallet* pwallet, int nThreads)
+void GenerateSidecoins(bool fGenerate, CWallet* pwallet, int nThreads)
 {
     static boost::thread_group* minerThreads = NULL;
 
@@ -668,7 +668,7 @@ void GenerateScarycoins(bool fGenerate, CWallet* pwallet, int nThreads)
 
     minerThreads = new boost::thread_group();
     for (int i = 0; i < nThreads; i++)
-        minerThreads->create_thread(boost::bind(&ScarycoinMiner, pwallet));
+        minerThreads->create_thread(boost::bind(&SidecoinMiner, pwallet));
 }
 
 #endif

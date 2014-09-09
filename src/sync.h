@@ -4,8 +4,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOIN_SYNC_H
-#define SCARYCOIN_SYNC_H
+#ifndef SIDECOIN_SYNC_H
+#define SIDECOIN_SYNC_H
 
 #include "threadsafety.h"
 

@@ -4,8 +4,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SCARYCOIN_INIT_H
-#define SCARYCOIN_INIT_H
+#ifndef SIDECOIN_INIT_H
+#define SIDECOIN_INIT_H
 
 #include <string>
 
@@ -26,8 +26,8 @@ bool AppInit2(boost::thread_group& threadGroup);
 /* The help message mode determines what help message to show */
 enum HelpMessageMode
 {
-    HMM_SCARYCOIND,
-    HMM_SCARYCOIN_QT
+    HMM_SIDECOIND,
+    HMM_SIDECOIN_QT
 };
 
 std::string HelpMessage(HelpMessageMode mode);

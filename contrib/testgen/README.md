@@ -1,6 +1,6 @@
 ### TestGen ###
 
-Utilities to generate test vectors for the data-driven Scarycoin tests.
+Utilities to generate test vectors for the data-driven Sidecoin tests.
 
 Usage: 
 

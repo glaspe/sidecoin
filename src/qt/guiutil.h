@@ -22,7 +22,7 @@ class QUrl;
 class QWidget;
 QT_END_NAMESPACE
 
-/** Utility functions used by the Scarycoin Qt UI.
+/** Utility functions used by the Sidecoin Qt UI.
  */
 namespace GUIUtil
 {
@@ -30,17 +30,17 @@ namespace GUIUtil
     QString dateTimeStr(const QDateTime &datetime);
     QString dateTimeStr(qint64 nTime);
 
-    // Render Scarycoin addresses in monospace font
-    QFont scarycoinAddressFont();
+    // Render Sidecoin addresses in monospace font
+    QFont sidecoinAddressFont();
 
     // Set up widgets for address and amounts
     void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent);
     void setupAmountWidget(QLineEdit *widget, QWidget *parent);
 
-    // Parse "scarycoin:" URI into recipient object, return true on successful parsing
-    bool parseScarycoinURI(const QUrl &uri, SendCoinsRecipient *out);
-    bool parseScarycoinURI(QString uri, SendCoinsRecipient *out);
-    QString formatScarycoinURI(const SendCoinsRecipient &info);
+    // Parse "sidecoin:" URI into recipient object, return true on successful parsing
+    bool parseSidecoinURI(const QUrl &uri, SendCoinsRecipient *out);
+    bool parseSidecoinURI(QString uri, SendCoinsRecipient *out);
+    QString formatSidecoinURI(const SendCoinsRecipient &info);
 
     // Returns true if given address+amount meets "dust" definition
     bool isDust(const QString& address, qint64 amount);

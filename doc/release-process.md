@@ -2,14 +2,14 @@ Release Process
 ====================
 
 * update translations (ping wumpus, Diapolo or tcatm on IRC)
-* see https://github.com/scarycoin/scarycoin/blob/master/doc/translation_process.md#syncing-with-transifex
+* see https://github.com/sidecoin/sidecoin/blob/master/doc/translation_process.md#syncing-with-transifex
 
 * * *
 
 ###update (commit) version in sources
 
 
-	scarycoin-qt.pro
+	sidecoin-qt.pro
 	contrib/verifysfbinaries/verify.sh
 	doc/README*
 	share/setup.nsi
@@ -27,11 +27,11 @@ Release Process
 
 ##perform gitian builds
 
- From a directory containing the scarycoin source, gitian-builder and gitian.sigs
+ From a directory containing the sidecoin source, gitian-builder and gitian.sigs
   
 	export SIGNER=(your gitian key, ie bluematt, sipa, etc)
 	export VERSION=(new version, e.g. 0.8.0)
-	pushd ./scarycoin
+	pushd ./sidecoin
 	git checkout v${VERSION}
 	popd
 	pushd ./gitian-builder
@@ -51,55 +51,55 @@ Release Process
 	wget 'https://download.qt-project.org/official_releases/qt/5.2/5.2.0/single/qt-everywhere-opensource-src-5.2.0.tar.gz'
 	wget 'https://protobuf.googlecode.com/files/protobuf-2.5.0.tar.bz2'
 	cd ..
-	./bin/gbuild ../scarycoin/contrib/gitian-descriptors/boost-linux.yml
+	./bin/gbuild ../sidecoin/contrib/gitian-descriptors/boost-linux.yml
 	mv build/out/boost-*.zip inputs/
-	./bin/gbuild ../scarycoin/contrib/gitian-descriptors/deps-linux.yml
-	mv build/out/scarycoin-deps-*.zip inputs/
-	./bin/gbuild ../scarycoin/contrib/gitian-descriptors/boost-win.yml
+	./bin/gbuild ../sidecoin/contrib/gitian-descriptors/deps-linux.yml
+	mv build/out/sidecoin-deps-*.zip inputs/
+	./bin/gbuild ../sidecoin/contrib/gitian-descriptors/boost-win.yml
 	mv build/out/boost-*.zip inputs/
-	./bin/gbuild ../scarycoin/contrib/gitian-descriptors/deps-win.yml
-	mv build/out/scarycoin-deps-*.zip inputs/
-	./bin/gbuild ../scarycoin/contrib/gitian-descriptors/qt-win.yml
+	./bin/gbuild ../sidecoin/contrib/gitian-descriptors/deps-win.yml
+	mv build/out/sidecoin-deps-*.zip inputs/
+	./bin/gbuild ../sidecoin/contrib/gitian-descriptors/qt-win.yml
 	mv build/out/qt-*.zip inputs/
-	./bin/gbuild ../scarycoin/contrib/gitian-descriptors/protobuf-win.yml
+	./bin/gbuild ../sidecoin/contrib/gitian-descriptors/protobuf-win.yml
 	mv build/out/protobuf-*.zip inputs/
 
- Build scarycoind and scarycoin-qt on Linux32, Linux64, and Win32:
+ Build sidecoind and sidecoin-qt on Linux32, Linux64, and Win32:
   
-	./bin/gbuild --commit scarycoin=v${VERSION} ../scarycoin/contrib/gitian-descriptors/gitian-linux.yml
-	./bin/gsign --signer $SIGNER --release ${VERSION} --destination ../gitian.sigs/ ../scarycoin/contrib/gitian-descriptors/gitian-linux.yml
+	./bin/gbuild --commit sidecoin=v${VERSION} ../sidecoin/contrib/gitian-descriptors/gitian-linux.yml
+	./bin/gsign --signer $SIGNER --release ${VERSION} --destination ../gitian.sigs/ ../sidecoin/contrib/gitian-descriptors/gitian-linux.yml
 	pushd build/out
-	zip -r scarycoin-${VERSION}-linux-gitian.zip *
-	mv scarycoin-${VERSION}-linux-gitian.zip ../../../
+	zip -r sidecoin-${VERSION}-linux-gitian.zip *
+	mv sidecoin-${VERSION}-linux-gitian.zip ../../../
 	popd
-	./bin/gbuild --commit scarycoin=v${VERSION} ../scarycoin/contrib/gitian-descriptors/gitian-win.yml
-	./bin/gsign --signer $SIGNER --release ${VERSION}-win --destination ../gitian.sigs/ ../scarycoin/contrib/gitian-descriptors/gitian-win.yml
+	./bin/gbuild --commit sidecoin=v${VERSION} ../sidecoin/contrib/gitian-descriptors/gitian-win.yml
+	./bin/gsign --signer $SIGNER --release ${VERSION}-win --destination ../gitian.sigs/ ../sidecoin/contrib/gitian-descriptors/gitian-win.yml
 	pushd build/out
-	zip -r scarycoin-${VERSION}-win-gitian.zip *
-	mv scarycoin-${VERSION}-win-gitian.zip ../../../
+	zip -r sidecoin-${VERSION}-win-gitian.zip *
+	mv sidecoin-${VERSION}-win-gitian.zip ../../../
 	popd
 	popd
 
   Build output expected:
 
-  1. linux 32-bit and 64-bit binaries + source (scarycoin-${VERSION}-linux-gitian.zip)
-  2. windows 32-bit and 64-bit binaries + installer + source (scarycoin-${VERSION}-win-gitian.zip)
+  1. linux 32-bit and 64-bit binaries + source (sidecoin-${VERSION}-linux-gitian.zip)
+  2. windows 32-bit and 64-bit binaries + installer + source (sidecoin-${VERSION}-win-gitian.zip)
   3. Gitian signatures (in gitian.sigs/${VERSION}[-win]/(your gitian key)/
 
 repackage gitian builds for release as stand-alone zip/tar/installer exe
 
 **Linux .tar.gz:**
 
-	unzip scarycoin-${VERSION}-linux-gitian.zip -d scarycoin-${VERSION}-linux
-	tar czvf scarycoin-${VERSION}-linux.tar.gz scarycoin-${VERSION}-linux
-	rm -rf scarycoin-${VERSION}-linux
+	unzip sidecoin-${VERSION}-linux-gitian.zip -d sidecoin-${VERSION}-linux
+	tar czvf sidecoin-${VERSION}-linux.tar.gz sidecoin-${VERSION}-linux
+	rm -rf sidecoin-${VERSION}-linux
 
 **Windows .zip and setup.exe:**
 
-	unzip scarycoin-${VERSION}-win-gitian.zip -d scarycoin-${VERSION}-win
-	mv scarycoin-${VERSION}-win/scarycoin-*-setup.exe .
-	zip -r scarycoin-${VERSION}-win.zip scarycoin-${VERSION}-win
-	rm -rf scarycoin-${VERSION}-win
+	unzip sidecoin-${VERSION}-win-gitian.zip -d sidecoin-${VERSION}-win
+	mv sidecoin-${VERSION}-win/sidecoin-*-setup.exe .
+	zip -r sidecoin-${VERSION}-win.zip sidecoin-${VERSION}-win
+	rm -rf sidecoin-${VERSION}-win
 
 **Perform Mac build:**
 
@@ -111,10 +111,10 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 	make
 	export QTDIR=/opt/local/share/qt4  # needed to find translations/qt_*.qm files
 	T=$(contrib/qt_translations.py $QTDIR/translations src/qt/locale)
-        export CODESIGNARGS='--keychain ...path_to_keychain --sign "Developer ID Application: SCARYCOIN FOUNDATION, INC., THE"'
-	python2.7 contrib/macdeploy/macdeployqtplus Scarycoin-Qt.app -sign -add-qt-tr $T -dmg -fancy contrib/macdeploy/fancy.plist
+        export CODESIGNARGS='--keychain ...path_to_keychain --sign "Developer ID Application: SIDECOIN FOUNDATION, INC., THE"'
+	python2.7 contrib/macdeploy/macdeployqtplus Sidecoin-Qt.app -sign -add-qt-tr $T -dmg -fancy contrib/macdeploy/fancy.plist
 
- Build output expected: Scarycoin-Qt.dmg
+ Build output expected: Sidecoin-Qt.dmg
 
 ###Next steps:
 
@@ -125,16 +125,16 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 
 * create SHA256SUMS for builds, and PGP-sign it
 
-* update scarycoin.org version
+* update sidecoin.org version
   make sure all OS download links go to the right versions
   
-* update download sizes on scarycoin.org/_templates/download.html
+* update download sizes on sidecoin.org/_templates/download.html
 
 * update forum version
 
 * update wiki download links
 
-* update wiki changelog: [https://en.scarycoin.it/wiki/Changelog](https://en.scarycoin.it/wiki/Changelog)
+* update wiki changelog: [https://en.sidecoin.it/wiki/Changelog](https://en.sidecoin.it/wiki/Changelog)
 
 Commit your signature to gitian.sigs:
 
@@ -149,44 +149,44 @@ Commit your signature to gitian.sigs:
 
 ### After 3 or more people have gitian-built, repackage gitian-signed zips:
 
-From a directory containing scarycoin source, gitian.sigs and gitian zips
+From a directory containing sidecoin source, gitian.sigs and gitian zips
 
 	export VERSION=(new version, e.g. 0.8.0)
-	mkdir scarycoin-${VERSION}-linux-gitian
-	pushd scarycoin-${VERSION}-linux-gitian
-	unzip ../scarycoin-${VERSION}-linux-gitian.zip
+	mkdir sidecoin-${VERSION}-linux-gitian
+	pushd sidecoin-${VERSION}-linux-gitian
+	unzip ../sidecoin-${VERSION}-linux-gitian.zip
 	mkdir gitian
-	cp ../scarycoin/contrib/gitian-downloader/*.pgp ./gitian/
+	cp ../sidecoin/contrib/gitian-downloader/*.pgp ./gitian/
 	for signer in $(ls ../gitian.sigs/${VERSION}/); do
-	 cp ../gitian.sigs/${VERSION}/${signer}/scarycoin-build.assert ./gitian/${signer}-build.assert
-	 cp ../gitian.sigs/${VERSION}/${signer}/scarycoin-build.assert.sig ./gitian/${signer}-build.assert.sig
+	 cp ../gitian.sigs/${VERSION}/${signer}/sidecoin-build.assert ./gitian/${signer}-build.assert
+	 cp ../gitian.sigs/${VERSION}/${signer}/sidecoin-build.assert.sig ./gitian/${signer}-build.assert.sig
 	done
-	zip -r scarycoin-${VERSION}-linux-gitian.zip *
-	cp scarycoin-${VERSION}-linux-gitian.zip ../
+	zip -r sidecoin-${VERSION}-linux-gitian.zip *
+	cp sidecoin-${VERSION}-linux-gitian.zip ../
 	popd
-	mkdir scarycoin-${VERSION}-win-gitian
-	pushd scarycoin-${VERSION}-win-gitian
-	unzip ../scarycoin-${VERSION}-win-gitian.zip
+	mkdir sidecoin-${VERSION}-win-gitian
+	pushd sidecoin-${VERSION}-win-gitian
+	unzip ../sidecoin-${VERSION}-win-gitian.zip
 	mkdir gitian
-	cp ../scarycoin/contrib/gitian-downloader/*.pgp ./gitian/
+	cp ../sidecoin/contrib/gitian-downloader/*.pgp ./gitian/
 	for signer in $(ls ../gitian.sigs/${VERSION}-win/); do
-	 cp ../gitian.sigs/${VERSION}-win/${signer}/scarycoin-build.assert ./gitian/${signer}-build.assert
-	 cp ../gitian.sigs/${VERSION}-win/${signer}/scarycoin-build.assert.sig ./gitian/${signer}-build.assert.sig
+	 cp ../gitian.sigs/${VERSION}-win/${signer}/sidecoin-build.assert ./gitian/${signer}-build.assert
+	 cp ../gitian.sigs/${VERSION}-win/${signer}/sidecoin-build.assert.sig ./gitian/${signer}-build.assert.sig
 	done
-	zip -r scarycoin-${VERSION}-win-gitian.zip *
-	cp scarycoin-${VERSION}-win-gitian.zip ../
+	zip -r sidecoin-${VERSION}-win-gitian.zip *
+	cp sidecoin-${VERSION}-win-gitian.zip ../
 	popd
 
 - Upload gitian zips to SourceForge
 
 - Announce the release:
 
-  - Add the release to scarycoin.org: https://github.com/scarycoin/scarycoin.org/tree/master/_releases
+  - Add the release to sidecoin.org: https://github.com/sidecoin/sidecoin.org/tree/master/_releases
 
-  - Release sticky on scarycointalk: https://scarycointalk.org/index.php?board=1.0
+  - Release sticky on sidecointalk: https://sidecointalk.org/index.php?board=1.0
 
-  - Scarycoin-development mailing list
+  - Sidecoin-development mailing list
 
-  - Optionally reddit /r/Scarycoin, ...
+  - Optionally reddit /r/Sidecoin, ...
 
 - Celebrate 
