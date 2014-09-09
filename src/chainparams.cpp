@@ -110,8 +110,8 @@ public:
         pchMessageStart[2] = 0xb4;
         pchMessageStart[3] = 0xd9;
         vAlertPubKey = ParseHex("04fc9702847840aaf195de8442ebecedf5b095cdbb9bc716bda9110971b28a49e0ead8564ff0db22209e0374782c093bb899692d524e9d6a6956e7c5ecbcd68284");
-        nDefaultPort = 8333;
-        nRPCPort = 8332;
+        nDefaultPort = 6543;
+        nRPCPort = 6544;
         bnProofOfWorkLimit = CBigNum(~uint256(0) >> 32);
         nSubsidyHalvingInterval = 210000;
 
@@ -201,8 +201,8 @@ public:
         pchMessageStart[2] = 0x09;
         pchMessageStart[3] = 0x07;
         vAlertPubKey = ParseHex("04302390343f91cc401d56d68b123028bf52e5fca1939df127f63c6467cdf9c8e2c14b61104cf817d0b780da337893ecc4aaff1309e536162dabbdb45200ca2b0a");
-        nDefaultPort = 18333;
-        nRPCPort = 18332;
+        nDefaultPort = 16543;
+        nRPCPort = 16544;
         strDataDir = "testnet3";
 
         // Modify the testnet genesis block so the timestamp is valid for a later start.
@@ -248,7 +248,7 @@ public:
         genesis.nBits = 0x1d00ffff;
         genesis.nNonce = 3747490389;
         hashGenesisBlock = genesis.GetHash();
-        nDefaultPort = 18444;
+        nDefaultPort = 26543;
         strDataDir = "regtest";
         // DEBUG_PRINT("hashGenesisBlock [regtest]: %s\n", hashGenesisBlock.ToString().c_str());
         // DEBUG_PRINT("hashMerkleRoot [regtest]: %s\n", genesis.hashMerkleRoot.ToString().c_str());
