@@ -1,0 +1,6 @@
+sidecoin-qt usr/bin
+share/pixmaps/sidecoin32.xpm usr/share/pixmaps
+share/pixmaps/sidecoin16.xpm usr/share/pixmaps
+share/pixmaps/sidecoin128.png usr/share/pixmaps
+debian/sidecoin-qt.desktop usr/share/applications
+debian/sidecoin-qt.protocol usr/share/kde4/services/
