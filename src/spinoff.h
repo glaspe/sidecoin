@@ -4,8 +4,8 @@
 #include <cstdio>
 #include <fstream>
 #include <cstring>
-#include "../json/json_spirit_value.h"
-#include "../rpcserver.h"
+#include "json/json_spirit_value.h"
+#include "rpcserver.h"
 
 namespace Spinoff {
 
