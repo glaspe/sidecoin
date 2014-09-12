@@ -13,12 +13,11 @@
 #include <cstdio>
 #include <vector>
 
-// Debug: print to stdout
-#ifdef NDEBUG
-#define DEBUG_PRINT(format, args...) ((void)0)
-#else
-#define DEBUG_PRINT printf
-#endif
+// #ifdef NDEBUG
+// #define DEBUG_PRINT(format, args...) ((void)0)
+// #else
+// #define DEBUG_PRINT printf
+// #endif
 
 using namespace std;
 

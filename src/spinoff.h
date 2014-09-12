@@ -5,9 +5,11 @@
 #include <fstream>
 #include <cstring>
 #include "json/json_spirit_value.h"
-#include "rpcserver.h"
+// #include "rpcserver.h"
 
 namespace Spinoff {
+
+bool verifymessage(const json_spirit::Array&, const bool);
 
 std::string bitcoin_signature(const std::string&, const std::string&);
 
