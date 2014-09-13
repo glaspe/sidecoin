@@ -113,7 +113,7 @@ public:
         bnProofOfWorkLimit = CBigNum(~uint256(0) >> 32);
         nSubsidyHalvingInterval = 210000;
 
-        genesis.vtx.push_back(Snapshot::genesis_tx());
+        genesis.vtx.push_back(snapshot::genesis_tx());
 
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
@@ -136,8 +136,8 @@ public:
         printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[3].nValue);
         printf("tx.vout.scriptPubKey: %s\n", genesis.vtx[0].vout[0].scriptPubKey.ToString().c_str());
 
-        assert(genesis.hashMerkleRoot == uint256("0x79ae702a91d4f15ff8c9afe958de36a9daf398ecb252f3fea8a212c84e1cabe1"));
-        assert(hashGenesisBlock == uint256("0x30ace673d91546c5a309cb4b8874bf042198251f866b23ee8f12fb28e4b02b24"));
+        assert(genesis.hashMerkleRoot == uint256("0x26b0f11a896b79c1afed0dad8d79f133272b755e03eae9fd483a1bdf05eab07d"));
+        assert(hashGenesisBlock == uint256("0x7613e12a176a53f111e3602b29dc3a91f5527dee09306534d8763ef7efa7c583"));
 
         vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
 
@@ -195,16 +195,14 @@ public:
         strDataDir = "testnet3";
 
         // Modify the testnet genesis block so the timestamp is valid for a later start.
-        genesis.nTime = 1409496971;
+        genesis.nTime = 1410604956;
         genesis.nNonce = 3747490389;
 
         hashGenesisBlock = genesis.GetHash();
         
-        // DEBUG_PRINT("hashGenesisBlock [test3]: %s\n", hashGenesisBlock.ToString().c_str());
-        // DEBUG_PRINT("hashMerkleRoot [test3]: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        printf("hashGenesisBlock [testnet]: %s\n", hashGenesisBlock.ToString().c_str());
 
-        assert(hashGenesisBlock == uint256("0x000000004ea566446112fcabd4657d2528d43305da008ef5505d2bcd6ae81201"));
-        assert(genesis.hashMerkleRoot == uint256("0x40a8706e3033894a68684cc522a7c1b648652119f77462c7ed274d4a29f21070"));
+        assert(hashGenesisBlock == uint256("0x8a9e15aa20b02e7e576ab15fc2eb97607cc2fcf0ec0b7bd90af62d17c7d91b04"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -239,9 +237,8 @@ public:
         hashGenesisBlock = genesis.GetHash();
         nDefaultPort = 26543;
         strDataDir = "regtest";
-        // DEBUG_PRINT("hashGenesisBlock [regtest]: %s\n", hashGenesisBlock.ToString().c_str());
-        // DEBUG_PRINT("hashMerkleRoot [regtest]: %s\n", genesis.hashMerkleRoot.ToString().c_str());
-        assert(hashGenesisBlock == uint256("0x000000004ea566446112fcabd4657d2528d43305da008ef5505d2bcd6ae81201"));
+        printf("hashGenesisBlock [regtest]: %s\n", hashGenesisBlock.ToString().c_str());
+        assert(hashGenesisBlock == uint256("0x6bcd46604edf930e83bb4c76d84ac2f244edc162ab8ddd590755e0a1a510364e"));
         vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
     }
     virtual bool RequireRPCPassword() const { return false; }

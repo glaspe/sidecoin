@@ -1,30 +1,11 @@
 #include "spinoff.h"
 
-namespace Snapshot {
+namespace snapshot {
 
 bool verifymessage(const json_spirit::Array& params, const bool test)
 {
     // placeholder for rpcserver
     return true;
-}
-
-std::string bitcoin_signature(const std::string& bitclaim,
-                              const std::string& sideaddr)
-{
-    // Bitcoin signature (over Sidecoin address):
-    // bitcoind signmessage <bitcoin address> <sidecoin address>
-    char buffer[1024];
-    std::string signmessage = "bitcoind signmessage " + bitclaim + " " + sideaddr;
-
-    FILE *bitcoind_p = popen(signmessage.c_str(), "r");
-    if (!bitcoind_p) {
-        return "-1";
-    }
-    char *bitsig_p = fgets(buffer, sizeof(buffer), bitcoind_p);
-    pclose(bitcoind_p);
-
-    std::string bitsig(bitsig_p);
-    return bitsig;
 }
 
 bool claim(const std::string& bitsig,
@@ -33,7 +14,7 @@ bool claim(const std::string& bitsig,
 {
     std::ifstream snapshot;
     bool verified = false;
-    snapshot.open("balances/balances.txt");
+    snapshot.open(SNAPSHOT_FILE);
 
     if (snapshot.good()) {
         do {
@@ -67,7 +48,7 @@ bool claim(const std::string& bitsig,
     return verified;
 }
 
-} // Snapshot
+} // snapshot
 
 int main()
 {
@@ -76,12 +57,12 @@ int main()
     const std::string sideaddr = "SIDECOINADDRESS";
     std::string bitsig;
 
-    bitsig = Snapshot::bitcoin_signature(bitclaim, sideaddr);
+    bitsig = snapshot::bitcoin_signature(bitclaim, sideaddr);
     if (bitsig == "-1") {
         return -1;
     }
     printf("Signature: %s", bitsig.c_str());
 
-    verified_claim = Snapshot::claim(bitsig, bitclaim, sideaddr);
+    verified_claim = snapshot::claim(bitsig, bitclaim, sideaddr);
     return 0;
 }

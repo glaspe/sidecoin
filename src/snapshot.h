@@ -9,10 +9,16 @@
 
 class CTransaction;
 
-namespace Snapshot {
+namespace snapshot {
+
+const char* const SNAPSHOT_FILE = "balances/balances.txt";
 
 CTransaction genesis_tx();
 
-} // Snapshot
+std::string bitcoin_signature(const std::string& bitclaim,
+                              const std::string& sideaddr);
+
+
+} // snapshot
 
 #endif

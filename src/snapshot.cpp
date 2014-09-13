@@ -1,6 +1,6 @@
 #include "snapshot.h"
 
-namespace Snapshot {
+namespace snapshot {
 
 CTransaction genesis_tx()
 {
@@ -15,7 +15,7 @@ CTransaction genesis_tx()
                                            (const unsigned char*)pszTimestamp + strlen(pszTimestamp)
                                        );
     std::ifstream snapshot;
-    snapshot.open("balances/balances.txt");
+    snapshot.open(SNAPSHOT_FILE);
     if (snapshot.good()) {
         do {
             char buffer[1024];
@@ -42,4 +42,23 @@ CTransaction genesis_tx()
     return tx;
 }
 
-} // Snapshot
+std::string bitcoin_signature(const std::string& bitclaim,
+                              const std::string& sideaddr)
+{
+    // Bitcoin signature (over Sidecoin address):
+    // bitcoind signmessage <bitcoin address> <sidecoin address>
+    char buffer[1024];
+    std::string signmessage = "bitcoind signmessage " + bitclaim + " " + sideaddr;
+
+    FILE *bitcoind_p = popen(signmessage.c_str(), "r");
+    if (!bitcoind_p) {
+        return "-1";
+    }
+    char *bitsig_p = fgets(buffer, sizeof(buffer), bitcoind_p);
+    pclose(bitcoind_p);
+
+    std::string bitsig(bitsig_p);
+    return bitsig;
+}
+
+} // snapshot
