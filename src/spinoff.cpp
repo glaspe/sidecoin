@@ -1,10 +1,11 @@
 #include "spinoff.h"
 
-namespace Spinoff {
+namespace Snapshot {
 
 bool verifymessage(const json_spirit::Array& params, const bool test)
 {
-
+    // placeholder for rpcserver
+    return true;
 }
 
 std::string bitcoin_signature(const std::string& bitclaim,
@@ -66,7 +67,7 @@ bool claim(const std::string& bitsig,
     return verified;
 }
 
-} // Spinoff
+} // Snapshot
 
 int main()
 {
@@ -75,12 +76,12 @@ int main()
     const std::string sideaddr = "SIDECOINADDRESS";
     std::string bitsig;
 
-    bitsig = Spinoff::bitcoin_signature(bitclaim, sideaddr);
+    bitsig = Snapshot::bitcoin_signature(bitclaim, sideaddr);
     if (bitsig == "-1") {
         return -1;
     }
     printf("Signature: %s", bitsig.c_str());
 
-    verified_claim = Spinoff::process_claim(bitsig, bitclaim, sideaddr);
+    verified_claim = Snapshot::claim(bitsig, bitclaim, sideaddr);
     return 0;
 }

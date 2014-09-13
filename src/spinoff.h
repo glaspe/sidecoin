@@ -7,7 +7,7 @@
 #include "json/json_spirit_value.h"
 // #include "rpcserver.h"
 
-namespace Spinoff {
+namespace Snapshot {
 
 bool verifymessage(const json_spirit::Array& params,
                    const bool test);
@@ -19,6 +19,6 @@ bool claim(const std::string& bitsig,
            const std::string& bitclaim,
            const std::string& sideaddr);
 
-} // Spinoff
+} // Snapshot
 
 #endif
