@@ -125,16 +125,16 @@ public:
 
         hashGenesisBlock = genesis.GetHash();
 
-        // printf("hashGenesisBlock: %s\n", hashGenesisBlock.ToString().c_str());
-        // printf("hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
-        // printf("hashPrevBlock: %s\n", genesis.hashPrevBlock.ToString().c_str());
-        // printf("tx.vout.size: %ld\n", genesis.vtx[0].vout.size());
-        // printf("tx.vin.scriptSig: %s\n", genesis.vtx[0].vin[0].scriptSig.ToString().c_str());
-        // printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[0].nValue);
-        // printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[1].nValue);
-        // printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[2].nValue);
-        // printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[3].nValue);
-        // printf("tx.vout.scriptPubKey: %s\n", genesis.vtx[0].vout[0].scriptPubKey.ToString().c_str());
+        printf("hashGenesisBlock: %s\n", hashGenesisBlock.ToString().c_str());
+        printf("hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        printf("hashPrevBlock: %s\n", genesis.hashPrevBlock.ToString().c_str());
+        printf("tx.vout.size: %ld\n", genesis.vtx[0].vout.size());
+        printf("tx.vin.scriptSig: %s\n", genesis.vtx[0].vin[0].scriptSig.ToString().c_str());
+        printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[0].nValue);
+        printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[1].nValue);
+        printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[2].nValue);
+        printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[3].nValue);
+        printf("tx.vout.scriptPubKey: %s\n", genesis.vtx[0].vout[0].scriptPubKey.ToString().c_str());
 
         assert(genesis.hashMerkleRoot == uint256("0x79ae702a91d4f15ff8c9afe958de36a9daf398ecb252f3fea8a212c84e1cabe1"));
         assert(hashGenesisBlock == uint256("0x30ace673d91546c5a309cb4b8874bf042198251f866b23ee8f12fb28e4b02b24"));
