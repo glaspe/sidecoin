@@ -12,12 +12,8 @@
 
 #include <cstdio>
 #include <vector>
-
-// #ifdef NDEBUG
-// #define DEBUG_PRINT(format, args...) ((void)0)
-// #else
-// #define DEBUG_PRINT printf
-// #endif
+#include <fstream>
+#include <cstring>
 
 using namespace std;
 

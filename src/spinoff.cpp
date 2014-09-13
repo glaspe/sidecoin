@@ -1,13 +1,3 @@
-/** 
- * - inputs: claimed bitcoin address, bitcoin signature over sidecoin address
- * - read balance in from snapshot file
- * - crypto signature verify
- * - mark balance as transferred
- * - award sidecoins
- * @author Jack Peterson
- g++ spinoff.cpp spinoff.h -o spinoff
- */
-
 #include "spinoff.h"
 
 namespace Spinoff {
@@ -36,13 +26,13 @@ std::string bitcoin_signature(const std::string& bitclaim,
     return bitsig;
 }
 
-bool process_claim(const std::string& bitsig,
-                   const std::string& bitclaim,
-                   const std::string& sideaddr)
+bool claim(const std::string& bitsig,
+           const std::string& bitclaim,
+           const std::string& sideaddr)
 {
     std::ifstream snapshot;
     bool verified = false;
-    snapshot.open("balances.txt");
+    snapshot.open("balances/balances.txt");
 
     if (snapshot.good()) {
         do {
@@ -62,7 +52,7 @@ bool process_claim(const std::string& bitsig,
                     params[0] = sideaddr;
                     params[1] = bitsig;
                     params[2] = bitaddr_str;
-                    // verified = verifymessage(params, false);
+                    verified = verifymessage(params, false);
                     if (verified) {
                         // 1. Award Sidecoins to "sideaddr" address
                         // 2. Broadcast to Sidecoin blockchain as spent

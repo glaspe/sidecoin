@@ -58,6 +58,7 @@ SIDECOIN_CORE_H = \
   rpcserver.h \
   script.h \
   serialize.h \
+  snapshot.h \
   sync.h \
   threadsafety.h \
   tinyformat.h \
@@ -107,6 +108,7 @@ libsidecoin_server_a_SOURCES = \
   rpcmisc.cpp \
   rpcnet.cpp \
   rpcrawtransaction.cpp \
+  snapshot.cpp \
   txdb.cpp \
   txmempool.cpp \
   $(JSON_H) \
@@ -131,6 +133,7 @@ libsidecoin_common_a_SOURCES = \
   protocol.cpp \
   rpcprotocol.cpp \
   script.cpp \
+  snapshot.cpp \
   sync.cpp \
   util.cpp \
   version.cpp \

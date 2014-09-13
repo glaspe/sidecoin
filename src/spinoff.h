@@ -9,11 +9,15 @@
 
 namespace Spinoff {
 
-bool verifymessage(const json_spirit::Array&, const bool);
+bool verifymessage(const json_spirit::Array& params,
+                   const bool test);
 
-std::string bitcoin_signature(const std::string&, const std::string&);
+std::string bitcoin_signature(const std::string& bitclaim,
+                              const std::string& sideaddr);
 
-bool process_claim(const std::string&, const std::string&, const std::string&);
+bool claim(const std::string& bitsig,
+           const std::string& bitclaim,
+           const std::string& sideaddr);
 
 } // Spinoff
 

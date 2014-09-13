@@ -5,12 +5,11 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "chainparams.h"
-
+#include "snapshot.h"
 #include "assert.h"
 #include "core.h"
 #include "protocol.h"
 #include "util.h"
-
 #include <boost/assign/list_of.hpp>
 
 using namespace boost::assign;
@@ -114,37 +113,37 @@ public:
         bnProofOfWorkLimit = CBigNum(~uint256(0) >> 32);
         nSubsidyHalvingInterval = 210000;
 
-        const char* pszTimestamp = "Celebration in Liberia slum as Ebola quarantine lifted";
-        CTransaction txNew;
+        genesis.vtx.push_back(Snapshot::genesis_tx());
 
-        txNew.vin.resize(1);
-        txNew.vout.resize(1);
-        txNew.vin[0].scriptSig = CScript() << 486604799 << CBigNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
-        txNew.vout[0].nValue = 50 * COIN;
-        txNew.vout[0].scriptPubKey = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
-
-        genesis.vtx.push_back(txNew);
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
 
-        genesis.nTime    = 1409496971;
-        genesis.nBits    = 0x1d00ffff;
-        genesis.nNonce   = 3747490389;
+        genesis.nTime = 1410593679;
+        genesis.nBits = 0x1d00ffff;
+        genesis.nNonce = 3747490389;
 
         hashGenesisBlock = genesis.GetHash();
 
-        // DEBUG_PRINT("hashGenesisBlock [main]: %s\n", hashGenesisBlock.ToString().c_str());
-        // DEBUG_PRINT("hashMerkleRoot [main]: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        // printf("hashGenesisBlock: %s\n", hashGenesisBlock.ToString().c_str());
+        // printf("hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        // printf("hashPrevBlock: %s\n", genesis.hashPrevBlock.ToString().c_str());
+        // printf("tx.vout.size: %ld\n", genesis.vtx[0].vout.size());
+        // printf("tx.vin.scriptSig: %s\n", genesis.vtx[0].vin[0].scriptSig.ToString().c_str());
+        // printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[0].nValue);
+        // printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[1].nValue);
+        // printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[2].nValue);
+        // printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[3].nValue);
+        // printf("tx.vout.scriptPubKey: %s\n", genesis.vtx[0].vout[0].scriptPubKey.ToString().c_str());
 
-        assert(hashGenesisBlock == uint256("0x000000004ea566446112fcabd4657d2528d43305da008ef5505d2bcd6ae81201"));
-        assert(genesis.hashMerkleRoot == uint256("0x40a8706e3033894a68684cc522a7c1b648652119f77462c7ed274d4a29f21070"));
+        assert(genesis.hashMerkleRoot == uint256("0x79ae702a91d4f15ff8c9afe958de36a9daf398ecb252f3fea8a212c84e1cabe1"));
+        assert(hashGenesisBlock == uint256("0x30ace673d91546c5a309cb4b8874bf042198251f866b23ee8f12fb28e4b02b24"));
 
         vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
 
         base58Prefixes[PUBKEY_ADDRESS] = list_of(0);
         base58Prefixes[SCRIPT_ADDRESS] = list_of(5);
-        base58Prefixes[SECRET_KEY] =     list_of(128);
+        base58Prefixes[SECRET_KEY]     = list_of(128);
         base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x88)(0xB2)(0x1E);
         base58Prefixes[EXT_SECRET_KEY] = list_of(0x04)(0x88)(0xAD)(0xE4);
 

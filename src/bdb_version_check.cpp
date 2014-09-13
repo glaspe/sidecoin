@@ -2,7 +2,6 @@
 #include <assert.h>
 #include <db_cxx.h>
 
-// Make sure we've actually got Berkeley DB 4.8 installed
 int main()
 {
     printf("Berkeley DB version: %d.%d\n", DB_VERSION_MAJOR, DB_VERSION_MINOR);
