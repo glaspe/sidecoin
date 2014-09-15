@@ -43,7 +43,7 @@ static const int MAX_PAYMENT_REQUEST_SIZE = 50000; // bytes
 #define SPINNER_FRAMES 35
 
 #define QAPP_ORG_NAME "Sidecoin"
-#define QAPP_ORG_DOMAIN "sidecoin.org"
+#define QAPP_ORG_DOMAIN "sidecoin.net"
 #define QAPP_APP_NAME_DEFAULT "Sidecoin-Qt"
 #define QAPP_APP_NAME_TESTNET "Sidecoin-Qt-testnet"
 

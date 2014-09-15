@@ -19,7 +19,7 @@ Build-Depends: debhelper,
  libqt4-dev,
  libqrencode-dev
 Standards-Version: 3.9.2
-Homepage: http://www.sidecoin.org/
+Homepage: http://www.sidecoin.net/
 Vcs-Git: git://github.com/sidecoin/sidecoin.git
 Vcs-Browser: http://github.com/sidecoin/sidecoin
 

@@ -1,6 +1,6 @@
 Sidecoin Core version 0.9.1 is now available from:
 
-  https://sidecoin.org/bin/0.9.1/test/
+  https://sidecoin.net/bin/0.9.1/test/
 
 This is a security update. It is recommended to upgrade to this release
 as soon as possible.

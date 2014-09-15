@@ -125,10 +125,10 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 
 * create SHA256SUMS for builds, and PGP-sign it
 
-* update sidecoin.org version
+* update sidecoin.net version
   make sure all OS download links go to the right versions
   
-* update download sizes on sidecoin.org/_templates/download.html
+* update download sizes on sidecoin.net/_templates/download.html
 
 * update forum version
 
@@ -181,7 +181,7 @@ From a directory containing sidecoin source, gitian.sigs and gitian zips
 
 - Announce the release:
 
-  - Add the release to sidecoin.org: https://github.com/sidecoin/sidecoin.org/tree/master/_releases
+  - Add the release to sidecoin.net: https://github.com/sidecoin/sidecoin.net/tree/master/_releases
 
   - Release sticky on sidecointalk: https://sidecointalk.org/index.php?board=1.0
 

@@ -113,7 +113,7 @@ public:
         bnProofOfWorkLimit = CBigNum(~uint256(0) >> 32);
         nSubsidyHalvingInterval = 210000;
 
-        genesis.vtx.push_back(snapshot::genesis_tx());
+        genesis = Snapshot::GenesisBlock();
 
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
@@ -125,19 +125,16 @@ public:
 
         hashGenesisBlock = genesis.GetHash();
 
-        printf("hashGenesisBlock: %s\n", hashGenesisBlock.ToString().c_str());
-        printf("hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
-        printf("hashPrevBlock: %s\n", genesis.hashPrevBlock.ToString().c_str());
-        printf("tx.vout.size: %ld\n", genesis.vtx[0].vout.size());
-        printf("tx.vin.scriptSig: %s\n", genesis.vtx[0].vin[0].scriptSig.ToString().c_str());
-        printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[0].nValue);
-        printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[1].nValue);
-        printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[2].nValue);
-        printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[3].nValue);
-        printf("tx.vout.scriptPubKey: %s\n", genesis.vtx[0].vout[0].scriptPubKey.ToString().c_str());
+        // printf("hashGenesisBlock: %s\n", hashGenesisBlock.ToString().c_str());
+        // printf("hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        // printf("hashPrevBlock: %s\n", genesis.hashPrevBlock.ToString().c_str());
+        // printf("tx.vout.size: %ld\n", genesis.vtx[0].vout.size());
+        // printf("tx.vin.scriptSig: %s\n", genesis.vtx[0].vin[0].scriptSig.ToString().c_str());
+        // printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[1].nValue);
+        // printf("tx.vout.scriptPubKey: %s\n", genesis.vtx[0].vout[0].scriptPubKey.ToString().c_str());
 
-        assert(genesis.hashMerkleRoot == uint256("0x26b0f11a896b79c1afed0dad8d79f133272b755e03eae9fd483a1bdf05eab07d"));
-        assert(hashGenesisBlock == uint256("0x7613e12a176a53f111e3602b29dc3a91f5527dee09306534d8763ef7efa7c583"));
+        assert(genesis.hashMerkleRoot == uint256("0xc9b2cb30ff7999af7e9d596d304fddb6cd9491e492ae421f5a2d909474eac9e6"));
+        assert(hashGenesisBlock == uint256("0xccc7e216a6daeb18cdaa8467e6e5566ab818622ddf7a355acb4fe60a1fa5f69b"));
 
         vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
 
@@ -200,9 +197,9 @@ public:
 
         hashGenesisBlock = genesis.GetHash();
         
-        printf("hashGenesisBlock [testnet]: %s\n", hashGenesisBlock.ToString().c_str());
+        // printf("hashGenesisBlock [testnet]: %s\n", hashGenesisBlock.ToString().c_str());
 
-        assert(hashGenesisBlock == uint256("0x8a9e15aa20b02e7e576ab15fc2eb97607cc2fcf0ec0b7bd90af62d17c7d91b04"));
+        assert(hashGenesisBlock == uint256("0x16687979739319f0c4998b5d22ea663f440e8912542fb213df560d799c50bc6a"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -237,8 +234,11 @@ public:
         hashGenesisBlock = genesis.GetHash();
         nDefaultPort = 26543;
         strDataDir = "regtest";
-        printf("hashGenesisBlock [regtest]: %s\n", hashGenesisBlock.ToString().c_str());
-        assert(hashGenesisBlock == uint256("0x6bcd46604edf930e83bb4c76d84ac2f244edc162ab8ddd590755e0a1a510364e"));
+
+        // printf("hashGenesisBlock [regtest]: %s\n", hashGenesisBlock.ToString().c_str());
+        
+        assert(hashGenesisBlock == uint256("0xe72cdd78de3f1de1ca53aa80444340af4a49b5944dfbbbdcdc6c4a14b141909b"));
+        
         vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
     }
     virtual bool RequireRPCPassword() const { return false; }

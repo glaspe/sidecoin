@@ -8,7 +8,7 @@ Source: http://sourceforge.net/projects/sidecoin/files/
 Files: *
 Copyright: 2009-2012, Sidecoin Core Developers
 License: Expat
-Comment: The Sidecoin Core Developers encompasses the current developers listed on sidecoin.org,
+Comment: The Sidecoin Core Developers encompasses the current developers listed on sidecoin.net,
          as well as the numerous contributors to the project.
 
 Files: src/json/*

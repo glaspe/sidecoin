@@ -7,18 +7,16 @@
 #include "util.h"
 #include "chainparams.h"
 
-class CTransaction;
-
-namespace snapshot {
+namespace Snapshot {
 
 const char* const SNAPSHOT_FILE = "balances/balances.txt";
 
-CTransaction genesis_tx();
+CBlock GenesisBlock();
 
-std::string bitcoin_signature(const std::string& bitclaim,
-                              const std::string& sideaddr);
+CTransaction GenesisTx(const char* btcHash160, const char* btcBalance);
 
+CTransaction ClaimTx(const char* btcSig, const char* btcPubKey);
 
-} // snapshot
+} // Snapshot
 
 #endif

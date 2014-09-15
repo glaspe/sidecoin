@@ -6,7 +6,7 @@ Copyright (c) 2014 Dyffy, Inc.
 
 Setup
 ---------------------
-[Sidecoin Core](http://sidecoin.org/en/download) is the original Sidecoin client and it builds the backbone of the network. However, it downloads and stores the entire history of Sidecoin transactions (which is currently several GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more. Thankfully you only have to do this once. If you would like the process to go faster you can [download the blockchain directly](https://sidecointalk.org/index.php?topic=145386.0).
+[Sidecoin Core](http://sidecoin.net/en/download) is the original Sidecoin client and it builds the backbone of the network. However, it downloads and stores the entire history of Sidecoin transactions (which is currently several GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more. Thankfully you only have to do this once. If you would like the process to go faster you can [download the blockchain directly](https://sidecointalk.org/index.php?topic=145386.0).
 
 Running
 ---------------------
