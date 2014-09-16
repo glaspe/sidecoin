@@ -11,7 +11,7 @@ namespace Snapshot {
 
 const char* const SNAPSHOT_FILE = "balances/balances.txt";
 
-void HashGenesisBlock();
+CBlock HashGenesisBlock();
 
 CBlock LoadGenesisBlock(CBlock& block);
 
