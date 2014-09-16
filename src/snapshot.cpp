@@ -2,6 +2,34 @@
 
 namespace Snapshot {
 
+CBlock HashGenesisBlock()
+{
+    CBlock block;
+    uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
+    uint256 thash;
+    loop {
+        thash = block.GetHash();
+        if (thash <= hashTarget) {
+            puts("Genesis block found!");
+            break;
+        }
+        if ((block.nNonce & 0xFFF) == 0) {
+            printf("Nonce %08X: hash = %s (target = %s)\n", block.nNonce, 
+                                                            thash.ToString().c_str(),
+                                                            hashTarget.ToString().c_str());
+        }
+        ++block.nNonce;
+        if (block.nNonce == 0) {
+            puts("Nonce wrapped, incrementing time");
+            ++block.nTime;
+        }
+    }
+    printf("block.nTime: %u\n", block.nTime);
+    printf("block.nNonce: %u\n", block.nNonce);
+    printf("block.GetHash: %s\n", block.GetHash().ToString().c_str());
+    return block;
+}
+
 /**
  * Reads in Bitcoin balances and accounts (as hash-160 strings) from a snapshot
  * file.  A transaction output is created for each (account, balance) pair: the
@@ -12,9 +40,8 @@ namespace Snapshot {
  * need to be sent out to several smaller blocks?  (~2 million transactions
  * total)
  */
-CBlock GenesisBlock()
+CBlock LoadGenesisBlock(CBlock& block)
 {
-    CBlock block;
     std::ifstream snapshot;
     snapshot.open(SNAPSHOT_FILE);
     if (snapshot.good()) {
@@ -32,6 +59,8 @@ CBlock GenesisBlock()
             }
         }
     }
+    // printf("hashGenesisBlock: %s\n", block.GetHash().ToString().c_str());
+    // printf("hashMerkleRoot: %s\n", block.BuildMerkleTree().ToString().c_str());
     return block;
 }
 
@@ -56,7 +85,7 @@ CTransaction GenesisTx(const char* btcHash160, const char* btcBalance)
                                         << ParseHex(btcHash160)
                                         << OP_EQUALVERIFY
                                         << OP_CHECKSIG;
-    printf("%s\t%s\t%s\n", btcHash160, btcBalance, tx.GetHash().ToString().c_str());
+    // printf("%s\t%s\t%s\n", btcHash160, btcBalance, tx.GetHash().ToString().c_str());
     return tx;
 }
 

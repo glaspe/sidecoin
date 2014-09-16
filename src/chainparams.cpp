@@ -113,25 +113,19 @@ public:
         bnProofOfWorkLimit = CBigNum(~uint256(0) >> 32);
         nSubsidyHalvingInterval = 210000;
 
-        genesis = Snapshot::GenesisBlock();
-
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
 
-        genesis.nTime = 1410593679;
+        genesis.nTime = 1410847820;
         genesis.nBits = 0x1d00ffff;
         genesis.nNonce = 3747490389;
 
-        hashGenesisBlock = genesis.GetHash();
-
-        // printf("hashGenesisBlock: %s\n", hashGenesisBlock.ToString().c_str());
-        // printf("hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
-        // printf("hashPrevBlock: %s\n", genesis.hashPrevBlock.ToString().c_str());
-        // printf("tx.vout.size: %ld\n", genesis.vtx[0].vout.size());
-        // printf("tx.vin.scriptSig: %s\n", genesis.vtx[0].vin[0].scriptSig.ToString().c_str());
-        // printf("tx.vout.nValue: %ld\n", genesis.vtx[0].vout[1].nValue);
-        // printf("tx.vout.scriptPubKey: %s\n", genesis.vtx[0].vout[0].scriptPubKey.ToString().c_str());
+        // If genesis block hash does not match, then generate new genesis hash.
+        if (genesis.GetHash() != uint256("0xccc7e216a6daeb18cdaa8467e6e5566ab818622ddf7a355acb4fe60a1fa5f69b")) {
+            puts("Searching for genesis block...");
+            genesis = Snapshot::HashGenesisBlock();
+        }
 
         assert(genesis.hashMerkleRoot == uint256("0xc9b2cb30ff7999af7e9d596d304fddb6cd9491e492ae421f5a2d909474eac9e6"));
         assert(hashGenesisBlock == uint256("0xccc7e216a6daeb18cdaa8467e6e5566ab818622ddf7a355acb4fe60a1fa5f69b"));

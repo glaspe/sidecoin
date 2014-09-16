@@ -11,7 +11,9 @@ namespace Snapshot {
 
 const char* const SNAPSHOT_FILE = "balances/balances.txt";
 
-CBlock GenesisBlock();
+void HashGenesisBlock();
+
+CBlock LoadGenesisBlock(CBlock& block);
 
 CTransaction GenesisTx(const char* btcHash160, const char* btcBalance);
 
