@@ -2,25 +2,19 @@
 
 namespace Snapshot {
 
+/**
+ * Find the genesis block.
+ */
 CBlock HashGenesisBlock()
 {
     CBlock block;
+    block.nTime = 1410847820;
+    block.nBits = 0x1d00ffff;
+    block.nNonce = 0;
     uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
-    uint256 thash;
-    loop {
-        thash = block.GetHash();
-        if (thash <= hashTarget) {
-            puts("Genesis block found!");
-            break;
-        }
-        if ((block.nNonce & 0xFFF) == 0) {
-            printf("Nonce %08X: hash = %s (target = %s)\n", block.nNonce, 
-                                                            thash.ToString().c_str(),
-                                                            hashTarget.ToString().c_str());
-        }
+    while (block.GetHash() > hashTarget) {
         ++block.nNonce;
         if (block.nNonce == 0) {
-            puts("Nonce wrapped, incrementing time");
             ++block.nTime;
         }
     }
@@ -31,7 +25,7 @@ CBlock HashGenesisBlock()
 }
 
 /**
- * Reads in Bitcoin balances and accounts (as hash-160 strings) from a snapshot
+ * Read in Bitcoin balances and accounts (as hash-160 strings) from a snapshot
  * file.  A transaction output is created for each (account, balance) pair: the
  * output's value (nValue) is equal to the balance, and its P2PKH validation
  * script (scriptPubKey) is set up using the account string.
