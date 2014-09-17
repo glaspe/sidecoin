@@ -144,7 +144,7 @@ public:
         assert(genesis.GetHash() == hashGenesisBlock);
         assert(genesis.hashMerkleRoot == hashMerkleRoot);
 
-        vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
+        // vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
 
         base58Prefixes[PUBKEY_ADDRESS] = list_of(63); // S prefix
         base58Prefixes[SCRIPT_ADDRESS] = list_of(5);
@@ -186,8 +186,10 @@ class CTestNetParams : public CMainParams
 public:
     CTestNetParams()
     {
-        uint256 hashGenesisBlock = uint256("0x000000031f811921e017dfb0afbc3ee4c7be9b905b1885ba4116d9e9aab8404b");
-        uint256 hashMerkleRoot = uint256("0xc898e90768207199af7005ed9a8905fc3abeca2a003a9252ea35a84244df2b35");
+        // uint256 hashGenesisBlock = uint256("0x000000031f811921e017dfb0afbc3ee4c7be9b905b1885ba4116d9e9aab8404b");
+        uint256 hashGenesisBlock = uint256("0x000000040b64d2683c73fad233790483c85724eb78f7ed5e85dd218a1a311c7e");
+        // uint256 hashMerkleRoot = uint256("0xc898e90768207199af7005ed9a8905fc3abeca2a003a9252ea35a84244df2b35");
+        uint256 hashMerkleRoot = uint256("0x79950cfb8ac4436f540f7fd317d4ddb73b53a78df18c1db282f6dbd96c5681e7");
 
         // The message start string is designed to be unlikely to occur in normal data.
         // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -203,7 +205,7 @@ public:
 
         // Modify the testnet genesis block so the timestamp is valid for a later start.
         genesis.nTime = 1410935253;
-        genesis.nNonce = 506902133;
+        genesis.nNonce = 98807975;
         
         if (GENESIS_SWITCH) puts("[testnet] Building coinbase transaction");
         genesis.vtx.push_back(Snapshot::CoinbaseTx());
@@ -222,6 +224,8 @@ public:
 
         vFixedSeeds.clear();
         vSeeds.clear();
+
+        vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
         // vSeeds.push_back(CDNSSeedData("bluematt.me", "testnet-seed.bluematt.me"));
 
         base58Prefixes[PUBKEY_ADDRESS] = list_of(111);
