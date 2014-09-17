@@ -76,7 +76,7 @@ CTransaction GenesisTx(const char* btcHash160, const char* btcBalance)
                                         << ParseHex(btcHash160)
                                         << OP_EQUALVERIFY
                                         << OP_CHECKSIG;
-    printf("%s\t%s\t%s\n", btcHash160, btcBalance, tx.GetHash().ToString().c_str());
+    // printf("%s\t%s\t%s\n", btcHash160, btcBalance, tx.GetHash().ToString().c_str());
     return tx;
 }
 
@@ -113,7 +113,7 @@ void HashGenesisBlock(CBlock& block)
     printf("- nTime: %u\n", block.nTime);
     printf("- nNonce: %u\n", block.nNonce);
     printf("- Hash: %s\n", block.GetHash().ToString().c_str());
-    printf("- hashMerkelRoot: %s\n", block.hashMerkleRoot.ToString().c_str());
+    printf("- hashMerkleRoot: %s\n", block.hashMerkleRoot.ToString().c_str());
     printf("- nBits: %08x\n", block.nBits);
 }
 

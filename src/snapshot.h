@@ -8,6 +8,8 @@
 #include "util.h"
 #include "chainparams.h"
 
+#define GENESIS_SWITCH false
+
 namespace Snapshot {
 
 const char* const SNAPSHOT_FILE = "balances/balances.txt";

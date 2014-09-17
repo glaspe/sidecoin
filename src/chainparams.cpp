@@ -105,8 +105,9 @@ protected:
 public:
     CMainParams()
     {
-        // Stored genesis block hash
-        uint256 hashGenesisBlock = uint256("0x1000000c1eebc6b1cf15feb584c8a3e8cc8570d5ce8c9d231b1daea4865ed598");
+        // Stored genesis block hash and merkel root
+        uint256 hashGenesisBlock = uint256("0x00000005d81a2e8d63d67c407169be8f631fc25be42abe3ed82d81f15fce1a17");
+        uint256 hashMerkleRoot = uint256("0x76155bf9f835d76a70cb4069627f4cb301ce5febc456464dc7905c13b5729187");
 
         // The message start string is designed to be unlikely to occur in normal data.
         // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -125,25 +126,23 @@ public:
         genesis.nVersion = 1;
         genesis.nTime = 1410847820;
         genesis.nBits = 0x1d0fffff;
-        genesis.nNonce = 67973155;
+        genesis.nNonce = 254890106;
 
-        if (true && (genesis.GetHash() != hashGenesisBlock))
+        if (GENESIS_SWITCH) puts("[main] Building coinbase transaction");
+        genesis.vtx.push_back(Snapshot::CoinbaseTx());
+        genesis.hashMerkleRoot = genesis.BuildMerkleTree();
+        
+        if (GENESIS_SWITCH) puts("[main] Loading snapshot");
+        Snapshot::LoadGenesisBlock(genesis);
+
+        if (GENESIS_SWITCH && (genesis.GetHash() != hashGenesisBlock))
         {
-            puts("Building coinbase transaction...");
-            genesis.vtx.push_back(Snapshot::CoinbaseTx());
-            genesis.hashMerkleRoot = genesis.BuildMerkleTree();
-            
-            puts("Loading snapshot...");
-            Snapshot::LoadGenesisBlock(genesis);
-
-            puts("Mining genesis block...");
+            puts("[main] Mining genesis block");
             Snapshot::HashGenesisBlock(genesis);
         }
-        else
-        {
-            assert(genesis.GetHash() == uint256("0x0000000c1eebc6b1cf15feb584c8a3e8cc8570d5ce8c9d231b1daea4865ed598"));
-            assert(genesis.hashMerkleRoot == uint256("0x76155bf9f835d76a70cb4069627f4cb301ce5febc456464dc7905c13b5729187"));
-        }
+
+        assert(genesis.GetHash() == hashGenesisBlock);
+        assert(genesis.hashMerkleRoot == hashMerkleRoot);
 
         vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
 
@@ -187,7 +186,8 @@ class CTestNetParams : public CMainParams
 public:
     CTestNetParams()
     {
-        uint256 hashGenesisBlock = uint256("0x16687979739319f0c4998b5d22ea663f440e8912542fb213df560d799c50bc6a");
+        uint256 hashGenesisBlock = uint256("0x000000031f811921e017dfb0afbc3ee4c7be9b905b1885ba4116d9e9aab8404b");
+        uint256 hashMerkleRoot = uint256("0xc898e90768207199af7005ed9a8905fc3abeca2a003a9252ea35a84244df2b35");
 
         // The message start string is designed to be unlikely to occur in normal data.
         // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -203,24 +203,22 @@ public:
 
         // Modify the testnet genesis block so the timestamp is valid for a later start.
         genesis.nTime = 1410935253;
-        genesis.nNonce = 67973155;
+        genesis.nNonce = 506902133;
         
-        if (true && (genesis.GetHash() != hashGenesisBlock))
-        {
-            puts("Building coinbase transaction...");
-            genesis.vtx.push_back(Snapshot::CoinbaseTx());
-            genesis.hashMerkleRoot = genesis.BuildMerkleTree();
-            
-            puts("Loading snapshot...");
-            Snapshot::LoadGenesisBlock(genesis);
-
-            puts("Mining genesis block...");
+        if (GENESIS_SWITCH) puts("[testnet] Building coinbase transaction");
+        genesis.vtx.push_back(Snapshot::CoinbaseTx());
+        genesis.hashMerkleRoot = genesis.BuildMerkleTree();
+        
+        if (GENESIS_SWITCH) puts("[testnet] Loading snapshot");
+        Snapshot::LoadGenesisBlock(genesis);
+        
+        if (GENESIS_SWITCH && (genesis.GetHash() != hashGenesisBlock)) {
+            puts("[testnet] Mining genesis block");
             Snapshot::HashGenesisBlock(genesis);
         }
-        else
-        {
-            assert(hashGenesisBlock == uint256("0x16687979739319f0c4998b5d22ea663f440e8912542fb213df560d799c50bc6a"));
-        }
+
+        assert(genesis.GetHash() == hashGenesisBlock);
+        assert(genesis.hashMerkleRoot == hashMerkleRoot);
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -245,7 +243,8 @@ class CRegTestParams : public CTestNetParams
 public:
     CRegTestParams()
     {
-        uint256 hashGenesisBlock = uint256("0xe72cdd78de3f1de1ca53aa80444340af4a49b5944dfbbbdcdc6c4a14b141909b");
+        uint256 hashGenesisBlock = uint256("0x0000000b9fdb7e77fa2f0f69edd354ef6bf7a5d80f5639f981128e79c03800f1");
+        uint256 hashMerkleRoot = uint256("0xb1134c2ddab6dace9a5813875826e8ac178754a69a62c2d075084ad783198be8");
 
         pchMessageStart[0] = 0xfa;
         pchMessageStart[1] = 0xbf;
@@ -257,25 +256,22 @@ public:
         strDataDir = "regtest";
 
         genesis.nTime = 1410935494;
-        // genesis.nBits = 0x1d00ffff;
-        genesis.nNonce = 3747490389;
+        genesis.nNonce = 31411947;
 
-        if (true && (genesis.GetHash() != hashGenesisBlock))
-        {
-            puts("Building coinbase transaction...");
-            genesis.vtx.push_back(Snapshot::CoinbaseTx());
-            genesis.hashMerkleRoot = genesis.BuildMerkleTree();
-            
-            puts("Loading snapshot...");
-            Snapshot::LoadGenesisBlock(genesis);
-
-            puts("Mining genesis block...");
+        if (GENESIS_SWITCH) puts("[regtest] Building coinbase transaction");
+        genesis.vtx.push_back(Snapshot::CoinbaseTx());
+        genesis.hashMerkleRoot = genesis.BuildMerkleTree();
+        
+        if (GENESIS_SWITCH) puts("[regtest] Loading snapshot");
+        Snapshot::LoadGenesisBlock(genesis);
+    
+        if (GENESIS_SWITCH && (genesis.GetHash() != hashGenesisBlock)) {
+            puts("[regtest] Mining genesis block");
             Snapshot::HashGenesisBlock(genesis);
         }
-        else
-        {
-            assert(hashGenesisBlock == uint256("0xe72cdd78de3f1de1ca53aa80444340af4a49b5944dfbbbdcdc6c4a14b141909b"));
-        }
+        
+        assert(genesis.GetHash() == hashGenesisBlock);
+        assert(genesis.hashMerkleRoot == hashMerkleRoot);
         
         vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
     }
