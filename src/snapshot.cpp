@@ -60,15 +60,8 @@ void LoadGenesisBlock(CBlock& block)
  */
 CTransaction GenesisTx(const char* btcHash160, const char* btcBalance)
 {
-    const char* pszTimestamp = "Boeing wins role in next U.S. space chapter";
     CTransaction tx;
-    tx.vin.resize(1);
-    tx.vin[0].scriptSig = CScript() << 487587839    // genesis.nBits
-                                    << CBigNum(4)   // 4 nBits: 0x1d, 0x00, 0xff, 0xff
-                                    << vector<unsigned char>(
-                                           (const unsigned char*)pszTimestamp,
-                                           (const unsigned char*)pszTimestamp + strlen(pszTimestamp)
-                                       );
+    tx.vin.resize(0);
     tx.vout.resize(1);
     tx.vout[0].nValue = atoi64(btcBalance) * COIN;
     tx.vout[0].scriptPubKey = CScript() << OP_DUP
