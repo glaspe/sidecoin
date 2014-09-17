@@ -247,8 +247,10 @@ class CRegTestParams : public CTestNetParams
 public:
     CRegTestParams()
     {
-        uint256 hashGenesisBlock = uint256("0x0000000b9fdb7e77fa2f0f69edd354ef6bf7a5d80f5639f981128e79c03800f1");
-        uint256 hashMerkleRoot = uint256("0xb1134c2ddab6dace9a5813875826e8ac178754a69a62c2d075084ad783198be8");
+        // uint256 hashGenesisBlock = uint256("0x0000000b9fdb7e77fa2f0f69edd354ef6bf7a5d80f5639f981128e79c03800f1");
+        uint256 hashGenesisBlock = uint256("0x0000000fdcd9502a56e392ad2f2e9af43e1bb427c65115515a3f00ab017c0c8c");
+        // uint256 hashMerkleRoot = uint256("0xb1134c2ddab6dace9a5813875826e8ac178754a69a62c2d075084ad783198be8");
+        uint256 hashMerkleRoot = uint256("0x4ede59cde3a9b04889a1b9c6202d95dff508b4894093b3db659f8f786a39b6b3");
 
         pchMessageStart[0] = 0xfa;
         pchMessageStart[1] = 0xbf;
@@ -260,7 +262,7 @@ public:
         strDataDir = "regtest";
 
         genesis.nTime = 1410935494;
-        genesis.nNonce = 31411947;
+        genesis.nNonce = 281434219;
 
         if (GENESIS_SWITCH) puts("[regtest] Building coinbase transaction");
         genesis.vtx.push_back(Snapshot::CoinbaseTx());
