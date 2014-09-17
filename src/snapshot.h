@@ -12,17 +12,19 @@ namespace Snapshot {
 
 const char* const SNAPSHOT_FILE = "balances/balances.txt";
 
-CBlock HashGenesisBlock();
+CTransaction CoinbaseTx();
 
-CBlock LoadGenesisBlock(CBlock& block);
+void LoadGenesisBlock(CBlock& block);
 
 CTransaction GenesisTx(const char* btcHash160, const char* btcBalance);
 
+void HashGenesisBlock(CBlock& block);
+
 CTransaction ClaimTx(const char* btcSig, const char* btcPubKey);
 
-inline float fast_log(float val);
+inline float FastLog(float val);
 
-float difficulty(unsigned bits);
+float Difficulty(unsigned bits);
 
 } // Snapshot
 

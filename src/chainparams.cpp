@@ -97,14 +97,16 @@ unsigned int pnSeed[] =
     0x13f5094c, 0x7ab32648, 0x542e9fd5, 0x53136bc1, 0x7fdf51c0, 0x802197b2, 0xa2d2cc5b, 0x6b5f4bc0,
 };
 
-class CMainParams : public CChainParams {
+class CMainParams : public CChainParams
+{
 protected:
     CBlock genesis;
     vector<CAddress> vFixedSeeds;
 public:
-    CMainParams() {
+    CMainParams()
+    {
         // Stored genesis block hash
-        uint256 hashGenesisBlock = uint256("0xccc7e216a6daeb18cdaa8467e6e5566ab818622ddf7a355acb4fe60a1fa5f69b");
+        uint256 hashGenesisBlock = uint256("0x1000000c1eebc6b1cf15feb584c8a3e8cc8570d5ce8c9d231b1daea4865ed598");
 
         // The message start string is designed to be unlikely to occur in normal data.
         // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -120,20 +122,28 @@ public:
         nSubsidyHalvingInterval = 210000;
 
         genesis.hashPrevBlock = 0;
-        genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
-
         genesis.nTime = 1410847820;
-        genesis.nBits = 0x1d00ffff;
-        genesis.nNonce = 3747490389;
+        genesis.nBits = 0x1d0fffff;
+        genesis.nNonce = 67973155;
 
-        if (genesis.GetHash() != hashGenesisBlock) {
-            puts("Searching for genesis block...");
-            genesis = Snapshot::HashGenesisBlock();
+        if (true && (genesis.GetHash() != hashGenesisBlock))
+        {
+            puts("Building coinbase transaction...");
+            genesis.vtx.push_back(Snapshot::CoinbaseTx());
+            genesis.hashMerkleRoot = genesis.BuildMerkleTree();
+            
+            puts("Loading snapshot...");
+            Snapshot::LoadGenesisBlock(genesis);
+
+            puts("Mining genesis block...");
+            Snapshot::HashGenesisBlock(genesis);
         }
-
-        assert(genesis.hashMerkleRoot == uint256("0xc9b2cb30ff7999af7e9d596d304fddb6cd9491e492ae421f5a2d909474eac9e6"));
-        assert(hashGenesisBlock == uint256("0xccc7e216a6daeb18cdaa8467e6e5566ab818622ddf7a355acb4fe60a1fa5f69b"));
+        else
+        {
+            assert(genesis.GetHash() == uint256("0x0000000c1eebc6b1cf15feb584c8a3e8cc8570d5ce8c9d231b1daea4865ed598"));
+            assert(genesis.hashMerkleRoot == uint256("0x76155bf9f835d76a70cb4069627f4cb301ce5febc456464dc7905c13b5729187"));
+        }
 
         vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
 
@@ -172,9 +182,13 @@ static CMainParams mainParams;
 //
 // Testnet (v3)
 //
-class CTestNetParams : public CMainParams {
+class CTestNetParams : public CMainParams
+{
 public:
-    CTestNetParams() {
+    CTestNetParams()
+    {
+        uint256 hashGenesisBlock = uint256("0x16687979739319f0c4998b5d22ea663f440e8912542fb213df560d799c50bc6a");
+
         // The message start string is designed to be unlikely to occur in normal data.
         // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
         // a large 4-byte int at any alignment.
@@ -188,14 +202,25 @@ public:
         strDataDir = "testnet3";
 
         // Modify the testnet genesis block so the timestamp is valid for a later start.
-        genesis.nTime = 1410604956;
-        genesis.nNonce = 3747490389;
-
-        hashGenesisBlock = genesis.GetHash();
+        genesis.nTime = 1410935253;
+        genesis.nNonce = 67973155;
         
-        // printf("hashGenesisBlock [testnet]: %s\n", hashGenesisBlock.ToString().c_str());
+        if (true && (genesis.GetHash() != hashGenesisBlock))
+        {
+            puts("Building coinbase transaction...");
+            genesis.vtx.push_back(Snapshot::CoinbaseTx());
+            genesis.hashMerkleRoot = genesis.BuildMerkleTree();
+            
+            puts("Loading snapshot...");
+            Snapshot::LoadGenesisBlock(genesis);
 
-        assert(hashGenesisBlock == uint256("0x16687979739319f0c4998b5d22ea663f440e8912542fb213df560d799c50bc6a"));
+            puts("Mining genesis block...");
+            Snapshot::HashGenesisBlock(genesis);
+        }
+        else
+        {
+            assert(hashGenesisBlock == uint256("0x16687979739319f0c4998b5d22ea663f440e8912542fb213df560d799c50bc6a"));
+        }
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -215,25 +240,42 @@ static CTestNetParams testNetParams;
 //
 // Regression test
 //
-class CRegTestParams : public CTestNetParams {
+class CRegTestParams : public CTestNetParams
+{
 public:
-    CRegTestParams() {
+    CRegTestParams()
+    {
+        uint256 hashGenesisBlock = uint256("0xe72cdd78de3f1de1ca53aa80444340af4a49b5944dfbbbdcdc6c4a14b141909b");
+
         pchMessageStart[0] = 0xfa;
         pchMessageStart[1] = 0xbf;
         pchMessageStart[2] = 0xb5;
         pchMessageStart[3] = 0xda;
         nSubsidyHalvingInterval = 150;
         bnProofOfWorkLimit = CBigNum(~uint256(0) >> 1);
-        genesis.nTime = 1409496971;
-        genesis.nBits = 0x1d00ffff;
-        genesis.nNonce = 3747490389;
-        hashGenesisBlock = genesis.GetHash();
         nDefaultPort = 26543;
         strDataDir = "regtest";
 
-        // printf("hashGenesisBlock [regtest]: %s\n", hashGenesisBlock.ToString().c_str());
-        
-        assert(hashGenesisBlock == uint256("0xe72cdd78de3f1de1ca53aa80444340af4a49b5944dfbbbdcdc6c4a14b141909b"));
+        genesis.nTime = 1410935494;
+        // genesis.nBits = 0x1d00ffff;
+        genesis.nNonce = 3747490389;
+
+        if (true && (genesis.GetHash() != hashGenesisBlock))
+        {
+            puts("Building coinbase transaction...");
+            genesis.vtx.push_back(Snapshot::CoinbaseTx());
+            genesis.hashMerkleRoot = genesis.BuildMerkleTree();
+            
+            puts("Loading snapshot...");
+            Snapshot::LoadGenesisBlock(genesis);
+
+            puts("Mining genesis block...");
+            Snapshot::HashGenesisBlock(genesis);
+        }
+        else
+        {
+            assert(hashGenesisBlock == uint256("0xe72cdd78de3f1de1ca53aa80444340af4a49b5944dfbbbdcdc6c4a14b141909b"));
+        }
         
         vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
     }
@@ -248,7 +290,8 @@ const CChainParams &Params() {
     return *pCurrentParams;
 }
 
-void SelectParams(CChainParams::Network network) {
+void SelectParams(CChainParams::Network network)
+{
     switch (network) {
         case CChainParams::MAIN:
             pCurrentParams = &mainParams;
@@ -265,7 +308,8 @@ void SelectParams(CChainParams::Network network) {
     }
 }
 
-bool SelectParamsFromCommandLine() {
+bool SelectParamsFromCommandLine()
+{
     bool fRegTest = GetBoolArg("-regtest", false);
     bool fTestNet = GetBoolArg("-testnet", false);
 
