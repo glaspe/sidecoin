@@ -98,8 +98,14 @@ unsigned int pnSeed[] =
 };
 
 class CMainParams : public CChainParams {
+protected:
+    CBlock genesis;
+    vector<CAddress> vFixedSeeds;
 public:
     CMainParams() {
+        // Stored genesis block hash
+        uint256 hashGenesisBlock = uint256("0xccc7e216a6daeb18cdaa8467e6e5566ab818622ddf7a355acb4fe60a1fa5f69b");
+
         // The message start string is designed to be unlikely to occur in normal data.
         // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
         // a large 4-byte int at any alignment.
@@ -121,8 +127,7 @@ public:
         genesis.nBits = 0x1d00ffff;
         genesis.nNonce = 3747490389;
 
-        // If genesis block hash does not match, then generate new genesis hash.
-        if (genesis.GetHash() != uint256("0xccc7e216a6daeb18cdaa8467e6e5566ab818622ddf7a355acb4fe60a1fa5f69b")) {
+        if (genesis.GetHash() != hashGenesisBlock) {
             puts("Searching for genesis block...");
             genesis = Snapshot::HashGenesisBlock();
         }
@@ -132,7 +137,7 @@ public:
 
         vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
 
-        base58Prefixes[PUBKEY_ADDRESS] = list_of(0);
+        base58Prefixes[PUBKEY_ADDRESS] = list_of(63); // S prefix
         base58Prefixes[SCRIPT_ADDRESS] = list_of(5);
         base58Prefixes[SECRET_KEY]     = list_of(128);
         base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x88)(0xB2)(0x1E);
@@ -160,9 +165,6 @@ public:
     virtual const vector<CAddress>& FixedSeeds() const {
         return vFixedSeeds;
     }
-protected:
-    CBlock genesis;
-    vector<CAddress> vFixedSeeds;
 };
 static CMainParams mainParams;
 

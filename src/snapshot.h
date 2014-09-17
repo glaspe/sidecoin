@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <cstdio>
+#include <cmath>
 #include "core.h"
 #include "util.h"
 #include "chainparams.h"
@@ -18,6 +19,10 @@ CBlock LoadGenesisBlock(CBlock& block);
 CTransaction GenesisTx(const char* btcHash160, const char* btcBalance);
 
 CTransaction ClaimTx(const char* btcSig, const char* btcPubKey);
+
+inline float fast_log(float val);
+
+float difficulty(unsigned bits);
 
 } // Snapshot
 

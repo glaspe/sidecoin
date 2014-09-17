@@ -1,26 +1,46 @@
 #include "snapshot.h"
+#include <iostream>
 
 namespace Snapshot {
 
 /**
- * Find the genesis block.
+ * Mine the genesis block.
  */
 CBlock HashGenesisBlock()
 {
     CBlock block;
+    block.hashPrevBlock = 0;
+    block.nVersion = 1;
     block.nTime = 1410847820;
-    block.nBits = 0x1d00ffff;
+    // block.nBits = 0x1d00ffff; // difficulty 1 (max target value)
+    block.nBits = 0x1d0fffff;
     block.nNonce = 0;
     uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
-    while (block.GetHash() > hashTarget) {
+    uint256 testHash = block.GetHash();
+    uint256 smallHash = testHash;
+    printf("Difficulty: %f\n", difficulty(block.nBits));
+    printf("Target:               %s\n", hashTarget.ToString().c_str());
+    while (testHash > hashTarget) {
         ++block.nNonce;
         if (block.nNonce == 0) {
             ++block.nTime;
         }
+        if ((block.nNonce & 0xFFF) == 0) {
+            printf("Nonce: %08x\tHash: %s\r", block.nNonce,
+                                              testHash.ToString().c_str());
+        }
+        testHash = block.GetHash();
+        if (testHash < smallHash) {
+            smallHash = testHash;
+            printf("Nonce: %08x\tHash: %s\n", block.nNonce,
+                                              smallHash.ToString().c_str());
+        }
     }
-    printf("block.nTime: %u\n", block.nTime);
+    printf("\nblock.nTime: %u\n", block.nTime);
     printf("block.nNonce: %u\n", block.nNonce);
     printf("block.GetHash: %s\n", block.GetHash().ToString().c_str());
+    printf("block.hashMerkelRoot: %s\n", block.BuildMerkleTree().ToString().c_str());
+    printf("block.nBits: %08x\n", block.nBits);
     return block;
 }
 
@@ -54,7 +74,6 @@ CBlock LoadGenesisBlock(CBlock& block)
         }
     }
     // printf("hashGenesisBlock: %s\n", block.GetHash().ToString().c_str());
-    // printf("hashMerkleRoot: %s\n", block.BuildMerkleTree().ToString().c_str());
     return block;
 }
 
@@ -96,6 +115,26 @@ CTransaction ClaimTx(const char* btcSig, const char* btcPubKey, const char* txHa
                                   << ParseHex(btcPubKey);
     CTxIn txInput(prevOut, scriptSig, nSequence);
     return tx;
+}
+
+/** Difficulty calculation and fast log taken from https://en.bitcoin.it/wiki/Difficulty */
+inline float fast_log(float val)
+{
+   int* const exp_ptr = reinterpret_cast<int *>(&val);
+   int x = *exp_ptr;
+   const int log_2 = ((x >> 23) & 255) - 128;
+   x &= ~(255 << 23);
+   x += 127 << 23;
+   *exp_ptr = x;
+   val = ((-1.0f/3) * val + 2) * val - 2.0f/3;
+   return ((val + log_2) * 0.69314718f);
+} 
+
+float difficulty(unsigned bits)
+{
+    static double max_body = fast_log(0x00ffff);
+    static double scaland = fast_log(256);
+    return exp(max_body - fast_log(bits & 0x00ffffff) + scaland * (0x1d - ((bits & 0xff000000) >> 24)));
 }
 
 } // Snapshot
