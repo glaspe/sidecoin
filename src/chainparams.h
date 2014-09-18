@@ -22,7 +22,6 @@ using namespace std;
 typedef unsigned char MessageStartChars[MESSAGE_START_SIZE];
 
 class CAddress;
-class CBlock;
 
 struct CDNSSeedData {
     string name, host;

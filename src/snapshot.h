@@ -14,9 +14,9 @@
 
 #include <boost/filesystem/operations.hpp>
 
-#define GENESIS_SWITCH true
+#define GENESIS_SWITCH false
 
-namespace Snapshot {
+namespace snapshot {
 
 CTransaction CoinbaseTx(unsigned nBits);
 
@@ -32,6 +32,6 @@ inline float FastLog(float val);
 
 float Difficulty(unsigned bits);
 
-} // Snapshot
+} // snapshot
 
-#endif
+#endif // SIDECOIN_SNAPSHOT_H
