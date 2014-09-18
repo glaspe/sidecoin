@@ -1,3 +1,7 @@
+// Copyright (c) 2014 Dyffy, Inc.
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #include "snapshot.h"
 
 namespace Snapshot {
@@ -124,12 +128,12 @@ CTransaction ClaimTx(const char* btcSig, const char* btcPubKey, const char* txHa
 }
 
 /**
- * Difficulty calculation and fast log taken from:
+ * Difficulty calculation and fast log estimate taken from:
  * https://en.bitcoin.it/wiki/Difficulty
  */
 inline float FastLog(float val)
 {
-   int* const exp_ptr = reinterpret_cast<int *>(&val);
+   int* const exp_ptr = reinterpret_cast<int*>(&val);
    int x = *exp_ptr;
    const int log_2 = ((x >> 23) & 255) - 128;
    x &= ~(255 << 23);
@@ -137,7 +141,7 @@ inline float FastLog(float val)
    *exp_ptr = x;
    val = ((-1.0f/3) * val + 2) * val - 2.0f/3;
    return ((val + log_2) * 0.69314718f);
-} 
+}
 
 float Difficulty(unsigned bits)
 {

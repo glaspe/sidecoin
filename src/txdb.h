@@ -10,11 +10,6 @@
 #include "leveldbwrapper.h"
 #include "main.h"
 
-#include <map>
-#include <string>
-#include <utility>
-#include <vector>
-
 class CBigNum;
 class CCoins;
 class uint256;
