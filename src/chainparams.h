@@ -9,6 +9,7 @@
 
 #include "bignum.h"
 #include "uint256.h"
+#include "core.h"
 
 #include <cstdio>
 #include <vector>
@@ -82,6 +83,41 @@ protected:
     string strDataDir;
     vector<CDNSSeedData> vSeeds;
     std::vector<unsigned char> base58Prefixes[MAX_BASE58_TYPES];
+};
+
+/** Main (production) net */
+class CMainParams : public CChainParams
+{
+protected:
+    CBlock genesis;
+    vector<CAddress> vFixedSeeds;
+public:
+    CMainParams();
+    void CheckGenesisBlock(const char* network,
+                           uint256 hashGenesisBlock,
+                           uint256 hashMerkleRoot);
+    virtual const CBlock& GenesisBlock() const { return genesis; }
+    virtual Network NetworkID() const { return CChainParams::MAIN; }
+    virtual const vector<CAddress>& FixedSeeds() const {
+        return vFixedSeeds;
+    }
+};
+
+/** Testnet (v3) */
+class CTestNetParams : public CMainParams
+{
+public:
+    CTestNetParams();
+    virtual Network NetworkID() const { return CChainParams::TESTNET; }
+};
+
+/** Regression test */
+class CRegTestParams : public CTestNetParams
+{
+public:
+    CRegTestParams();
+    virtual bool RequireRPCPassword() const { return false; }
+    virtual Network NetworkID() const { return CChainParams::REGTEST; }
 };
 
 /**

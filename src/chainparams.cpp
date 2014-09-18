@@ -97,195 +97,153 @@ unsigned int pnSeed[] =
     0x13f5094c, 0x7ab32648, 0x542e9fd5, 0x53136bc1, 0x7fdf51c0, 0x802197b2, 0xa2d2cc5b, 0x6b5f4bc0,
 };
 
-class CMainParams : public CChainParams
+CMainParams::CMainParams()
 {
-protected:
-    CBlock genesis;
-    vector<CAddress> vFixedSeeds;
-public:
-    CMainParams()
+    // Stored genesis block hash and merkle root
+    uint256 hashGenesisBlock = uint256("0x00000000bc801f9ad3891382a015371af5c27be345ab630fada7ac4cf2c5fc45");
+    uint256 hashMerkleRoot = uint256("0xa06cb9f14c7bae8115a13cbfd6ab40df6d15ee424ff272cba0556feceaeb07e8");
+
+    // The message start string is designed to be unlikely to occur in normal data.
+    // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
+    // a large 4-byte int at any alignment.
+    pchMessageStart[0] = 0xf9;
+    pchMessageStart[1] = 0xbe;
+    pchMessageStart[2] = 0xb4;
+    pchMessageStart[3] = 0xd9;
+    vAlertPubKey = ParseHex("04fc9702847840aaf195de8442ebecedf5b095cdbb9bc716bda9110971b28a49e0ead8564ff0db22209e0374782c093bb899692d524e9d6a6956e7c5ecbcd68284");
+    nDefaultPort = 6543;
+    nRPCPort = 6544;
+    bnProofOfWorkLimit = CBigNum(~uint256(0) >> 32);
+    nSubsidyHalvingInterval = 210000;
+
+    genesis.hashPrevBlock = 0;
+    genesis.nVersion = 1;
+    genesis.nTime = 1410847820;
+    genesis.nBits = 0x1d00ffff; // difficulty = 1 (max target value)        
+    genesis.nNonce = 505229870;
+
+    CheckGenesisBlock("main", hashGenesisBlock, hashMerkleRoot);
+
+    vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
+
+    base58Prefixes[PUBKEY_ADDRESS] = list_of(63); // S prefix
+    base58Prefixes[SCRIPT_ADDRESS] = list_of(5);
+    base58Prefixes[SECRET_KEY]     = list_of(128);
+    base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x88)(0xB2)(0x1E);
+    base58Prefixes[EXT_SECRET_KEY] = list_of(0x04)(0x88)(0xAD)(0xE4);
+
+    // Convert the pnSeeds array into usable address objects.
+    for (unsigned int i = 0; i < ARRAYLEN(pnSeed); i++)
     {
-        // Stored genesis block hash and merkel root
-        uint256 hashGenesisBlock = uint256("0x00000005d81a2e8d63d67c407169be8f631fc25be42abe3ed82d81f15fce1a17");
-        uint256 hashMerkleRoot = uint256("0x76155bf9f835d76a70cb4069627f4cb301ce5febc456464dc7905c13b5729187");
+        // It'll only connect to one or two seed nodes because once it connects,
+        // it'll get a pile of addresses with newer timestamps.
+        // Seed nodes are given a random 'last seen time' of between one and two
+        // weeks ago.
+        const int64_t nOneWeek = 7*24*60*60;
+        struct in_addr ip;
+        memcpy(&ip, &pnSeed[i], sizeof(ip));
+        CAddress addr(CService(ip, GetDefaultPort()));
+        addr.nTime = GetTime() - GetRand(nOneWeek) - nOneWeek;
+        vFixedSeeds.push_back(addr);
+    }
+}
 
-        // The message start string is designed to be unlikely to occur in normal data.
-        // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
-        // a large 4-byte int at any alignment.
-        pchMessageStart[0] = 0xf9;
-        pchMessageStart[1] = 0xbe;
-        pchMessageStart[2] = 0xb4;
-        pchMessageStart[3] = 0xd9;
-        vAlertPubKey = ParseHex("04fc9702847840aaf195de8442ebecedf5b095cdbb9bc716bda9110971b28a49e0ead8564ff0db22209e0374782c093bb899692d524e9d6a6956e7c5ecbcd68284");
-        nDefaultPort = 6543;
-        nRPCPort = 6544;
-        bnProofOfWorkLimit = CBigNum(~uint256(0) >> 32);
-        nSubsidyHalvingInterval = 210000;
+void CMainParams::CheckGenesisBlock(const char* network,
+                                    uint256 hashGenesisBlock,
+                                    uint256 hashMerkleRoot)
+{
+    // Build coinbase transaction
+    if (GENESIS_SWITCH) {
+        printf("[%s] Building coinbase transaction\n", network);
+    }
+    genesis.vtx.push_back(Snapshot::CoinbaseTx(genesis.nBits));
+    genesis.hashMerkleRoot = genesis.BuildMerkleTree();
+    
+    // Load snapshot file data into transaction outputs
+    if (GENESIS_SWITCH) {
+        printf("[%s] Loading snapshot\n", network);
+    }
+    Snapshot::LoadGenesisBlock(genesis);
 
-        genesis.hashPrevBlock = 0;
-        genesis.nVersion = 1;
-        genesis.nTime = 1410847820;
-        genesis.nBits = 0x1d0fffff;
-        genesis.nNonce = 254890106;
-
-        if (GENESIS_SWITCH) puts("[main] Building coinbase transaction");
-        genesis.vtx.push_back(Snapshot::CoinbaseTx());
-        genesis.hashMerkleRoot = genesis.BuildMerkleTree();
-        
-        if (GENESIS_SWITCH) puts("[main] Loading snapshot");
-        Snapshot::LoadGenesisBlock(genesis);
-
-        if (GENESIS_SWITCH && (genesis.GetHash() != hashGenesisBlock))
-        {
-            puts("[main] Mining genesis block");
-            Snapshot::HashGenesisBlock(genesis);
-        }
-
-        assert(genesis.GetHash() == hashGenesisBlock);
-        assert(genesis.hashMerkleRoot == hashMerkleRoot);
-
-        // vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
-
-        base58Prefixes[PUBKEY_ADDRESS] = list_of(63); // S prefix
-        base58Prefixes[SCRIPT_ADDRESS] = list_of(5);
-        base58Prefixes[SECRET_KEY]     = list_of(128);
-        base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x88)(0xB2)(0x1E);
-        base58Prefixes[EXT_SECRET_KEY] = list_of(0x04)(0x88)(0xAD)(0xE4);
-
-        // Convert the pnSeeds array into usable address objects.
-        for (unsigned int i = 0; i < ARRAYLEN(pnSeed); i++)
-        {
-            // It'll only connect to one or two seed nodes because once it connects,
-            // it'll get a pile of addresses with newer timestamps.
-            // Seed nodes are given a random 'last seen time' of between one and two
-            // weeks ago.
-            const int64_t nOneWeek = 7*24*60*60;
-            struct in_addr ip;
-            memcpy(&ip, &pnSeed[i], sizeof(ip));
-            CAddress addr(CService(ip, GetDefaultPort()));
-            addr.nTime = GetTime() - GetRand(nOneWeek) - nOneWeek;
-            vFixedSeeds.push_back(addr);
-        }
+    // If needed, find and hash the genesis block
+    if (GENESIS_SWITCH && (genesis.GetHash() != hashGenesisBlock))
+    {
+        printf("[%s] Mining genesis block\n", network);
+        Snapshot::HashGenesisBlock(genesis);
     }
 
-    virtual const CBlock& GenesisBlock() const { return genesis; }
-    virtual Network NetworkID() const { return CChainParams::MAIN; }
-
-    virtual const vector<CAddress>& FixedSeeds() const {
-        return vFixedSeeds;
-    }
-};
-static CMainParams mainParams;
-
+    assert(genesis.GetHash() == hashGenesisBlock);
+    assert(genesis.hashMerkleRoot == hashMerkleRoot);
+}
 
 //
 // Testnet (v3)
 //
-class CTestNetParams : public CMainParams
+CTestNetParams::CTestNetParams()
 {
-public:
-    CTestNetParams()
-    {
-        // uint256 hashGenesisBlock = uint256("0x000000031f811921e017dfb0afbc3ee4c7be9b905b1885ba4116d9e9aab8404b");
-        uint256 hashGenesisBlock = uint256("0x000000040b64d2683c73fad233790483c85724eb78f7ed5e85dd218a1a311c7e");
-        // uint256 hashMerkleRoot = uint256("0xc898e90768207199af7005ed9a8905fc3abeca2a003a9252ea35a84244df2b35");
-        uint256 hashMerkleRoot = uint256("0x79950cfb8ac4436f540f7fd317d4ddb73b53a78df18c1db282f6dbd96c5681e7");
+    // Stored genesis block hash and merkle root
+    uint256 hashGenesisBlock = uint256("0x00000009163b16749fe9e63b32b998d95c4972faf4f49cb9fc743ca355d14531");
+    uint256 hashMerkleRoot = uint256("0x93d170abe1dd1012829c55e74d7757405109886a25e84ec84e90a9435e4a7147");
 
-        // The message start string is designed to be unlikely to occur in normal data.
-        // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
-        // a large 4-byte int at any alignment.
-        pchMessageStart[0] = 0x0b;
-        pchMessageStart[1] = 0x11;
-        pchMessageStart[2] = 0x09;
-        pchMessageStart[3] = 0x07;
-        vAlertPubKey = ParseHex("04302390343f91cc401d56d68b123028bf52e5fca1939df127f63c6467cdf9c8e2c14b61104cf817d0b780da337893ecc4aaff1309e536162dabbdb45200ca2b0a");
-        nDefaultPort = 16543;
-        nRPCPort = 16544;
-        strDataDir = "testnet3";
+    // The message start string is designed to be unlikely to occur in normal data.
+    // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
+    // a large 4-byte int at any alignment.
+    pchMessageStart[0] = 0x0b;
+    pchMessageStart[1] = 0x11;
+    pchMessageStart[2] = 0x09;
+    pchMessageStart[3] = 0x07;
+    vAlertPubKey = ParseHex("04302390343f91cc401d56d68b123028bf52e5fca1939df127f63c6467cdf9c8e2c14b61104cf817d0b780da337893ecc4aaff1309e536162dabbdb45200ca2b0a");
+    nDefaultPort = 16543;
+    nRPCPort = 16544;
+    strDataDir = "testnet3";
 
-        // Modify the testnet genesis block so the timestamp is valid for a later start.
-        genesis.nTime = 1410935253;
-        genesis.nNonce = 98807975;
-        
-        if (GENESIS_SWITCH) puts("[testnet] Building coinbase transaction");
-        genesis.vtx.push_back(Snapshot::CoinbaseTx());
-        genesis.hashMerkleRoot = genesis.BuildMerkleTree();
-        
-        if (GENESIS_SWITCH) puts("[testnet] Loading snapshot");
-        Snapshot::LoadGenesisBlock(genesis);
-        
-        if (GENESIS_SWITCH && (genesis.GetHash() != hashGenesisBlock)) {
-            puts("[testnet] Mining genesis block");
-            Snapshot::HashGenesisBlock(genesis);
-        }
+    // Modify the testnet genesis block so the timestamp is valid for a later start.
+    genesis.nTime = 1410935253;
+    genesis.nBits = 0x1d0fffff; // difficulty ~ 0.06 (for testing)
+    genesis.nNonce = 67425695;
 
-        assert(genesis.GetHash() == hashGenesisBlock);
-        assert(genesis.hashMerkleRoot == hashMerkleRoot);
+    CheckGenesisBlock("testnet", hashGenesisBlock, hashMerkleRoot);
 
-        vFixedSeeds.clear();
-        vSeeds.clear();
+    vFixedSeeds.clear();
+    vSeeds.clear();
+    vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
 
-        vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
-        // vSeeds.push_back(CDNSSeedData("bluematt.me", "testnet-seed.bluematt.me"));
-
-        base58Prefixes[PUBKEY_ADDRESS] = list_of(111);
-        base58Prefixes[SCRIPT_ADDRESS] = list_of(196);
-        base58Prefixes[SECRET_KEY]     = list_of(239);
-        base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x35)(0x87)(0xCF);
-        base58Prefixes[EXT_SECRET_KEY] = list_of(0x04)(0x35)(0x83)(0x94);
-    }
-    virtual Network NetworkID() const { return CChainParams::TESTNET; }
-};
-static CTestNetParams testNetParams;
-
+    base58Prefixes[PUBKEY_ADDRESS] = list_of(111);
+    base58Prefixes[SCRIPT_ADDRESS] = list_of(196);
+    base58Prefixes[SECRET_KEY]     = list_of(239);
+    base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x35)(0x87)(0xCF);
+    base58Prefixes[EXT_SECRET_KEY] = list_of(0x04)(0x35)(0x83)(0x94);
+}
 
 //
-// Regression test
+// Regression Test
 //
-class CRegTestParams : public CTestNetParams
+CRegTestParams::CRegTestParams()
 {
-public:
-    CRegTestParams()
-    {
-        // uint256 hashGenesisBlock = uint256("0x0000000b9fdb7e77fa2f0f69edd354ef6bf7a5d80f5639f981128e79c03800f1");
-        uint256 hashGenesisBlock = uint256("0x0000000fdcd9502a56e392ad2f2e9af43e1bb427c65115515a3f00ab017c0c8c");
-        // uint256 hashMerkleRoot = uint256("0xb1134c2ddab6dace9a5813875826e8ac178754a69a62c2d075084ad783198be8");
-        uint256 hashMerkleRoot = uint256("0x4ede59cde3a9b04889a1b9c6202d95dff508b4894093b3db659f8f786a39b6b3");
+    // Stored genesis block hash and merkle root
+    uint256 hashGenesisBlock = uint256("0x0000000256c4aa0735cb1a3a82603f483565a71cac890331400bda4e18903aa1");
+    uint256 hashMerkleRoot = uint256("0xac0f4d8fdfe89293daf79c58ec203cb337f47dce4e156e9f90571ca222c9b87a");
 
-        pchMessageStart[0] = 0xfa;
-        pchMessageStart[1] = 0xbf;
-        pchMessageStart[2] = 0xb5;
-        pchMessageStart[3] = 0xda;
-        nSubsidyHalvingInterval = 150;
-        bnProofOfWorkLimit = CBigNum(~uint256(0) >> 1);
-        nDefaultPort = 26543;
-        strDataDir = "regtest";
+    pchMessageStart[0] = 0xfa;
+    pchMessageStart[1] = 0xbf;
+    pchMessageStart[2] = 0xb5;
+    pchMessageStart[3] = 0xda;
+    nSubsidyHalvingInterval = 150;
+    bnProofOfWorkLimit = CBigNum(~uint256(0) >> 1);
+    nDefaultPort = 26543;
+    strDataDir = "regtest";
 
-        genesis.nTime = 1410935494;
-        genesis.nNonce = 281434219;
+    genesis.nTime = 1410935494;
+    genesis.nNonce = 221330083;
 
-        if (GENESIS_SWITCH) puts("[regtest] Building coinbase transaction");
-        genesis.vtx.push_back(Snapshot::CoinbaseTx());
-        genesis.hashMerkleRoot = genesis.BuildMerkleTree();
-        
-        if (GENESIS_SWITCH) puts("[regtest] Loading snapshot");
-        Snapshot::LoadGenesisBlock(genesis);
+    CheckGenesisBlock("regtest", hashGenesisBlock, hashMerkleRoot);
     
-        if (GENESIS_SWITCH && (genesis.GetHash() != hashGenesisBlock)) {
-            puts("[regtest] Mining genesis block");
-            Snapshot::HashGenesisBlock(genesis);
-        }
-        
-        assert(genesis.GetHash() == hashGenesisBlock);
-        assert(genesis.hashMerkleRoot == hashMerkleRoot);
-        
-        vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
-    }
-    virtual bool RequireRPCPassword() const { return false; }
-    virtual Network NetworkID() const { return CChainParams::REGTEST; }
-};
-static CRegTestParams regTestParams;
+    vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
+}
 
+static CMainParams mainParams;
+static CTestNetParams testNetParams;
+static CRegTestParams regTestParams;
 static CChainParams *pCurrentParams = &mainParams;
 
 const CChainParams &Params() {

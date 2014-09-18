@@ -5,15 +5,13 @@ namespace Snapshot {
 /**
  * Build the genesis block's coinbase transaction.
  */
-CTransaction CoinbaseTx()
+CTransaction CoinbaseTx(unsigned nBits)
 {
     const char* pszTimestamp = "Boeing wins role in next U.S. space chapter";
     CTransaction coinbaseTx;
     coinbaseTx.vin.resize(1);
-    // coinbaseTx.vin[0].scriptSig = CScript() << 486604799    // nBits
-    //                                         << CBigNum(4)   // 0x1d, 0x00, 0xff, 0xff
-    coinbaseTx.vin[0].scriptSig = CScript() << 487587839    // nBits
-                                            << CBigNum(4)   // 0x1d, 0x0f, 0xff, 0xff
+    coinbaseTx.vin[0].scriptSig = CScript() << CBigNum(nBits) // genesis.nBits
+                                            << CBigNum(4)     // 0x1d, 0x00, 0xff, 0xff (mainnet)
                                             << vector<unsigned char>(
                                                    (const unsigned char*)pszTimestamp,
                                                    (const unsigned char*)pszTimestamp + strlen(pszTimestamp)
@@ -37,7 +35,9 @@ CTransaction CoinbaseTx()
 void LoadGenesisBlock(CBlock& block)
 {
     std::ifstream snapshot;
-    snapshot.open(SNAPSHOT_FILE);
+    boost::filesystem::path curpath(boost::filesystem::current_path());
+    std::string SNAPSHOT_FILE = curpath.string() + "/balances/balances.txt";
+    snapshot.open(SNAPSHOT_FILE.c_str());
     if (snapshot.good()) {
         while (!snapshot.eof()) {
             char buffer[1024];
@@ -78,8 +78,6 @@ CTransaction GenesisTx(const char* btcHash160, const char* btcBalance)
  */
 void HashGenesisBlock(CBlock& block)
 {
-    // block.nBits = 0x1d00ffff; // difficulty = 1 (max target value)
-    block.nBits = 0x1d0fffff; // difficulty < 1 (easier; for testing)
     block.nNonce = 0;
     uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
     uint256 testHash = block.GetHash();
