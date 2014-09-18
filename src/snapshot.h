@@ -8,7 +8,7 @@
 #include "util.h"
 #include "chainparams.h"
 
-#define GENESIS_SWITCH false
+#define GENESIS_SWITCH true
 
 namespace Snapshot {
 
