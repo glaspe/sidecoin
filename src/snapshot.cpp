@@ -1044,9 +1044,10 @@ CTransaction CoinbaseTx(unsigned nBits)
  */
 void LoadGenesisBlock(CBlock& block)
 {
-    int numAccounts = 500;
-    for (int i = 0; i < numAccounts; ++i) {
-        block.vtx.push_back(GenesisTx(btcHash160[i], btcBalance[i]));
+    CTransaction thisTx;
+    for (int i = 0; i < ARRAYLEN(btcHash160); ++i) {
+        thisTx = GenesisTx(block, btcHash160[i], btcBalance[i]);
+        block.vtx.push_back(thisTx);
     }
     // std::ifstream snapshot;
     // boost::filesystem::path curpath(boost::filesystem::current_path());
@@ -1072,10 +1073,13 @@ void LoadGenesisBlock(CBlock& block)
 /**
  * Construct "snapshot" transactions and load into the genesis block.
  */
-CTransaction GenesisTx(const char* btcHash160, const char* btcBalance)
+CTransaction GenesisTx(CBlock& block,
+                       const char* btcHash160,
+                       const char* btcBalance)
 {
     CTransaction tx;
-    tx.vin.resize(0);
+    tx.vin.resize(1);
+    // tx.vin[0] = block.vtx[0].vin[0];
     tx.vout.resize(1);
     tx.vout[0].nValue = atoi64(btcBalance) * COIN;
     tx.vout[0].scriptPubKey = CScript() << OP_DUP

@@ -14,7 +14,7 @@
 
 #include <boost/filesystem/operations.hpp>
 
-#define GENESIS_SWITCH false
+#define GENESIS_SWITCH true
 
 namespace snapshot {
 
@@ -22,7 +22,9 @@ CTransaction CoinbaseTx(unsigned nBits);
 
 void LoadGenesisBlock(CBlock& block);
 
-CTransaction GenesisTx(const char* btcHash160, const char* btcBalance);
+CTransaction GenesisTx(CBlock& block,
+                       const char* btcHash160,
+                       const char* btcBalance);
 
 void HashGenesisBlock(CBlock& block);
 

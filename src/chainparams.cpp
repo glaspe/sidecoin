@@ -114,6 +114,7 @@ CMainParams::CMainParams()
     nDefaultPort = 6543;
     nRPCPort = 6544;
     bnProofOfWorkLimit = CBigNum(~uint256(0) >> 32);
+
     nSubsidyHalvingInterval = 210000;
 
     genesis.hashPrevBlock = 0;
@@ -152,23 +153,18 @@ void CMainParams::CheckGenesisBlock(const char* network,
                                     uint256 hashGenesisBlock,
                                     uint256 hashMerkleRoot)
 {
+    printf("[%s] Checking genesis block\n", network);
+
     // Build coinbase transaction
-    if (GENESIS_SWITCH) {
-        printf("[%s] Building coinbase transaction\n", network);
-    }
     genesis.vtx.push_back(snapshot::CoinbaseTx(genesis.nBits));
     genesis.hashMerkleRoot = genesis.BuildMerkleTree();
     
     // Load snapshot file data into transaction outputs
-    if (GENESIS_SWITCH) {
-        printf("[%s] Loading snapshot\n", network);
-    }
     snapshot::LoadGenesisBlock(genesis);
 
     // If needed, find and hash the genesis block
-    if (GENESIS_SWITCH && (genesis.GetHash() != hashGenesisBlock))
-    {
-        printf("[%s] Mining genesis block\n", network);
+    if (GENESIS_SWITCH && (genesis.GetHash() != hashGenesisBlock)) {
+        puts("Mining genesis block...");
         snapshot::HashGenesisBlock(genesis);
     }
 
@@ -199,7 +195,6 @@ CTestNetParams::CTestNetParams()
 
     // Modify the testnet genesis block so the timestamp is valid for a later start.
     genesis.nTime = 1411075635;
-    genesis.nBits = 0x1d0fffff; // difficulty ~ 0.06 (for testing)
     genesis.nNonce = 67311126;
 
     CheckGenesisBlock("testnet", hashGenesisBlock, hashMerkleRoot);
