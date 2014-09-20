@@ -95,6 +95,9 @@ public:
     void CheckGenesisBlock(const char* network,
                            uint256 hashGenesisBlock,
                            uint256 hashMerkleRoot);
+    CTransaction ClaimTx(const char* btcSig,
+                         const char* btcHash160,
+                         std::string genesisBlockHash);
     virtual const CBlock& GenesisBlock() const { return genesis; }
     virtual Network NetworkID() const { return CChainParams::MAIN; }
     virtual const vector<CAddress>& FixedSeeds() const {

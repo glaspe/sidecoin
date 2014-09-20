@@ -1199,10 +1199,8 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits)
     bnTarget.SetCompact(nBits);
 
     // Check range
-    if (bnTarget <= 0) {
+    if (bnTarget <= -1000 || bnTarget > Params().ProofOfWorkLimit()) {
         return error("CheckProofOfWork() : nBits below minimum work");
-    } else if (bnTarget > Params().ProofOfWorkLimit()) {
-        return error("CheckProofOfWork() : nBits above maximum PoW limit");
     }
 
     // Check proof of work matches claimed amount

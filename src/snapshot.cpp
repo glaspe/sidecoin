@@ -4,6 +4,18 @@
 
 #include "snapshot.h"
 
+// json_spirit::Value RPC(std::string args)
+// {
+//     std::vector<std::string> vArgs;
+//     boost::split(vArgs, args, boost::is_any_of(" \t"));
+//     std::string strMethod = vArgs[0];
+//     vArgs.erase(vArgs.begin());
+//     json_spirit::Array params = RPCConvertValues(strMethod, vArgs);
+//     rpcfn_type method = tableRPC[strMethod]->actor;
+//     json_spirit::Value result = (*method)(params, false);
+//     return result;
+// }
+
 namespace snapshot {
 
 static const char* btcHash160[] = {
@@ -506,7 +518,7 @@ static const char* btcHash160[] = {
     "cf66cbe353337815f670375018a072dd188ba90e",
     "73fb24e1e625669f109d82aa92813d303a17e724",
     "3c375c8e4b15967946ea55a808bd8cd7368fa98e",
-    "245ce44f8fe32679198ff17f0385fb09668a3249"
+    "245ce44f8fe32679198ff17f0385fb09668a3249",
 };
 
 static const char* btcBalance[] = {
@@ -1009,7 +1021,7 @@ static const char* btcBalance[] = {
     "50.00000000",
     "50.00000000",
     "50.00000000",
-    "50.00000000"
+    "50.00000000",
 };
 
 /**
@@ -1020,18 +1032,15 @@ CTransaction CoinbaseTx(unsigned nBits)
     const char* pszTimestamp = "Boeing wins role in next U.S. space chapter";
     CTransaction coinbaseTx;
     coinbaseTx.vin.resize(1);
+    coinbaseTx.vout.resize(1);
     coinbaseTx.vin[0].scriptSig = CScript() << CBigNum(nBits) // genesis.nBits
-                                            << CBigNum(4)     // 0x1d, 0x00, 0xff, 0xff (mainnet)
+                                            << CBigNum(4)     // 0x1d, 0x00, 0xff, 0xff
                                             << vector<unsigned char>(
                                                    (const unsigned char*)pszTimestamp,
                                                    (const unsigned char*)pszTimestamp + strlen(pszTimestamp)
                                                );
-    coinbaseTx.vout.resize(1);
     coinbaseTx.vout[0].nValue = 50 * COIN;
-    coinbaseTx.vout[0].scriptPubKey = CScript() << OP_DUP
-                                                << OP_HASH160
-                                                << ParseHex("6fc51f2a519d341392c2231faec5e91881250b5a")
-                                                << OP_EQUALVERIFY
+    coinbaseTx.vout[0].scriptPubKey = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f")
                                                 << OP_CHECKSIG;
     return coinbaseTx;
 }
@@ -1042,32 +1051,37 @@ CTransaction CoinbaseTx(unsigned nBits)
  * output's value (nValue) is equal to the balance, and its P2PKH validation
  * script (scriptPubKey) is set up using the account string.
  */
+void LoadGenesisBlockFile(CBlock& block)
+{
+    std::ifstream snapshot;
+    boost::filesystem::path curpath(boost::filesystem::current_path());
+    std::string SNAPSHOT_FILE = curpath.string() + "/balances/balances.txt";
+    snapshot.open(SNAPSHOT_FILE.c_str());
+    if (snapshot.good()) {
+        while (!snapshot.eof()) {
+            char buffer[1024];
+            const char* btcBalance = 0;
+            const char* btcHash160 = 0;
+            snapshot.getline(buffer, 1024);
+            btcBalance = strtok(buffer, " ");
+            if (btcBalance) {
+                btcHash160 = strtok(0, " ");
+                if (btcHash160) {
+                    block.vtx.push_back(GenesisTx(block, btcHash160, btcBalance));
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Read a small subset of Bitcoin balances and pubkeys from hardcoded arrays.
+ */
 void LoadGenesisBlock(CBlock& block)
 {
-    CTransaction thisTx;
-    for (int i = 0; i < ARRAYLEN(btcHash160); ++i) {
-        thisTx = GenesisTx(block, btcHash160[i], btcBalance[i]);
-        block.vtx.push_back(thisTx);
+    for (unsigned i = 0, len = ARRAYLEN(btcHash160); i < len; ++i) {
+        block.vtx.push_back(GenesisTx(block, btcHash160[i], btcBalance[i]));
     }
-    // std::ifstream snapshot;
-    // boost::filesystem::path curpath(boost::filesystem::current_path());
-    // std::string SNAPSHOT_FILE = curpath.string() + "/balances/balances.txt";
-    // snapshot.open(SNAPSHOT_FILE.c_str());
-    // if (snapshot.good()) {
-    //     while (!snapshot.eof()) {
-    //         char buffer[1024];
-    //         const char* btcBalance = 0;
-    //         const char* btcHash160 = 0;
-    //         snapshot.getline(buffer, 1024);
-    //         btcBalance = strtok(buffer, " ");
-    //         if (btcBalance) {
-    //             btcHash160 = strtok(0, " ");
-    //             if (btcHash160) {
-    //                 block.vtx.push_back(GenesisTx(btcHash160, btcBalance));
-    //             }
-    //         }
-    //     }
-    // }
 }
 
 /**
@@ -1079,7 +1093,7 @@ CTransaction GenesisTx(CBlock& block,
 {
     CTransaction tx;
     tx.vin.resize(1);
-    // tx.vin[0] = block.vtx[0].vin[0];
+    tx.vin[0].scriptSig = CScript() << ParseHex(btcHash160);
     tx.vout.resize(1);
     tx.vout[0].nValue = atoi64(btcBalance) * COIN;
     tx.vout[0].scriptPubKey = CScript() << OP_DUP
@@ -1087,35 +1101,43 @@ CTransaction GenesisTx(CBlock& block,
                                         << ParseHex(btcHash160)
                                         << OP_EQUALVERIFY
                                         << OP_CHECKSIG;
-    // printf("%s\t%s\t%s\n", btcHash160, btcBalance, tx.GetHash().ToString().c_str());
     return tx;
 }
 
 /**
  * Mine the genesis block.
  */
-void HashGenesisBlock(CBlock& block)
+void HashGenesisBlock(CBlock& block, bool verbose)
 {
     block.nNonce = 0;
     uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
-    uint256 testHash = block.GetHash();
-    uint256 smallHash = testHash;
-    printf("Difficulty: %f\n", Difficulty(block.nBits));
-    printf("Target:               %s\n", hashTarget.ToString().c_str());
-    while (testHash > hashTarget) {
-        ++block.nNonce;
-        if (block.nNonce == 0) {
-            ++block.nTime;
+    if (verbose) {
+        uint256 testHash = block.GetHash();
+        uint256 smallHash = testHash;
+        printf("Difficulty: %f\n", Difficulty(block.nBits));
+        printf("Target:               %s\n", hashTarget.ToString().c_str());
+        while (testHash > hashTarget) {
+            ++block.nNonce;
+            if (block.nNonce == 0) {
+                ++block.nTime;
+            }
+            if ((block.nNonce & 0xFFF) == 0) {
+                printf("Nonce: %08x\tHash: %s\r", block.nNonce,
+                                                  testHash.ToString().c_str());
+            }
+            testHash = block.GetHash();
+            if (testHash < smallHash) {
+                smallHash = testHash;
+                printf("Nonce: %08x\tHash: %s\n", block.nNonce,
+                                                  smallHash.ToString().c_str());
+            }
         }
-        if ((block.nNonce & 0xFFF) == 0) {
-            printf("Nonce: %08x\tHash: %s\r", block.nNonce,
-                                              testHash.ToString().c_str());
-        }
-        testHash = block.GetHash();
-        if (testHash < smallHash) {
-            smallHash = testHash;
-            printf("Nonce: %08x\tHash: %s\n", block.nNonce,
-                                              smallHash.ToString().c_str());
+    } else {
+        while (block.GetHash() > hashTarget) {
+            ++block.nNonce;
+            if (block.nNonce == 0) {
+                ++block.nTime;
+            }
         }
     }
     puts("Genesis block found.");
@@ -1124,21 +1146,6 @@ void HashGenesisBlock(CBlock& block)
     printf("- Hash: %s\n", block.GetHash().ToString().c_str());
     printf("- hashMerkleRoot: %s\n", block.hashMerkleRoot.ToString().c_str());
     printf("- nBits: %08x\n", block.nBits);
-}
-
-/**
- * Claim unspent outputs from the genesis block.
- */
-CTransaction ClaimTx(const char* btcSig, const char* btcPubKey, const char* txHash)
-{
-    CTransaction tx;
-    unsigned nOut = 1;
-    unsigned nSequence = 1;
-    COutPoint prevOut(uint256(txHash), nOut);
-    CScript scriptSig = CScript() << ParseHex(btcSig)
-                                  << ParseHex(btcPubKey);
-    CTxIn txInput(prevOut, scriptSig, nSequence);
-    return tx;
 }
 
 /**

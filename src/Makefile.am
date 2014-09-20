@@ -133,6 +133,7 @@ libsidecoin_common_a_SOURCES = \
   protocol.cpp \
   rpcprotocol.cpp \
   script.cpp \
+  rpcserver.cpp \
   snapshot.cpp \
   sync.cpp \
   util.cpp \
