@@ -47,7 +47,7 @@ CMainParams::CMainParams()
     nSubsidyHalvingInterval = 210000;
 
     // Build coinbase transaction
-    genesis.vtx.push_back(snapshot::CoinbaseTx());
+    genesis.vtx.push_back(snapshot.CoinbaseTx());
 
     genesis.hashPrevBlock = 0;
     genesis.hashMerkleRoot = genesis.BuildMerkleTree();
@@ -59,7 +59,7 @@ CMainParams::CMainParams()
 
     // Load snapshot file data into transaction outputs
     if (SNAPSHOT_LOAD) {
-        snapshot::LoadGenesisBlock(genesis);
+        snapshot.LoadGenesisBlock(genesis);
     }
 
     CheckGenesisBlock("main", hashGenesisBlock, hashMerkleRoot);
@@ -92,7 +92,7 @@ void CMainParams::CheckGenesisBlock(const char* network,
     // If needed, find and hash the genesis block
     if (GENESIS_SWITCH && (genesis.GetHash() != hashGenesisBlock)) {
         printf("[%s] Mining genesis block\n", network);
-        snapshot::HashGenesisBlock(genesis, true);
+        snapshot.HashGenesisBlock(genesis, true);
     }
 
     if (!SNAPSHOT_LOAD) {
@@ -150,8 +150,6 @@ CTestNetParams::CTestNetParams()
 CRegTestParams::CRegTestParams()
 {
     // Stored genesis block hash and merkle root
-    // uint256 hashGenesisBlock = uint256("0x0000001b7af66da68df2afaca8b561784a16152e5d4bbb972d4d33cda07c57fc");
-    // uint256 hashMerkleRoot = uint256("0x808e11f1c1b824ff499979298d7999a76ab2e8fa72240f6bb8a354328877039c");
     uint256 hashGenesisBlock = uint256("0x00000000fed46bbc2172a89455873cf6794528545797ff7a013e551f6fc73ef7");
     uint256 hashMerkleRoot = uint256("0x32468230e9b3593905e33425122214b0836d90ce312ca535f98bc3b55a89c39b");
 
@@ -172,8 +170,7 @@ CRegTestParams::CRegTestParams()
     vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
 
     // ClaimTx("IBy7UaBOkuSYyrT2IM2F+4Fy2tUA+Te8Pk+0i+aSeV1IsgEVlTPLa9wU3coFOOwRVslLGdyT6vk2RfZN327rQIw=",
-    //         "5c29c74d111b80c2feabd688ee3867d1464d8699",
-    //         "00000000623ea9295ad827d257f70683f6c1e284390dba5be23b0cbd81c5911b");
+    //         "5c29c74d111b80c2feabd688ee3867d1464d8699");
 }
 
 static CMainParams mainParams;

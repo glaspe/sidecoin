@@ -13,6 +13,7 @@
 #include "checkqueue.h"
 #include "init.h"
 #include "net.h"
+#include "snapshot.h"
 #include "txdb.h"
 #include "txmempool.h"
 #include "ui_interface.h"
@@ -2503,10 +2504,10 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
  * ./sidecoind getblockhash 0
  * ./sidecoind getblock <genesis block hash>
  */
-CTransaction ClaimTx(const char* btcSig,
-                     const char* btcHash160)
+CTransaction Snapshot::ClaimTx(const char* btcSig,
+                               const char* btcHash160)
 {
-    CTransaction tx;    
+    CTransaction tx;
     CBlock block;
     CScript scriptPubKey = CScript() << OP_DUP
                                      << OP_HASH160

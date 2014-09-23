@@ -17,24 +17,21 @@
 #define GENESIS_SWITCH  true
 #define SNAPSHOT_LOAD   false
 
-namespace snapshot {
-
-CTransaction CoinbaseTx();
-
-void LoadGenesisBlockFile(CBlock& block);
-
-void LoadGenesisBlock(CBlock& block);
-
-CTransaction GenesisTx(CBlock& block,
-                       const char* btcHash160,
-                       const char* btcBalance);
-
-void HashGenesisBlock(CBlock& block, bool verbose);
-
-inline float FastLog(float val);
-
-float Difficulty(unsigned bits);
-
-} // snapshot
+class Snapshot
+{
+public:
+    Snapshot() {}
+    void LoadGenesisBlockFile(CBlock& block);
+    void LoadGenesisBlock(CBlock& block);
+    void HashGenesisBlock(CBlock& block, bool verbose);
+    CTransaction CoinbaseTx();
+    CTransaction GenesisTx(CBlock& block,
+                           const char* btcHash160,
+                           const char* btcBalance);
+    CTransaction ClaimTx(const char* btcSig,
+                         const char* btcHash160);
+    inline float FastLog(float val);
+    float Difficulty(unsigned bits);
+};
 
 #endif // SIDECOIN_SNAPSHOT_H

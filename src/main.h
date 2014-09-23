@@ -1063,11 +1063,6 @@ struct CBlockTemplate
 
 
 
-CTransaction ClaimTx(const char* btcSig,
-                     const char* btcHash160);
-
-
-
 /** Used to relay blocks as header + vector<merkle branch>
  * to filtered nodes.
  */

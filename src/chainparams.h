@@ -7,6 +7,7 @@
 #ifndef SIDECOIN_CHAIN_PARAMS_H
 #define SIDECOIN_CHAIN_PARAMS_H
 
+#include "snapshot.h"
 #include "bignum.h"
 #include "uint256.h"
 #include "core.h"
@@ -87,9 +88,6 @@ protected:
 /** Main (production) net */
 class CMainParams : public CChainParams
 {
-protected:
-    CBlock genesis;
-    vector<CAddress> vFixedSeeds;
 public:
     CMainParams();
     void CheckGenesisBlock(const char* network,
@@ -100,6 +98,11 @@ public:
     virtual const vector<CAddress>& FixedSeeds() const {
         return vFixedSeeds;
     }
+protected:
+    CBlock genesis;
+    vector<CAddress> vFixedSeeds;
+private:
+    Snapshot snapshot;
 };
 
 /** Testnet (v3) */
