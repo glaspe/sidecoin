@@ -16,7 +16,7 @@ CTransaction Snapshot::CoinbaseTx()
     coinbaseTx.vout.resize(1);
     coinbaseTx.vin[0].scriptSig = CScript() << 486604799    // genesis.nBits
                                             << CBigNum(4)   // 0x1d, 0x00, 0xff, 0xff
-                                            << vector<unsigned char>(
+                                            << std::vector<unsigned char>(
                                                    (const unsigned char*)pszTimestamp,
                                                    (const unsigned char*)pszTimestamp + strlen(pszTimestamp)
                                                );

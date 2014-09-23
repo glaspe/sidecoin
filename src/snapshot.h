@@ -5,10 +5,10 @@
 #ifndef SIDECOIN_SNAPSHOT_H
 #define SIDECOIN_SNAPSHOT_H
 
-#include "chainparams.h"
 #include "core.h"
 #include "util.h"
 
+#include <vector>
 #include <fstream>
 #include <cmath>
 
