@@ -2300,29 +2300,29 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CDiskBlockPos* dbp)
             return state.DoS(100, error("AcceptBlock() : forked chain older than last checkpoint (height %d)", nHeight));
 
         // Reject block.nVersion=1 blocks when 95% (75% on testnet) of the network has upgraded:
-        if (block.nVersion < 2)
-        {
-            if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 950, 1000)) ||
-                (TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 75, 100)))
-            {
-                return state.Invalid(error("AcceptBlock() : rejected nVersion=1 block"),
-                                     REJECT_OBSOLETE, "bad-version");
-            }
-        }
-        // Enforce block.nVersion=2 rule that the coinbase starts with serialized block height
-        if (block.nVersion >= 2)
-        {
-            // if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
-            if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 750, 1000)) ||
-                (TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 51, 100)))
-            {
-                CScript expect = CScript() << nHeight;
-                if (block.vtx[0].vin[0].scriptSig.size() < expect.size() ||
-                    !std::equal(expect.begin(), expect.end(), block.vtx[0].vin[0].scriptSig.begin()))
-                    return state.DoS(100, error("AcceptBlock() : block height mismatch in coinbase"),
-                                     REJECT_INVALID, "bad-cb-height");
-            }
-        }
+        // if (block.nVersion < 2)
+        // {
+        //     if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 950, 1000)) ||
+        //         (TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 75, 100)))
+        //     {
+        //         return state.Invalid(error("AcceptBlock() : rejected nVersion=1 block"),
+        //                              REJECT_OBSOLETE, "bad-version");
+        //     }
+        // }
+        // // Enforce block.nVersion=2 rule that the coinbase starts with serialized block height
+        // if (block.nVersion >= 2)
+        // {
+        //     // if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
+        //     if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 750, 1000)) ||
+        //         (TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 51, 100)))
+        //     {
+        //         CScript expect = CScript() << nHeight;
+        //         if (block.vtx[0].vin[0].scriptSig.size() < expect.size() ||
+        //             !std::equal(expect.begin(), expect.end(), block.vtx[0].vin[0].scriptSig.begin()))
+        //             return state.DoS(100, error("AcceptBlock() : block height mismatch in coinbase"),
+        //                              REJECT_INVALID, "bad-cb-height");
+        //     }
+        // }
     }
 
     // Write block to history file
@@ -2865,6 +2865,7 @@ bool LoadBlockIndex()
 
 
 bool InitBlockIndex() {
+    puts("InitBlockIndex");    
     // Check whether we're already initialized
     if (chainActive.Genesis() != NULL)
         return true;
@@ -2876,6 +2877,7 @@ bool InitBlockIndex() {
 
     // Only add the genesis block if not reindexing (in which case we reuse the one already on disk)
     if (!fReindex) {
+        puts("Add genesis block");
         try {
             CBlock &block = const_cast<CBlock&>(Params().GenesisBlock());
             // Start new block file

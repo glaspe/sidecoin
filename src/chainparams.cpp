@@ -61,12 +61,6 @@ CMainParams::CMainParams()
     // Load snapshot file data into transaction outputs
     // snapshot::LoadGenesisBlock(genesis);
 
-    printf("- nTime: %u\n", genesis.nTime);
-    printf("- nNonce: %u\n", genesis.nNonce);
-    printf("- Hash: %s\n", genesis.GetHash().ToString().c_str());
-    printf("- hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
-    printf("- nBits: %08x\n", genesis.nBits);
-
     CheckGenesisBlock("main", hashGenesisBlock, hashMerkleRoot);
 
     vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));

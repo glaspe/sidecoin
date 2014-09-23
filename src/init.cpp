@@ -325,6 +325,8 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
         fReindex = false;
         LogPrintf("Reindexing finished\n");
         // To avoid ending up in a situation without genesis block, re-try initializing (no-op if reindexing worked):
+        // DEBUG_PRINT
+        puts("ThreadImport calling InitBlockIndex()");
         InitBlockIndex();
     }
 
@@ -829,13 +831,25 @@ bool AppInit2(boost::thread_group& threadGroup)
                 // (we're likely using a testnet datadir, or the other way around).
                 if (!mapBlockIndex.empty() && chainActive.Genesis() == NULL) {
                     // DEBUG_PRINT
-                    for (std::map<uint256, CBlockIndex*>::const_iterator it = mapBlockIndex.begin(); it != mapBlockIndex.end(); ++it) {
-                        printf("%s -> %u\n", it->first.ToString().c_str(), it->second->nNonce);
+                    puts("\n\nChain loaded with incorrect genesis block:");
+                    for (std::map<uint256, CBlockIndex*>::const_iterator it = mapBlockIndex.begin();
+                        it != mapBlockIndex.end(); ++it)
+                    {
+                        printf("  block.nTime: %u\n", it->second->nTime);
+                        printf("  block.nNonce: %u\n", it->second->nNonce);
+                        printf("  block.GetHash: %s\n", it->first.ToString().c_str());
+                        printf("  block.hashMerkleRoot: %s\n", it->second->hashMerkleRoot.ToString().c_str());
+                        printf("  block.nBits: %08x\n\n", it->second->nBits);
+                        break;
                     }
+                    puts("Active chain:");
+                    printf("  chainActive.vChain.size: %d\n\n", chainActive.Height() + 1);
                     return InitError(_("Incorrect or no genesis block found. Wrong datadir for network?"));
                 }
 
                 // Initialize the block index (no-op if non-empty database was already loaded)
+                // DEBUG_PRINT
+                puts("AppInit2 calling InitBlockIndex");
                 if (!InitBlockIndex()) {
                     strLoadError = _("Error initializing block database");
                     break;
@@ -865,6 +879,10 @@ bool AppInit2(boost::thread_group& threadGroup)
         if (!fLoaded) {
             // first suggest a reindex
             if (!fReset) {
+                // DEBUG_PRINT
+                if (mapBlockIndex.empty()) {
+                    puts("Error: map block index is empty.");
+                }
                 bool fRet = uiInterface.ThreadSafeMessageBox(
                     strLoadError + ".\n\n" + _("Do you want to rebuild the block database now?"),
                     "", CClientUIInterface::MSG_ERROR | CClientUIInterface::BTN_ABORT);

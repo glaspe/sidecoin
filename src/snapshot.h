@@ -18,7 +18,7 @@
 #include <boost/filesystem/operations.hpp>
 #include <boost/algorithm/string.hpp>
 
-#define GENESIS_SWITCH true
+#define GENESIS_SWITCH false
 
 namespace snapshot {
 
