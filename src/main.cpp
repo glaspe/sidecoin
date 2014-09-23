@@ -1199,7 +1199,7 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits)
     bnTarget.SetCompact(nBits);
 
     // Check range
-    if (bnTarget <= -1000 || bnTarget > Params().ProofOfWorkLimit()) {
+    if (bnTarget <= 0 || bnTarget > Params().ProofOfWorkLimit()) {
         return error("CheckProofOfWork() : nBits below minimum work");
     }
 
@@ -1639,12 +1639,12 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
     uint256 hashPrevBlock = pindex->pprev == NULL ? uint256(0) : pindex->pprev->GetBlockHash();
     assert(hashPrevBlock == view.GetBestBlock());
 
-    // Special case for the genesis block, skipping connection of its transactions
-    // (its coinbase is unspendable)
-    if (block.GetHash() == Params().HashGenesisBlock()) {
-        view.SetBestBlock(pindex->GetBlockHash());
-        return true;
-    }
+    // // Special case for the genesis block, skipping connection of its transactions
+    // // (its coinbase is unspendable)
+    // if (block.GetHash() == Params().HashGenesisBlock()) {
+    //     view.SetBestBlock(pindex->GetBlockHash());
+    //     return true;
+    // }
 
     bool fScriptChecks = pindex->nHeight >= Checkpoints::GetTotalBlocksEstimate();
 
@@ -1759,12 +1759,15 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
             CDiskBlockPos pos;
             if (!FindUndoPos(state, pindex->nFile, pos, ::GetSerializeSize(blockundo, SER_DISK, CLIENT_VERSION) + 40))
                 return error("ConnectBlock() : FindUndoPos failed");
-            if (!blockundo.WriteToDisk(pos, pindex->pprev->GetBlockHash()))
-                return state.Abort(_("Failed to write undo data"));
-
-            // update nUndoPos in block index
-            pindex->nUndoPos = pos.nPos;
-            pindex->nStatus |= BLOCK_HAVE_UNDO;
+            // Hacky exception for genesis block
+            if (pindex->GetBlockHash() != Params().GenesisBlock().GetHash()) {
+                if (!blockundo.WriteToDisk(pos, pindex->pprev->GetBlockHash())) {
+                    return state.Abort(_("Failed to write undo data"));
+                }
+                // update nUndoPos in block index
+                pindex->nUndoPos = pos.nPos;
+                pindex->nStatus |= BLOCK_HAVE_UNDO;
+            }
         }
 
         pindex->nStatus = (pindex->nStatus & ~BLOCK_VALID_MASK) | BLOCK_VALID_SCRIPTS;
@@ -1894,16 +1897,18 @@ bool static ConnectTip(CValidationState &state, CBlockIndex *pindexNew) {
     mempool.check(pcoinsTip);
     // Read block from disk.
     CBlock block;
-    if (!ReadBlockFromDisk(block, pindexNew))
+    if (!ReadBlockFromDisk(block, pindexNew)) {
         return state.Abort(_("Failed to read block"));
+    }
     // Apply the block atomically to the chain state.
     int64_t nStart = GetTimeMicros();
     {
         CCoinsViewCache view(*pcoinsTip, true);
         CInv inv(MSG_BLOCK, pindexNew->GetBlockHash());
         if (!ConnectBlock(block, state, pindexNew, view)) {
-            if (state.IsInvalid())
+            if (state.IsInvalid()) {
                 InvalidBlockFound(pindexNew, state);
+            }
             return error("ConnectTip() : ConnectBlock %s failed", pindexNew->GetBlockHash().ToString());
         }
         mapBlockSource.erase(inv.hash);
@@ -2041,9 +2046,10 @@ bool AddToBlockIndex(CBlock& block, CValidationState& state, const CDiskBlockPos
 {
     // Check for duplicate
     uint256 hash = block.GetHash();
-    if (mapBlockIndex.count(hash))
+    if (mapBlockIndex.count(hash)) {
+        printf("  mapBlockIndex.count: %ld", mapBlockIndex.count(hash));
         return state.Invalid(error("AddToBlockIndex() : %s already exists", hash.ToString()), 0, "duplicate");
-
+    }
     // Construct new block index object
     CBlockIndex* pindexNew = new CBlockIndex(block);
     {
@@ -2073,19 +2079,20 @@ bool AddToBlockIndex(CBlock& block, CValidationState& state, const CDiskBlockPos
         return state.Abort(_("Failed to write block index"));
 
     // New best?
-    if (!ActivateBestChain(state))
+    if (!ActivateBestChain(state)) {
         return false;
+    }
 
-    if (pindexNew == chainActive.Tip())
-    {
+    if (pindexNew == chainActive.Tip()) {
         // Clear fork warning if its no longer applicable
         CheckForkWarningConditions();
         // Notify UI to display prev block's coinbase if it was ours
         static uint256 hashPrevBestCoinBase;
         g_signals.UpdatedTransaction(hashPrevBestCoinBase);
         hashPrevBestCoinBase = block.GetTxHash(0);
-    } else
+    } else {
         CheckForkWarningConditionsOnNewFork(pindexNew);
+    }
 
     if (!pblocktree->Flush())
         return state.Abort(_("Failed to sync block index"));
@@ -2300,29 +2307,29 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CDiskBlockPos* dbp)
             return state.DoS(100, error("AcceptBlock() : forked chain older than last checkpoint (height %d)", nHeight));
 
         // Reject block.nVersion=1 blocks when 95% (75% on testnet) of the network has upgraded:
-        if (block.nVersion < 2)
-        {
-            if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 950, 1000)) ||
-                (TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 75, 100)))
-            {
-                return state.Invalid(error("AcceptBlock() : rejected nVersion=1 block"),
-                                     REJECT_OBSOLETE, "bad-version");
-            }
-        }
-        // Enforce block.nVersion=2 rule that the coinbase starts with serialized block height
-        if (block.nVersion >= 2)
-        {
-            // if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
-            if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 750, 1000)) ||
-                (TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 51, 100)))
-            {
-                CScript expect = CScript() << nHeight;
-                if (block.vtx[0].vin[0].scriptSig.size() < expect.size() ||
-                    !std::equal(expect.begin(), expect.end(), block.vtx[0].vin[0].scriptSig.begin()))
-                    return state.DoS(100, error("AcceptBlock() : block height mismatch in coinbase"),
-                                     REJECT_INVALID, "bad-cb-height");
-            }
-        }
+        // if (block.nVersion < 2)
+        // {
+        //     if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 950, 1000)) ||
+        //         (TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 75, 100)))
+        //     {
+        //         return state.Invalid(error("AcceptBlock() : rejected nVersion=1 block"),
+        //                              REJECT_OBSOLETE, "bad-version");
+        //     }
+        // }
+        // // Enforce block.nVersion=2 rule that the coinbase starts with serialized block height
+        // if (block.nVersion >= 2)
+        // {
+        //     // if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
+        //     if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 750, 1000)) ||
+        //         (TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 51, 100)))
+        //     {
+        //         CScript expect = CScript() << nHeight;
+        //         if (block.vtx[0].vin[0].scriptSig.size() < expect.size() ||
+        //             !std::equal(expect.begin(), expect.end(), block.vtx[0].vin[0].scriptSig.begin()))
+        //             return state.DoS(100, error("AcceptBlock() : block height mismatch in coinbase"),
+        //                              REJECT_INVALID, "bad-cb-height");
+        //     }
+        // }
     }
 
     // Write block to history file
@@ -2886,8 +2893,9 @@ bool InitBlockIndex() {
                 return error("LoadBlockIndex() : FindBlockPos failed");
             if (!WriteBlockToDisk(block, blockPos))
                 return error("LoadBlockIndex() : writing genesis block to disk failed");
-            if (!AddToBlockIndex(block, state, blockPos))
+            if (!AddToBlockIndex(block, state, blockPos)) {
                 return error("LoadBlockIndex() : genesis block not accepted");
+            }
         } catch(std::runtime_error &e) {
             return error("LoadBlockIndex() : failed to initialize block database: %s", e.what());
         }

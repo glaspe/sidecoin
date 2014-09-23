@@ -611,6 +611,14 @@ bool AppInit2(boost::thread_group& threadGroup)
 
             // try again
             if (!bitdb.Open(GetDataDir())) {
+                // DEBUG_PRINT
+                if (mapBlockIndex.empty()) {
+                    puts("Error: map block index is empty.");
+                } else {
+                    for (std::map<uint256, CBlockIndex*>::const_iterator it = mapBlockIndex.begin(); it != mapBlockIndex.end(); ++it) {
+                        printf("%s -> %u\n", it->first.ToString().c_str(), it->second->nNonce);
+                    }
+                }
                 // if it still fails, it probably means we can't even create the database env
                 string msg = strprintf(_("Error initializing wallet database environment %s!"), strDataDir);
                 return InitError(msg);
@@ -819,8 +827,26 @@ bool AppInit2(boost::thread_group& threadGroup)
 
                 // If the loaded chain has a wrong genesis, bail out immediately
                 // (we're likely using a testnet datadir, or the other way around).
-                if (!mapBlockIndex.empty() && chainActive.Genesis() == NULL)
-                    return InitError(_("Incorrect or no genesis block found. Wrong datadir for network?"));
+                if (!mapBlockIndex.empty() && chainActive.Genesis() == NULL) {
+                    // DEBUG_PRINT
+                    puts("\n\nChain loaded with incorrect genesis block:");
+                    for (std::map<uint256, CBlockIndex*>::const_iterator it = mapBlockIndex.begin();
+                        it != mapBlockIndex.end(); ++it)
+                    {
+                        printf("  block.nTime: %u\n", it->second->nTime);
+                        printf("  block.nNonce: %u\n", it->second->nNonce);
+                        printf("  block.GetHash: %s\n", it->first.ToString().c_str());
+                        printf("  block.hashMerkleRoot: %s\n", it->second->hashMerkleRoot.ToString().c_str());
+                        printf("  block.nBits: %08x\n\n", it->second->nBits);
+                        break;
+                    }
+                    puts("Active chain:");
+                    printf("  chainActive.vChain.size: %d\n\n", chainActive.Height() + 1);
+                    printf("\nInitBlockIndex(): %d\n\n", InitBlockIndex());
+                    if (!mapBlockIndex.empty() && chainActive.Genesis() == NULL) {
+                        return InitError(_("Incorrect or no genesis block found. Wrong datadir for network?"));
+                    }
+                }
 
                 // Initialize the block index (no-op if non-empty database was already loaded)
                 if (!InitBlockIndex()) {
@@ -852,6 +878,10 @@ bool AppInit2(boost::thread_group& threadGroup)
         if (!fLoaded) {
             // first suggest a reindex
             if (!fReset) {
+                // DEBUG_PRINT
+                if (mapBlockIndex.empty()) {
+                    puts("Error: map block index is empty.");
+                }
                 bool fRet = uiInterface.ThreadSafeMessageBox(
                     strLoadError + ".\n\n" + _("Do you want to rebuild the block database now?"),
                     "", CClientUIInterface::MSG_ERROR | CClientUIInterface::BTN_ABORT);

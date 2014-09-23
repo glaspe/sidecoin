@@ -15,22 +15,15 @@
 #include <cmath>
 #include <stdint.h>
 
-// #include <utility>
-
-// #include "rpcserver.h"
-// #include "rpcclient.h"
-
-// #include "base58.h"
-// #include "json/json_spirit_writer_template.h"
-
 #include <boost/filesystem/operations.hpp>
 #include <boost/algorithm/string.hpp>
 
-#define GENESIS_SWITCH true
+#define GENESIS_SWITCH  false
+#define SNAPSHOT_LOAD   false
 
 namespace snapshot {
 
-CTransaction CoinbaseTx(unsigned nBits);
+CTransaction CoinbaseTx();
 
 void LoadGenesisBlockFile(CBlock& block);
 
