@@ -840,8 +840,8 @@ bool AppInit2(boost::thread_group& threadGroup)
                         printf("  block.nBits: %08x\n\n", it->second->nBits);
                         break;
                     }
-                    // puts("Active chain:");
-                    // printf("  chainActive.vChain.size: %d\n\n", chainActive.Height() + 1);
+                    puts("Active chain:");
+                    printf("  chainActive.vChain.size: %d\n\n", chainActive.Height() + 1);
                     printf("\nInitBlockIndex(): %d\n\n", InitBlockIndex());
                     if (!mapBlockIndex.empty() && chainActive.Genesis() == NULL) {
                         return InitError(_("Incorrect or no genesis block found. Wrong datadir for network?"));
@@ -849,8 +849,6 @@ bool AppInit2(boost::thread_group& threadGroup)
                 }
 
                 // Initialize the block index (no-op if non-empty database was already loaded)
-                // DEBUG_PRINT
-                puts("AppInit2: InitBlockIndex");
                 if (!InitBlockIndex()) {
                     strLoadError = _("Error initializing block database");
                     break;
@@ -873,7 +871,6 @@ bool AppInit2(boost::thread_group& threadGroup)
                 strLoadError = _("Error opening block database");
                 break;
             }
-            puts("fLoaded=true");
 
             fLoaded = true;
         } while(false);

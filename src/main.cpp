@@ -1752,8 +1752,6 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
     if (fJustCheck)
         return true;
 
-    puts("Writing undo information to disk");
-
     // Write undo information to disk
     if (pindex->GetUndoPos().IsNull() || (pindex->nStatus & BLOCK_VALID_MASK) < BLOCK_VALID_SCRIPTS)
     {
@@ -1761,12 +1759,15 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
             CDiskBlockPos pos;
             if (!FindUndoPos(state, pindex->nFile, pos, ::GetSerializeSize(blockundo, SER_DISK, CLIENT_VERSION) + 40))
                 return error("ConnectBlock() : FindUndoPos failed");
-            if (!blockundo.WriteToDisk(pos, pindex->pprev->GetBlockHash()))
-                return state.Abort(_("Failed to write undo data"));
-
-            // update nUndoPos in block index
-            pindex->nUndoPos = pos.nPos;
-            pindex->nStatus |= BLOCK_HAVE_UNDO;
+            // Hacky exception for genesis block
+            if (pindex->GetBlockHash() != Params().GenesisBlock().GetHash()) {
+                if (!blockundo.WriteToDisk(pos, pindex->pprev->GetBlockHash())) {
+                    return state.Abort(_("Failed to write undo data"));
+                }
+                // update nUndoPos in block index
+                pindex->nUndoPos = pos.nPos;
+                pindex->nStatus |= BLOCK_HAVE_UNDO;
+            }
         }
 
         pindex->nStatus = (pindex->nStatus & ~BLOCK_VALID_MASK) | BLOCK_VALID_SCRIPTS;
@@ -1904,7 +1905,6 @@ bool static ConnectTip(CValidationState &state, CBlockIndex *pindexNew) {
     {
         CCoinsViewCache view(*pcoinsTip, true);
         CInv inv(MSG_BLOCK, pindexNew->GetBlockHash());
-        printf("Connecting block: %s\n", pindexNew->GetBlockHash().ToString().c_str());
         if (!ConnectBlock(block, state, pindexNew, view)) {
             if (state.IsInvalid()) {
                 InvalidBlockFound(pindexNew, state);
@@ -2044,8 +2044,6 @@ bool ActivateBestChain(CValidationState &state) {
 
 bool AddToBlockIndex(CBlock& block, CValidationState& state, const CDiskBlockPos& pos)
 {
-    // DEBUG_PRINT
-    puts("AddToBlockIndex:");
     // Check for duplicate
     uint256 hash = block.GetHash();
     if (mapBlockIndex.count(hash)) {
@@ -2053,7 +2051,6 @@ bool AddToBlockIndex(CBlock& block, CValidationState& state, const CDiskBlockPos
         return state.Invalid(error("AddToBlockIndex() : %s already exists", hash.ToString()), 0, "duplicate");
     }
     // Construct new block index object
-    puts("New block index object");
     CBlockIndex* pindexNew = new CBlockIndex(block);
     {
          LOCK(cs_nBlockSequenceId);
@@ -2078,19 +2075,15 @@ bool AddToBlockIndex(CBlock& block, CValidationState& state, const CDiskBlockPos
     pindexNew->nStatus = BLOCK_VALID_TRANSACTIONS | BLOCK_HAVE_DATA;
     setBlockIndexValid.insert(pindexNew);
 
-    puts("pblocktree->WriteBlockIndex");
     if (!pblocktree->WriteBlockIndex(CDiskBlockIndex(pindexNew)))
         return state.Abort(_("Failed to write block index"));
 
-    puts("ActivateBestChain");
     // New best?
     if (!ActivateBestChain(state)) {
         return false;
     }
 
-    puts("Tip");
     if (pindexNew == chainActive.Tip()) {
-        puts("CheckForkWarningConditions");
         // Clear fork warning if its no longer applicable
         CheckForkWarningConditions();
         // Notify UI to display prev block's coinbase if it was ours
@@ -2098,16 +2091,13 @@ bool AddToBlockIndex(CBlock& block, CValidationState& state, const CDiskBlockPos
         g_signals.UpdatedTransaction(hashPrevBestCoinBase);
         hashPrevBestCoinBase = block.GetTxHash(0);
     } else {
-        puts("OnNewFork");
         CheckForkWarningConditionsOnNewFork(pindexNew);
     }
 
-    puts("pblocktree->Flush");
     if (!pblocktree->Flush())
         return state.Abort(_("Failed to sync block index"));
 
     uiInterface.NotifyBlocksChanged();
-    puts("wut");
     return true;
 }
 
