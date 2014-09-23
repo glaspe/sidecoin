@@ -40,6 +40,7 @@ CCriticalSection cs_main;
 CTxMemPool mempool;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
+CBlockIndex* pindexGenesisBlock = NULL;
 CChain chainActive;
 CChain chainMostWork;
 int64_t nTimeBestReceived = 0;
@@ -1199,7 +1200,7 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits)
     bnTarget.SetCompact(nBits);
 
     // Check range
-    if (bnTarget <= -1000 || bnTarget > Params().ProofOfWorkLimit()) {
+    if (bnTarget <= 0 || bnTarget > Params().ProofOfWorkLimit()) {
         return error("CheckProofOfWork() : nBits below minimum work");
     }
 
@@ -1639,12 +1640,12 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
     uint256 hashPrevBlock = pindex->pprev == NULL ? uint256(0) : pindex->pprev->GetBlockHash();
     assert(hashPrevBlock == view.GetBestBlock());
 
-    // Special case for the genesis block, skipping connection of its transactions
-    // (its coinbase is unspendable)
-    if (block.GetHash() == Params().HashGenesisBlock()) {
-        view.SetBestBlock(pindex->GetBlockHash());
-        return true;
-    }
+    // // Special case for the genesis block, skipping connection of its transactions
+    // // (its coinbase is unspendable)
+    // if (block.GetHash() == Params().HashGenesisBlock()) {
+    //     view.SetBestBlock(pindex->GetBlockHash());
+    //     return true;
+    // }
 
     bool fScriptChecks = pindex->nHeight >= Checkpoints::GetTotalBlocksEstimate();
 
