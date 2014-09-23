@@ -6,7 +6,7 @@ Copyright (c) 2014 Dyffy, Inc.
 
 Setup
 ---------------------
-[Sidecoin Core](http://sidecoin.net/en/download) is the original Sidecoin client and it builds the backbone of the network. However, it downloads and stores the entire history of Sidecoin transactions (which is currently several GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more. Thankfully you only have to do this once. If you would like the process to go faster you can [download the blockchain directly](https://sidecointalk.org/index.php?topic=145386.0).
+[Sidecoin Core](http://sidecoin.net/en/download) is the original Sidecoin client and it builds the backbone of the network. However, it downloads and stores the entire history of Sidecoin transactions (which is currently several GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more. Thankfully you only have to do this once. If you would like the process to go faster you can [download the blockchain directly](https://bitcointalk.org/index.php?topic=145386.0).
 
 Running
 ---------------------
@@ -38,7 +38,7 @@ Drag Sidecoin-Qt to your applications folder, and then run Sidecoin-Qt.
 * See the documentation at the [Sidecoin Wiki](https://en.sidecoin.it/wiki/Main_Page)
 for help and more information.
 * Ask for help on [#sidecoin](http://webchat.freenode.net?channels=sidecoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net?channels=sidecoin).
-* Ask for help on the [SidecoinTalk](https://sidecointalk.org/) forums, in the [Technical Support board](https://sidecointalk.org/index.php?board=4.0).
+* Ask for help on the [SidecoinTalk](https://bitcointalk.org/) forums, in the [Technical Support board](https://bitcointalk.org/index.php?board=4.0).
 
 Building
 ---------------------
@@ -61,7 +61,7 @@ The Sidecoin repo's [root README](https://github.com/sidecoin/sidecoin/blob/mast
 - [Unit Tests](unit-tests.md)
 
 ### Resources
-* Discuss on the [SidecoinTalk](https://sidecointalk.org/) forums, in the [Development & Technical Discussion board](https://sidecointalk.org/index.php?board=6.0).
+* Discuss on the [SidecoinTalk](https://bitcointalk.org/) forums, in the [Development & Technical Discussion board](https://bitcointalk.org/index.php?board=6.0).
 * Discuss on [#sidecoin-dev](http://webchat.freenode.net/?channels=sidecoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net/?channels=sidecoin-dev).
 
 ### Miscellaneous

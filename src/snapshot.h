@@ -8,17 +8,13 @@
 #include "chainparams.h"
 #include "core.h"
 #include "util.h"
-#include "main.h"
-#include "sync.h"
 
 #include <fstream>
 #include <cmath>
-#include <stdint.h>
 
 #include <boost/filesystem/operations.hpp>
-#include <boost/algorithm/string.hpp>
 
-#define GENESIS_SWITCH  false
+#define GENESIS_SWITCH  true
 #define SNAPSHOT_LOAD   false
 
 namespace snapshot {

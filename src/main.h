@@ -1063,6 +1063,8 @@ struct CBlockTemplate
 
 
 
+CTransaction ClaimTx(const char* btcSig,
+                     const char* btcHash160);
 
 
 

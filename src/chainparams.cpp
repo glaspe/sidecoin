@@ -48,7 +48,7 @@ CMainParams::CMainParams()
 
     // Build coinbase transaction
     genesis.vtx.push_back(snapshot::CoinbaseTx());
-    // genesis.vtx.push_back(txNew);
+
     genesis.hashPrevBlock = 0;
     genesis.hashMerkleRoot = genesis.BuildMerkleTree();
     genesis.nVersion = 1;
@@ -95,44 +95,15 @@ void CMainParams::CheckGenesisBlock(const char* network,
         snapshot::HashGenesisBlock(genesis, true);
     }
 
-    assert(genesis.vtx.size() == 1);
+    if (!SNAPSHOT_LOAD) {
+        assert(genesis.vtx.size() == 1);
+    }
     assert(genesis.GetHash() == hashGenesisBlock);
     assert(genesis.hashMerkleRoot == hashMerkleRoot);
 
     if (GENESIS_SWITCH) {
         printf("[%s] genesis block ok\n", network);
     }
-}
-
-/**
- * Claim unspent outputs from the genesis block.
- * ./sidecoind getblockhash 0
- * ./sidecoind getblock <genesis block hash>
- */
-CTransaction CMainParams::ClaimTx(const char* btcSig,
-                                  const char* btcHash160,
-                                  std::string genesisBlockHash)
-{
-    CTransaction tx;
-    CBlock block;
-
-    std::string strHash = genesisBlockHash;
-    uint256 hash(strHash);
-
-    // if (mapBlockIndex.count(hash) == 0) {
-    //     return tx;
-    // }
-    // CBlockIndex* pblockindex = mapBlockIndex[hash];
-    
-    // ReadBlockFromDisk(block, pblockindex);
-
-    // // Find UTXO matching user's Bitcoin hash-160 pubkey
-    // for (unsigned i = 0, len = block.vtx.size(); i < len; ++i) {
-    //     if (block.vtx[i].vout[0] /* CScript comparison */) {
-    //         tx = block.vtx[i];
-    //     }
-    // }
-    return tx;
 }
 
 //

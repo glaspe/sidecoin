@@ -2498,7 +2498,37 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
 
 
 
+/**
+ * Claim unspent outputs from the genesis block.
+ * ./sidecoind getblockhash 0
+ * ./sidecoind getblock <genesis block hash>
+ */
+CTransaction ClaimTx(const char* btcSig,
+                     const char* btcHash160)
+{
+    CTransaction tx;    
+    CBlock block;
+    CScript scriptPubKey = CScript() << OP_DUP
+                                     << OP_HASH160
+                                     << ParseHex(btcHash160)
+                                     << OP_EQUALVERIFY
+                                     << OP_CHECKSIG;
+    uint256 hash = Params().GenesisBlock().GetHash();
+    if (mapBlockIndex.count(hash) == 0) {
+        return tx;
+    }
+    CBlockIndex* pblockindex = mapBlockIndex[hash];
+    ReadBlockFromDisk(block, pblockindex);
 
+    // Find UTXO matching user's Bitcoin hash-160 pubkey
+    for (unsigned i = 0, len = block.vtx.size(); i < len; ++i) {
+        if (block.vtx[i].vout[0].scriptPubKey == scriptPubKey) {
+            tx = block.vtx[i];
+        }
+        break;
+    }
+    return tx;
+}
 
 
 
