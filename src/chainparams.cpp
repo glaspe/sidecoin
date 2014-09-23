@@ -47,8 +47,8 @@ CMainParams::CMainParams()
     nSubsidyHalvingInterval = 210000;
 
     // Build coinbase transaction
-    genesis.vtx.push_back(snapshot::CoinbaseTx());
-    // genesis.vtx.push_back(txNew);
+    genesis.vtx.push_back(snapshot.CoinbaseTx());
+
     genesis.hashPrevBlock = 0;
     genesis.hashMerkleRoot = genesis.BuildMerkleTree();
     genesis.nVersion = 1;
@@ -59,7 +59,7 @@ CMainParams::CMainParams()
 
     // Load snapshot file data into transaction outputs
     if (SNAPSHOT_LOAD) {
-        snapshot::LoadGenesisBlock(genesis);
+        snapshot.LoadGenesisBlock(genesis);
     }
 
     CheckGenesisBlock("main", hashGenesisBlock, hashMerkleRoot);
@@ -92,47 +92,18 @@ void CMainParams::CheckGenesisBlock(const char* network,
     // If needed, find and hash the genesis block
     if (GENESIS_SWITCH && (genesis.GetHash() != hashGenesisBlock)) {
         printf("[%s] Mining genesis block\n", network);
-        snapshot::HashGenesisBlock(genesis, true);
+        snapshot.HashGenesisBlock(genesis, true);
     }
 
-    assert(genesis.vtx.size() == 1);
+    if (!SNAPSHOT_LOAD) {
+        assert(genesis.vtx.size() == 1);
+    }
     assert(genesis.GetHash() == hashGenesisBlock);
     assert(genesis.hashMerkleRoot == hashMerkleRoot);
 
     if (GENESIS_SWITCH) {
         printf("[%s] genesis block ok\n", network);
     }
-}
-
-/**
- * Claim unspent outputs from the genesis block.
- * ./sidecoind getblockhash 0
- * ./sidecoind getblock <genesis block hash>
- */
-CTransaction CMainParams::ClaimTx(const char* btcSig,
-                                  const char* btcHash160,
-                                  std::string genesisBlockHash)
-{
-    CTransaction tx;
-    CBlock block;
-
-    std::string strHash = genesisBlockHash;
-    uint256 hash(strHash);
-
-    // if (mapBlockIndex.count(hash) == 0) {
-    //     return tx;
-    // }
-    // CBlockIndex* pblockindex = mapBlockIndex[hash];
-    
-    // ReadBlockFromDisk(block, pblockindex);
-
-    // // Find UTXO matching user's Bitcoin hash-160 pubkey
-    // for (unsigned i = 0, len = block.vtx.size(); i < len; ++i) {
-    //     if (block.vtx[i].vout[0] /* CScript comparison */) {
-    //         tx = block.vtx[i];
-    //     }
-    // }
-    return tx;
 }
 
 //
@@ -179,8 +150,6 @@ CTestNetParams::CTestNetParams()
 CRegTestParams::CRegTestParams()
 {
     // Stored genesis block hash and merkle root
-    // uint256 hashGenesisBlock = uint256("0x0000001b7af66da68df2afaca8b561784a16152e5d4bbb972d4d33cda07c57fc");
-    // uint256 hashMerkleRoot = uint256("0x808e11f1c1b824ff499979298d7999a76ab2e8fa72240f6bb8a354328877039c");
     uint256 hashGenesisBlock = uint256("0x00000000fed46bbc2172a89455873cf6794528545797ff7a013e551f6fc73ef7");
     uint256 hashMerkleRoot = uint256("0x32468230e9b3593905e33425122214b0836d90ce312ca535f98bc3b55a89c39b");
 
@@ -201,8 +170,7 @@ CRegTestParams::CRegTestParams()
     vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
 
     // ClaimTx("IBy7UaBOkuSYyrT2IM2F+4Fy2tUA+Te8Pk+0i+aSeV1IsgEVlTPLa9wU3coFOOwRVslLGdyT6vk2RfZN327rQIw=",
-    //         "5c29c74d111b80c2feabd688ee3867d1464d8699",
-    //         "00000000623ea9295ad827d257f70683f6c1e284390dba5be23b0cbd81c5911b");
+    //         "5c29c74d111b80c2feabd688ee3867d1464d8699");
 }
 
 static CMainParams mainParams;

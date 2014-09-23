@@ -7,6 +7,7 @@
 #ifndef SIDECOIN_CHAIN_PARAMS_H
 #define SIDECOIN_CHAIN_PARAMS_H
 
+#include "snapshot.h"
 #include "bignum.h"
 #include "uint256.h"
 #include "core.h"
@@ -87,22 +88,21 @@ protected:
 /** Main (production) net */
 class CMainParams : public CChainParams
 {
-protected:
-    CBlock genesis;
-    vector<CAddress> vFixedSeeds;
 public:
     CMainParams();
     void CheckGenesisBlock(const char* network,
                            uint256 hashGenesisBlock,
                            uint256 hashMerkleRoot);
-    CTransaction ClaimTx(const char* btcSig,
-                         const char* btcHash160,
-                         std::string genesisBlockHash);
     virtual const CBlock& GenesisBlock() const { return genesis; }
     virtual Network NetworkID() const { return CChainParams::MAIN; }
     virtual const vector<CAddress>& FixedSeeds() const {
         return vFixedSeeds;
     }
+protected:
+    CBlock genesis;
+    vector<CAddress> vFixedSeeds;
+private:
+    Snapshot snapshot;
 };
 
 /** Testnet (v3) */

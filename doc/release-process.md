@@ -183,7 +183,7 @@ From a directory containing sidecoin source, gitian.sigs and gitian zips
 
   - Add the release to sidecoin.net: https://github.com/sidecoin/sidecoin.net/tree/master/_releases
 
-  - Release sticky on sidecointalk: https://sidecointalk.org/index.php?board=1.0
+  - Release sticky on bitcointalk: https://bitcointalk.org/index.php?board=1.0
 
   - Sidecoin-development mailing list
 

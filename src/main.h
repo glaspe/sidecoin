@@ -1063,9 +1063,6 @@ struct CBlockTemplate
 
 
 
-
-
-
 /** Used to relay blocks as header + vector<merkle branch>
  * to filtered nodes.
  */
