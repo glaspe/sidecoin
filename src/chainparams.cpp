@@ -126,17 +126,17 @@ void CMainParams::CheckGenesisBlock(const char* network,
 
     if (GENESIS_SWITCH) {
         try {
-            unsigned int nBlockSize = ::GetSerializeSize(genesis, SER_DISK, CLIENT_VERSION);
-            CDiskBlockPos blockPos;
-            CValidationState state;
-            if (!FindBlockPos(state, blockPos, nBlockSize+8, 0, genesis.nTime))
-                return error("LoadBlockIndex() : FindBlockPos failed");
-            if (!genesis.WriteToDisk(blockPos))
-                return error("LoadBlockIndex() : writing genesis block to disk failed");
-            if (!genesis.AddToBlockIndex(state, blockPos))
-                return error("LoadBlockIndex() : genesis block not accepted");
+            // unsigned int nBlockSize = ::GetSerializeSize(genesis, SER_DISK, CLIENT_VERSION);
+            // CDiskBlockPos blockPos;
+            // CValidationState state;
+            // if (!FindBlockPos(state, blockPos, nBlockSize+8, 0, genesis.nTime))
+            //     return error("LoadBlockIndex() : FindBlockPos failed");
+            // if (!genesis.WriteToDisk(blockPos))
+            //     return error("LoadBlockIndex() : writing genesis block to disk failed");
+            // if (!genesis.AddToBlockIndex(state, blockPos))
+            //     return error("LoadBlockIndex() : genesis block not accepted");
         } catch(std::runtime_error &e) {
-            return error("LoadBlockIndex() : failed to initialize block database: %s", e.what());
+            // return error("LoadBlockIndex() : failed to initialize block database: %s", e.what());
         }
         printf("[%s] genesis block ok\n", network);
     }
@@ -157,19 +157,19 @@ CTransaction CMainParams::ClaimTx(const char* btcSig,
     std::string strHash = genesisBlockHash;
     uint256 hash(strHash);
 
-    if (mapBlockIndex.count(hash) == 0) {
-        return tx;
-    }
-    CBlockIndex* pblockindex = mapBlockIndex[hash];
+    // if (mapBlockIndex.count(hash) == 0) {
+    //     return tx;
+    // }
+    // CBlockIndex* pblockindex = mapBlockIndex[hash];
     
-    ReadBlockFromDisk(block, pblockindex);
+    // ReadBlockFromDisk(block, pblockindex);
 
-    // Find UTXO matching user's Bitcoin hash-160 pubkey
-    for (unsigned i = 0, len = block.vtx.size(); i < len; ++i) {
-        if (block.vtx[i].vout[0] /* CScript comparison */) {
-            tx = block.vtx[i];
-        }
-    }
+    // // Find UTXO matching user's Bitcoin hash-160 pubkey
+    // for (unsigned i = 0, len = block.vtx.size(); i < len; ++i) {
+    //     if (block.vtx[i].vout[0] /* CScript comparison */) {
+    //         tx = block.vtx[i];
+    //     }
+    // }
     return tx;
 }
 
