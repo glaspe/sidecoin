@@ -1,6 +1,9 @@
 compiler:
   - gcc
+  - clang
 language: cpp
 notifications:
   email: false
+before_install:
+  - sudo apt-get install build-essential git autoconf libboost-all-dev libssl-dev libprotobuf-dev protobuf-compiler libqt4-dev libqrencode-dev -y
 script: ./install.sh
