@@ -2896,7 +2896,6 @@ bool InitBlockIndex() {
             if (!AddToBlockIndex(block, state, blockPos)) {
                 return error("LoadBlockIndex() : genesis block not accepted");
             }
-            puts("Ok.");
         } catch(std::runtime_error &e) {
             return error("LoadBlockIndex() : failed to initialize block database: %s", e.what());
         }

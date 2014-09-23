@@ -18,11 +18,12 @@
 #include <boost/filesystem/operations.hpp>
 #include <boost/algorithm/string.hpp>
 
-#define GENESIS_SWITCH false
+#define GENESIS_SWITCH  false
+#define SNAPSHOT_LOAD   false
 
 namespace snapshot {
 
-CTransaction CoinbaseTx(unsigned nBits);
+CTransaction CoinbaseTx();
 
 void LoadGenesisBlockFile(CBlock& block);
 

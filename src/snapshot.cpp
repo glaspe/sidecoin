@@ -4,18 +4,6 @@
 
 #include "snapshot.h"
 
-// json_spirit::Value RPC(std::string args)
-// {
-//     std::vector<std::string> vArgs;
-//     boost::split(vArgs, args, boost::is_any_of(" \t"));
-//     std::string strMethod = vArgs[0];
-//     vArgs.erase(vArgs.begin());
-//     json_spirit::Array params = RPCConvertValues(strMethod, vArgs);
-//     rpcfn_type method = tableRPC[strMethod]->actor;
-//     json_spirit::Value result = (*method)(params, false);
-//     return result;
-// }
-
 namespace snapshot {
 
 static const char* btcHash160[] = {
@@ -1027,14 +1015,14 @@ static const char* btcBalance[] = {
 /**
  * Build the genesis block's coinbase transaction.
  */
-CTransaction CoinbaseTx(unsigned nBits)
+CTransaction CoinbaseTx()
 {
     const char* pszTimestamp = "Boeing wins role in next U.S. space chapter";
     CTransaction coinbaseTx;
     coinbaseTx.vin.resize(1);
     coinbaseTx.vout.resize(1);
-    coinbaseTx.vin[0].scriptSig = CScript() << CBigNum(nBits) // genesis.nBits
-                                            << CBigNum(4)     // 0x1d, 0x00, 0xff, 0xff
+    coinbaseTx.vin[0].scriptSig = CScript() << 486604799    // genesis.nBits
+                                            << CBigNum(4)   // 0x1d, 0x00, 0xff, 0xff
                                             << vector<unsigned char>(
                                                    (const unsigned char*)pszTimestamp,
                                                    (const unsigned char*)pszTimestamp + strlen(pszTimestamp)
