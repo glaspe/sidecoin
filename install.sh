@@ -48,7 +48,7 @@ srcdir="$(dirname $0)"
 cd "$srcdir"
 autoreconf --install --force --prepend-include=${BDB_PREFIX}/include/
 
-./configure CPPFLAGS="-I${BDB_PREFIX}/include/ -O2" LDFLAGS="-L${BDB_PREFIX}/lib/" USE_UPNP= --without-gui
+./configure CPPFLAGS="-I${BDB_PREFIX}/include/ -O2" LDFLAGS="-L${BDB_PREFIX}/lib/" USE_UPNP= #--without-gui --disable-tests --disable-wallet
 
 make
 strip src/sidecoind

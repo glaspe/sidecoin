@@ -611,6 +611,14 @@ bool AppInit2(boost::thread_group& threadGroup)
 
             // try again
             if (!bitdb.Open(GetDataDir())) {
+                // DEBUG_PRINT
+                if (mapBlockIndex.empty()) {
+                    puts("Error: map block index is empty.");
+                } else {
+                    for (std::map<uint256, CBlockIndex*>::const_iterator it = mapBlockIndex.begin(); it != mapBlockIndex.end(); ++it) {
+                        printf("%s -> %u\n", it->first.ToString().c_str(), it->second->nNonce);
+                    }
+                }
                 // if it still fails, it probably means we can't even create the database env
                 string msg = strprintf(_("Error initializing wallet database environment %s!"), strDataDir);
                 return InitError(msg);
@@ -819,8 +827,13 @@ bool AppInit2(boost::thread_group& threadGroup)
 
                 // If the loaded chain has a wrong genesis, bail out immediately
                 // (we're likely using a testnet datadir, or the other way around).
-                if (!mapBlockIndex.empty() && chainActive.Genesis() == NULL)
+                if (!mapBlockIndex.empty() && chainActive.Genesis() == NULL) {
+                    // DEBUG_PRINT
+                    for (std::map<uint256, CBlockIndex*>::const_iterator it = mapBlockIndex.begin(); it != mapBlockIndex.end(); ++it) {
+                        printf("%s -> %u\n", it->first.ToString().c_str(), it->second->nNonce);
+                    }
                     return InitError(_("Incorrect or no genesis block found. Wrong datadir for network?"));
+                }
 
                 // Initialize the block index (no-op if non-empty database was already loaded)
                 if (!InitBlockIndex()) {
