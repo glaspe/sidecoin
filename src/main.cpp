@@ -40,7 +40,6 @@ CCriticalSection cs_main;
 CTxMemPool mempool;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-CBlockIndex* pindexGenesisBlock = NULL;
 CChain chainActive;
 CChain chainMostWork;
 int64_t nTimeBestReceived = 0;
