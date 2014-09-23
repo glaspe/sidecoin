@@ -2865,7 +2865,6 @@ bool LoadBlockIndex()
 
 
 bool InitBlockIndex() {
-    puts("InitBlockIndex");    
     // Check whether we're already initialized
     if (chainActive.Genesis() != NULL)
         return true;
@@ -2877,9 +2876,8 @@ bool InitBlockIndex() {
 
     // Only add the genesis block if not reindexing (in which case we reuse the one already on disk)
     if (!fReindex) {
-        puts("Add genesis block");
         try {
-            CBlock &block = const_cast<CBlock&>(Params().GenesisBlock());
+            CBlock &block = const_cast<CBlock&>(Params().GenesisBlock()); // chainparams.cpp
             // Start new block file
             unsigned int nBlockSize = ::GetSerializeSize(block, SER_DISK, CLIENT_VERSION);
             CDiskBlockPos blockPos;
@@ -2888,8 +2886,16 @@ bool InitBlockIndex() {
                 return error("LoadBlockIndex() : FindBlockPos failed");
             if (!WriteBlockToDisk(block, blockPos))
                 return error("LoadBlockIndex() : writing genesis block to disk failed");
-            if (!AddToBlockIndex(block, state, blockPos))
+            puts("AddToBlockIndex:");
+            if (!AddToBlockIndex(block, state, blockPos)) {
+                printf("  block.nTime: %u\n", block.nTime);
+                printf("  block.nNonce: %u\n", block.nNonce);
+                printf("  block.GetHash: %s\n", block.GetHash().ToString().c_str());
+                printf("  block.hashMerkleRoot: %s\n", block.hashMerkleRoot.ToString().c_str());
+                printf("  block.nBits: %08x\n\n", block.nBits);
                 return error("LoadBlockIndex() : genesis block not accepted");
+            }
+            puts("Ok.");
         } catch(std::runtime_error &e) {
             return error("LoadBlockIndex() : failed to initialize block database: %s", e.what());
         }

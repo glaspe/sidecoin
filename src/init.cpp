@@ -325,8 +325,6 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
         fReindex = false;
         LogPrintf("Reindexing finished\n");
         // To avoid ending up in a situation without genesis block, re-try initializing (no-op if reindexing worked):
-        // DEBUG_PRINT
-        puts("ThreadImport calling InitBlockIndex()");
         InitBlockIndex();
     }
 
@@ -842,9 +840,12 @@ bool AppInit2(boost::thread_group& threadGroup)
                         printf("  block.nBits: %08x\n\n", it->second->nBits);
                         break;
                     }
-                    puts("Active chain:");
-                    printf("  chainActive.vChain.size: %d\n\n", chainActive.Height() + 1);
-                    return InitError(_("Incorrect or no genesis block found. Wrong datadir for network?"));
+                    // puts("Active chain:");
+                    // printf("  chainActive.vChain.size: %d\n\n", chainActive.Height() + 1);
+                    printf("\nInitBlockIndex(): %d\n\n", InitBlockIndex());
+                    if (!mapBlockIndex.empty() && chainActive.Genesis() == NULL) {
+                        return InitError(_("Incorrect or no genesis block found. Wrong datadir for network?"));
+                    }
                 }
 
                 // Initialize the block index (no-op if non-empty database was already loaded)
