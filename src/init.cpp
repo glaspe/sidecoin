@@ -850,7 +850,7 @@ bool AppInit2(boost::thread_group& threadGroup)
 
                 // Initialize the block index (no-op if non-empty database was already loaded)
                 // DEBUG_PRINT
-                puts("AppInit2 calling InitBlockIndex");
+                puts("AppInit2: InitBlockIndex");
                 if (!InitBlockIndex()) {
                     strLoadError = _("Error initializing block database");
                     break;
@@ -873,6 +873,7 @@ bool AppInit2(boost::thread_group& threadGroup)
                 strLoadError = _("Error opening block database");
                 break;
             }
+            puts("fLoaded=true");
 
             fLoaded = true;
         } while(false);

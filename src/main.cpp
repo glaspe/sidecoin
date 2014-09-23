@@ -1894,8 +1894,11 @@ bool static ConnectTip(CValidationState &state, CBlockIndex *pindexNew) {
     mempool.check(pcoinsTip);
     // Read block from disk.
     CBlock block;
-    if (!ReadBlockFromDisk(block, pindexNew))
+    puts("ReadBlockFromDisk");
+    if (!ReadBlockFromDisk(block, pindexNew)) {
         return state.Abort(_("Failed to read block"));
+    }
+    puts("Read block ok.");
     // Apply the block atomically to the chain state.
     int64_t nStart = GetTimeMicros();
     {
@@ -1909,8 +1912,10 @@ bool static ConnectTip(CValidationState &state, CBlockIndex *pindexNew) {
         mapBlockSource.erase(inv.hash);
         assert(view.Flush());
     }
+    puts("Benchmark");
     if (fBenchmark)
         LogPrintf("- Connect: %.2fms\n", (GetTimeMicros() - nStart) * 0.001);
+    puts("WriteChainState");
     // Write the chain state to disk, if necessary.
     if (!WriteChainState(state))
         return false;
@@ -1993,8 +1998,10 @@ void static FindMostWorkChain() {
 bool ActivateBestChain(CValidationState &state) {
     CBlockIndex *pindexOldTip = chainActive.Tip();
     bool fComplete = false;
+    puts("Running ActivateBestChain");
     while (!fComplete) {
         FindMostWorkChain();
+        puts("FindMostWorkChain");
         fComplete = true;
 
         // Check whether we have something to do.
@@ -2006,11 +2013,15 @@ bool ActivateBestChain(CValidationState &state) {
                 return false;
         }
 
+        puts("Connecting new blocks");
         // Connect new blocks.
         while (!chainActive.Contains(chainMostWork.Tip())) {
             CBlockIndex *pindexConnect = chainMostWork[chainActive.Height() + 1];
+            puts("ConnectTip"); // ERROR
             if (!ConnectTip(state, pindexConnect)) {
+                puts("Check state is valid");
                 if (state.IsInvalid()) {
+                    puts("fuck yea");
                     // The block violates a consensus rule.
                     if (!state.CorruptionPossible())
                         InvalidChainFound(chainMostWork.Tip());
@@ -2018,11 +2029,13 @@ bool ActivateBestChain(CValidationState &state) {
                     state = CValidationState();
                     break;
                 } else {
+                    puts("fuck you");
                     // A system error occurred (disk space, database error, ...).
                     return false;
                 }
             }
         }
+        puts("Crushed it");
     }
 
     if (chainActive.Tip() != pindexOldTip) {
@@ -2039,12 +2052,16 @@ bool ActivateBestChain(CValidationState &state) {
 
 bool AddToBlockIndex(CBlock& block, CValidationState& state, const CDiskBlockPos& pos)
 {
+    // DEBUG_PRINT
+    puts("AddToBlockIndex:");
     // Check for duplicate
     uint256 hash = block.GetHash();
-    if (mapBlockIndex.count(hash))
+    if (mapBlockIndex.count(hash)) {
+        printf("  mapBlockIndex.count: %ld", mapBlockIndex.count(hash));
         return state.Invalid(error("AddToBlockIndex() : %s already exists", hash.ToString()), 0, "duplicate");
-
+    }
     // Construct new block index object
+    puts("New block index object");
     CBlockIndex* pindexNew = new CBlockIndex(block);
     {
          LOCK(cs_nBlockSequenceId);
@@ -2069,28 +2086,36 @@ bool AddToBlockIndex(CBlock& block, CValidationState& state, const CDiskBlockPos
     pindexNew->nStatus = BLOCK_VALID_TRANSACTIONS | BLOCK_HAVE_DATA;
     setBlockIndexValid.insert(pindexNew);
 
+    puts("pblocktree->WriteBlockIndex");
     if (!pblocktree->WriteBlockIndex(CDiskBlockIndex(pindexNew)))
         return state.Abort(_("Failed to write block index"));
 
+    puts("ActivateBestChain");
     // New best?
-    if (!ActivateBestChain(state))
+    if (!ActivateBestChain(state)) {
         return false;
+    }
 
-    if (pindexNew == chainActive.Tip())
-    {
+    puts("Tip");
+    if (pindexNew == chainActive.Tip()) {
+        puts("CheckForkWarningConditions");
         // Clear fork warning if its no longer applicable
         CheckForkWarningConditions();
         // Notify UI to display prev block's coinbase if it was ours
         static uint256 hashPrevBestCoinBase;
         g_signals.UpdatedTransaction(hashPrevBestCoinBase);
         hashPrevBestCoinBase = block.GetTxHash(0);
-    } else
+    } else {
+        puts("OnNewFork");
         CheckForkWarningConditionsOnNewFork(pindexNew);
+    }
 
+    puts("pblocktree->Flush");
     if (!pblocktree->Flush())
         return state.Abort(_("Failed to sync block index"));
 
     uiInterface.NotifyBlocksChanged();
+    puts("wut");
     return true;
 }
 
@@ -2877,7 +2902,7 @@ bool InitBlockIndex() {
     // Only add the genesis block if not reindexing (in which case we reuse the one already on disk)
     if (!fReindex) {
         try {
-            CBlock &block = const_cast<CBlock&>(Params().GenesisBlock()); // chainparams.cpp
+            CBlock &block = const_cast<CBlock&>(Params().GenesisBlock());
             // Start new block file
             unsigned int nBlockSize = ::GetSerializeSize(block, SER_DISK, CLIENT_VERSION);
             CDiskBlockPos blockPos;
@@ -2886,13 +2911,7 @@ bool InitBlockIndex() {
                 return error("LoadBlockIndex() : FindBlockPos failed");
             if (!WriteBlockToDisk(block, blockPos))
                 return error("LoadBlockIndex() : writing genesis block to disk failed");
-            puts("AddToBlockIndex:");
             if (!AddToBlockIndex(block, state, blockPos)) {
-                printf("  block.nTime: %u\n", block.nTime);
-                printf("  block.nNonce: %u\n", block.nNonce);
-                printf("  block.GetHash: %s\n", block.GetHash().ToString().c_str());
-                printf("  block.hashMerkleRoot: %s\n", block.hashMerkleRoot.ToString().c_str());
-                printf("  block.nBits: %08x\n\n", block.nBits);
                 return error("LoadBlockIndex() : genesis block not accepted");
             }
             puts("Ok.");
