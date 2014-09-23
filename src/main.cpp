@@ -1752,6 +1752,8 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
     if (fJustCheck)
         return true;
 
+    puts("Writing undo information to disk");
+
     // Write undo information to disk
     if (pindex->GetUndoPos().IsNull() || (pindex->nStatus & BLOCK_VALID_MASK) < BLOCK_VALID_SCRIPTS)
     {
@@ -1894,28 +1896,26 @@ bool static ConnectTip(CValidationState &state, CBlockIndex *pindexNew) {
     mempool.check(pcoinsTip);
     // Read block from disk.
     CBlock block;
-    puts("ReadBlockFromDisk");
     if (!ReadBlockFromDisk(block, pindexNew)) {
         return state.Abort(_("Failed to read block"));
     }
-    puts("Read block ok.");
     // Apply the block atomically to the chain state.
     int64_t nStart = GetTimeMicros();
     {
         CCoinsViewCache view(*pcoinsTip, true);
         CInv inv(MSG_BLOCK, pindexNew->GetBlockHash());
+        printf("Connecting block: %s\n", pindexNew->GetBlockHash().ToString().c_str());
         if (!ConnectBlock(block, state, pindexNew, view)) {
-            if (state.IsInvalid())
+            if (state.IsInvalid()) {
                 InvalidBlockFound(pindexNew, state);
+            }
             return error("ConnectTip() : ConnectBlock %s failed", pindexNew->GetBlockHash().ToString());
         }
         mapBlockSource.erase(inv.hash);
         assert(view.Flush());
     }
-    puts("Benchmark");
     if (fBenchmark)
         LogPrintf("- Connect: %.2fms\n", (GetTimeMicros() - nStart) * 0.001);
-    puts("WriteChainState");
     // Write the chain state to disk, if necessary.
     if (!WriteChainState(state))
         return false;
@@ -1998,10 +1998,8 @@ void static FindMostWorkChain() {
 bool ActivateBestChain(CValidationState &state) {
     CBlockIndex *pindexOldTip = chainActive.Tip();
     bool fComplete = false;
-    puts("Running ActivateBestChain");
     while (!fComplete) {
         FindMostWorkChain();
-        puts("FindMostWorkChain");
         fComplete = true;
 
         // Check whether we have something to do.
@@ -2013,15 +2011,11 @@ bool ActivateBestChain(CValidationState &state) {
                 return false;
         }
 
-        puts("Connecting new blocks");
         // Connect new blocks.
         while (!chainActive.Contains(chainMostWork.Tip())) {
             CBlockIndex *pindexConnect = chainMostWork[chainActive.Height() + 1];
-            puts("ConnectTip"); // ERROR
             if (!ConnectTip(state, pindexConnect)) {
-                puts("Check state is valid");
                 if (state.IsInvalid()) {
-                    puts("fuck yea");
                     // The block violates a consensus rule.
                     if (!state.CorruptionPossible())
                         InvalidChainFound(chainMostWork.Tip());
@@ -2029,13 +2023,11 @@ bool ActivateBestChain(CValidationState &state) {
                     state = CValidationState();
                     break;
                 } else {
-                    puts("fuck you");
                     // A system error occurred (disk space, database error, ...).
                     return false;
                 }
             }
         }
-        puts("Crushed it");
     }
 
     if (chainActive.Tip() != pindexOldTip) {
