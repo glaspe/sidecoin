@@ -111,11 +111,12 @@ void CMainParams::CheckGenesisBlock(const char* network,
             printf("- nBits: %08x\n", genesis.nBits);
             printf("- vtx.size: %ld\n", genesis.vtx.size());
             for (unsigned i = 0, len = genesis.vtx.size(); i < len; ++i) {
-                printf("  vtx[%u]: (/%u)\n", i, len);
+                printf("  vtx[%u]:\n", i);
                 printf("    vin.scriptSig: %s\n", genesis.vtx[i].vin[0].scriptSig.ToString().c_str());
                 printf("    vout.nValue: %ld\n", genesis.vtx[i].vout[0].nValue);
                 printf("    vout.scriptPubKey: %s\n", genesis.vtx[i].vout[0].scriptPubKey.ToString().c_str());
             }
+            printf("- Block contains %ld transactions total.\n", genesis.vtx.size());
         }
     }
 }
