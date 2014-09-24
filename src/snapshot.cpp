@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "snapshot.h"
-#include "balances/balances.h" // hardcoded test snapshot
+#include "balances/balances.h" // small hardcoded snapshot (for testing)
 
 /**
  * Build the genesis block's coinbase transaction.
