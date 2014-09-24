@@ -2215,6 +2215,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 {
     // These are checks that are independent of context
     // that can be verified before saving an orphan block.
+    bool isGenesisBlock = block.GetHash() == Params().GenesisBlock().GetHash();
 
     // Size limits
     if (block.vtx.empty() || block.vtx.size() > MAX_BLOCK_SIZE || ::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION) > MAX_BLOCK_SIZE)
@@ -2235,10 +2236,15 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     if (block.vtx.empty() || !block.vtx[0].IsCoinBase())
         return state.DoS(100, error("CheckBlock() : first tx is not coinbase"),
                          REJECT_INVALID, "bad-cb-missing");
-    for (unsigned int i = 1; i < block.vtx.size(); i++)
-        if (block.vtx[i].IsCoinBase())
+
+    // Genesis block can contain more than one "coinbase" transaction:
+    // snapshot transactions have no prevout field
+    for (unsigned int i = 1; i < block.vtx.size(); i++) {
+        if (!isGenesisBlock && block.vtx[i].IsCoinBase()) {
             return state.DoS(100, error("CheckBlock() : more than one coinbase"),
                              REJECT_INVALID, "bad-cb-multiple");
+        }
+    }
 
     // Check transactions
     BOOST_FOREACH(const CTransaction& tx, block.vtx)
@@ -2528,18 +2534,17 @@ CTransaction Snapshot::ClaimTx(const char* btcSig,
                                      << OP_EQUALVERIFY
                                      << OP_CHECKSIG;
     uint256 hash = Params().GenesisBlock().GetHash();
-    if (mapBlockIndex.count(hash) == 0) {
-        return tx;
-    }
-    CBlockIndex* pblockindex = mapBlockIndex[hash];
-    ReadBlockFromDisk(block, pblockindex);
+    if (mapBlockIndex.count(hash) > 0) {
+        CBlockIndex* pblockindex = mapBlockIndex[hash];
+        ReadBlockFromDisk(block, pblockindex);
 
-    // Find UTXO matching user's Bitcoin hash-160 pubkey
-    for (unsigned i = 0, len = block.vtx.size(); i < len; ++i) {
-        if (block.vtx[i].vout[0].scriptPubKey == scriptPubKey) {
-            tx = block.vtx[i];
+        // Find UTXO matching user's Bitcoin hash-160 pubkey
+        for (unsigned i = 0, len = block.vtx.size(); i < len; ++i) {
+            if (block.vtx[i].vout[0].scriptPubKey == scriptPubKey) {
+                tx = block.vtx[i];
+                break;
+            }
         }
-        break;
     }
     return tx;
 }

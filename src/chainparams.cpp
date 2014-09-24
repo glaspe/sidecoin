@@ -104,19 +104,20 @@ void CMainParams::CheckGenesisBlock(const char* network,
     if (GENESIS_SWITCH) {
         printf("[%s] genesis block ok\n", network);
         if (!strcmp(network, "regtest")) {
-            printf("- nTime: %u\n", genesis.nTime);
-            printf("- nNonce: %u\n", genesis.nNonce);
-            printf("- Hash: %s\n", genesis.GetHash().ToString().c_str());
-            printf("- hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
-            printf("- nBits: %08x\n", genesis.nBits);
-            printf("- vtx.size: %ld\n", genesis.vtx.size());
+            printf("  nTime: %u\n", genesis.nTime);
+            printf("  nNonce: %u\n", genesis.nNonce);
+            printf("  Hash: %s\n", genesis.GetHash().ToString().c_str());
+            printf("  hashMerkleRoot: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+            printf("  nBits: %08x\n", genesis.nBits);
+            printf("  vtx.size: %ld\n", genesis.vtx.size());
             for (unsigned i = 0, len = genesis.vtx.size(); i < len; ++i) {
-                printf("  vtx[%u]:\n", i);
+                printf("  tx-%u:\n", i);
                 printf("    vin.scriptSig: %s\n", genesis.vtx[i].vin[0].scriptSig.ToString().c_str());
                 printf("    vout.nValue: %ld\n", genesis.vtx[i].vout[0].nValue);
                 printf("    vout.scriptPubKey: %s\n", genesis.vtx[i].vout[0].scriptPubKey.ToString().c_str());
+                if (i > 3) break;
             }
-            printf("- Block contains %ld transactions total.\n", genesis.vtx.size());
+            printf("  Block contains %ld transactions total.\n", genesis.vtx.size());
         }
     }
 }
