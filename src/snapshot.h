@@ -21,11 +21,11 @@ class Snapshot
 {
 public:
     Snapshot() {}
-    void LoadGenesisBlockFile(CBlock& block);
-    void LoadGenesisBlock(CBlock& block);
+    void LoadGenesisBlockFile(CBlock& genesis);
+    void LoadGenesisBlock(CBlock& genesis);
     void HashGenesisBlock(CBlock& block, bool verbose);
-    CTransaction CoinbaseTx();
-    CTransaction GenesisTx(CBlock& block,
+    void CoinbaseTx(CBlock& genesis);
+    CTransaction GenesisTx(CBlock& genesis,
                            const char* btcHash160,
                            const char* btcBalance);
     CTransaction ClaimTx(const char* btcSig,

@@ -25,13 +25,8 @@ CMainParams::CMainParams()
     // Stored genesis block hash and merkle root
     uint256 hashGenesisBlock;
     uint256 hashMerkleRoot;
-    if (SNAPSHOT_LOAD) {
-        hashGenesisBlock = uint256("0x00000000fed46bbc2172a89455873cf6794528545797ff7a013e551f6fc73ef7");
-        hashMerkleRoot = uint256("0x32468230e9b3593905e33425122214b0836d90ce312ca535f98bc3b55a89c39b");
-    } else {
-        hashGenesisBlock = uint256("0x00000000fed46bbc2172a89455873cf6794528545797ff7a013e551f6fc73ef7");
-        hashMerkleRoot = uint256("0x32468230e9b3593905e33425122214b0836d90ce312ca535f98bc3b55a89c39b");
-    }
+    hashGenesisBlock = uint256("0x00000000fed46bbc2172a89455873cf6794528545797ff7a013e551f6fc73ef7");
+    hashMerkleRoot = uint256("0x32468230e9b3593905e33425122214b0836d90ce312ca535f98bc3b55a89c39b");
 
     // The message start string is designed to be unlikely to occur in normal data.
     // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -46,8 +41,10 @@ CMainParams::CMainParams()
     bnProofOfWorkLimit = CBigNum(~uint256(0) >> 32);
     nSubsidyHalvingInterval = 210000;
 
+    genesis.nBits = 0x1d00ffff; // difficulty = 1 (max target value)
+
     // Build coinbase transaction
-    genesis.vtx.push_back(snapshot.CoinbaseTx());
+    snapshot.CoinbaseTx(genesis);
 
     genesis.hashPrevBlock = 0;
     genesis.hashMerkleRoot = genesis.BuildMerkleTree();
@@ -55,7 +52,7 @@ CMainParams::CMainParams()
 
     genesis.nTime = 1410847826;
     genesis.nNonce = 3652069002;
-    genesis.nBits = 0x1d00ffff; // difficulty = 1 (max target value)
+    // genesis.nBits = 0x1d00ffff; // difficulty = 1 (max target value)
 
     // Load snapshot file data into transaction outputs
     if (SNAPSHOT_LOAD) {
