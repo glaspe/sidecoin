@@ -139,7 +139,7 @@ CTestNetParams::CTestNetParams()
     strDataDir = "testnet3";
 
     // Modify the testnet genesis block so the timestamp is valid for a later start.
-    genesis.nTime = 1410847826;
+    genesis.nTime = 1412107895;
     genesis.nNonce = 3652069002;
 
     CheckGenesisBlock("testnet", hashGenesisBlock, hashMerkleRoot);
@@ -173,7 +173,7 @@ CRegTestParams::CRegTestParams()
     nDefaultPort = 26543;
     strDataDir = "regtest";
 
-    genesis.nTime = 1410847826;
+    genesis.nTime = 1412109793;
     genesis.nNonce = 3652069002;
 
     CheckGenesisBlock("regtest", hashGenesisBlock, hashMerkleRoot);
