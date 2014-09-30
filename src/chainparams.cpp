@@ -49,10 +49,8 @@ CMainParams::CMainParams()
     genesis.hashPrevBlock = 0;
     genesis.hashMerkleRoot = genesis.BuildMerkleTree();
     genesis.nVersion = 1;
-
     genesis.nTime = 1410847826;
     genesis.nNonce = 3652069002;
-    // genesis.nBits = 0x1d00ffff; // difficulty = 1 (max target value)
 
     // Load snapshot file data into transaction outputs
     if (SNAPSHOT_LOAD) {

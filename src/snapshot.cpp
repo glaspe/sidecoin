@@ -33,7 +33,7 @@ void Snapshot::CoinbaseTx(CBlock& genesis)
  * output's value (nValue) is equal to the balance, and its P2PKH validation
  * script (scriptPubKey) is set up using the account string.
  */
-void Snapshot::LoadGenesisBlockFile(CBlock& genesis)
+void Snapshot::LoadGenesisBlock(CBlock& genesis)
 {
     std::ifstream snapfile;
     boost::filesystem::path curpath(boost::filesystem::current_path());
@@ -53,16 +53,6 @@ void Snapshot::LoadGenesisBlockFile(CBlock& genesis)
                 }
             }
         }
-    }
-}
-
-/**
- * Read a small subset of Bitcoin balances and pubkeys from hardcoded arrays.
- */
-void Snapshot::LoadGenesisBlock(CBlock& genesis)
-{
-    for (unsigned i = 0, len = ARRAYLEN(btcHash160); i < len; ++i) {
-        genesis.vtx.push_back(GenesisTx(genesis, btcHash160[i], btcBalance[i]));
     }
 }
 
