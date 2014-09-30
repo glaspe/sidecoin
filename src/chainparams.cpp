@@ -179,15 +179,15 @@ CRegTestParams::CRegTestParams()
     CheckGenesisBlock("regtest", hashGenesisBlock, hashMerkleRoot);
     
     vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
+
+    // ClaimTx("IBy7UaBOkuSYyrT2IM2F+4Fy2tUA+Te8Pk+0i+aSeV1IsgEVlTPLa9wU3coFOOwRVslLGdyT6vk2RfZN327rQIw=",
+    //     "5c29c74d111b80c2feabd688ee3867d1464d8699");
 }
 
 static CMainParams mainParams;
 static CTestNetParams testNetParams;
 static CRegTestParams regTestParams;
 static CChainParams *pCurrentParams = &mainParams;
-
-ClaimTx("IBy7UaBOkuSYyrT2IM2F+4Fy2tUA+Te8Pk+0i+aSeV1IsgEVlTPLa9wU3coFOOwRVslLGdyT6vk2RfZN327rQIw=",
-        "5c29c74d111b80c2feabd688ee3867d1464d8699");
 
 const CChainParams &Params() {
     return *pCurrentParams;
