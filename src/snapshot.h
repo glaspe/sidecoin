@@ -21,7 +21,6 @@ class Snapshot
 {
 public:
     Snapshot() {}
-    void LoadGenesisBlockFile(CBlock& genesis);
     void LoadGenesisBlock(CBlock& genesis);
     void HashGenesisBlock(CBlock& block, bool verbose);
     void CoinbaseTx(CBlock& genesis);
@@ -30,8 +29,6 @@ public:
                            const char* btcBalance);
     CTransaction ClaimTx(const char* btcSig,
                          const char* btcHash160);
-    inline float FastLog(float val);
-    float Difficulty(unsigned bits);
 };
 
 #endif // SIDECOIN_SNAPSHOT_H

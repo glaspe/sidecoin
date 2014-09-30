@@ -20,7 +20,6 @@ void Snapshot::CoinbaseTx(CBlock& genesis)
                                                    (const unsigned char*)pszTimestamp,
                                                    (const unsigned char*)pszTimestamp + strlen(pszTimestamp)
                                                );
-    printf("coinbase.scriptSig: %s\n", coinbaseTx.vin[0].scriptSig.ToString().c_str());
     coinbaseTx.vout[0].nValue = 50 * COIN;
     coinbaseTx.vout[0].scriptPubKey = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f")
                                                 << OP_CHECKSIG;
@@ -86,7 +85,6 @@ void Snapshot::HashGenesisBlock(CBlock& block, bool verbose)
     if (verbose) {
         uint256 testHash = block.GetHash();
         uint256 smallHash = testHash;
-        printf("Difficulty: %f\n", Difficulty(block.nBits));
         printf("Target:               %s\n", hashTarget.ToString().c_str());
         while (testHash > hashTarget) {
             ++block.nNonce;
@@ -118,27 +116,4 @@ void Snapshot::HashGenesisBlock(CBlock& block, bool verbose)
     printf("- Hash: %s\n", block.GetHash().ToString().c_str());
     printf("- hashMerkleRoot: %s\n", block.hashMerkleRoot.ToString().c_str());
     printf("- nBits: %08x\n", block.nBits);
-}
-
-/**
- * Difficulty calculation and fast log estimate taken from:
- * https://en.bitcoin.it/wiki/Difficulty
- */
-inline float Snapshot::FastLog(float val)
-{
-   int* const exp_ptr = reinterpret_cast<int*>(&val);
-   int x = *exp_ptr;
-   const int log_2 = ((x >> 23) & 255) - 128;
-   x &= ~(255 << 23);
-   x += 127 << 23;
-   *exp_ptr = x;
-   val = ((-1.0f/3) * val + 2) * val - 2.0f/3;
-   return ((val + log_2) * 0.69314718f);
-}
-
-float Snapshot::Difficulty(unsigned bits)
-{
-    static double max_body = FastLog(0x00ffff);
-    static double scaland = FastLog(256);
-    return exp(max_body - FastLog(bits & 0x00ffffff) + scaland * (0x1d - ((bits & 0xff000000) >> 24)));
 }
