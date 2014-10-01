@@ -679,6 +679,10 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state)
 
     if (tx.IsCoinBase())
     {
+        // DIAGNOSTIC
+        printf("vin.scriptSig: %s\n", tx.vin[0].scriptSig.ToString().c_str());
+        printf("vout.nValue: %ld\n", tx.vout[0].nValue);
+        printf("vout.scriptPubKey: %s\n", tx.vout[0].scriptPubKey.ToString().c_str());
         if (tx.vin[0].scriptSig.size() < 2 || tx.vin[0].scriptSig.size() > 100)
             return state.DoS(100, error("CheckTransaction() : coinbase script size"),
                              REJECT_INVALID, "bad-cb-length");
