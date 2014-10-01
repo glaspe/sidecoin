@@ -28,7 +28,6 @@ SIDECOIN_CORE_H = \
   addrman.h \
   alert.h \
   allocators.h \
-  balances.h \
   base58.h bignum.h \
   bloom.h \
   chainparams.h \

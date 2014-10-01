@@ -14,7 +14,7 @@
 
 #include <boost/filesystem/operations.hpp>
 
-#define GENESIS_SWITCH  true
+#define GENESIS_SWITCH  false
 #define SNAPSHOT_LOAD   true
 
 class Snapshot
