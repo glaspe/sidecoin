@@ -3,7 +3,6 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "snapshot.h"
-#include "balances/balances.h" // small hardcoded snapshot (for testing)
 
 /**
  * Build the genesis block's coinbase transaction.
@@ -35,7 +34,7 @@ void Snapshot::CoinbaseTx(CBlock& genesis)
 void Snapshot::LoadGenesisBlock(CBlock& genesis)
 {
     std::ifstream snapfile;
-    boost::filesystem::path curpath(boost::filesystem::current_path());
+    boost::filesystem::path curpath(boost::filesystem::canonical(boost::filesystem::current_path()));
     std::string SNAPSHOT_FILE = curpath.string() + "/balances/balances.txt";
     snapfile.open(SNAPSHOT_FILE.c_str());
     if (snapfile.good()) {
@@ -48,8 +47,9 @@ void Snapshot::LoadGenesisBlock(CBlock& genesis)
             if (btcBalance) {
                 btcHash160 = strtok(0, " ");
                 if (btcHash160) {
-                    printf("%s\t%s\n", btcHash160, btcBalance);
-                    genesis.vtx.push_back(GenesisTx(genesis, btcHash160, btcBalance));
+                    CTransaction tx;
+                    tx = GenesisTx(genesis, btcHash160, btcBalance);
+                    if (tx.vin[0].scriptSig.size() > 1) genesis.vtx.push_back(tx);
                 }
             }
         }
