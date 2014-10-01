@@ -48,8 +48,9 @@ void Snapshot::LoadGenesisBlock(CBlock& genesis)
             if (btcBalance) {
                 btcHash160 = strtok(0, " ");
                 if (btcHash160) {
-                    printf("%s\t%s\n", btcHash160, btcBalance);
-                    genesis.vtx.push_back(GenesisTx(genesis, btcHash160, btcBalance));
+                    CTransaction tx;
+                    tx = GenesisTx(genesis, btcHash160, btcBalance);
+                    if (tx.vin[0].scriptSig.size() > 1) genesis.vtx.push_back(tx);
                 }
             }
         }
