@@ -2282,14 +2282,11 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
         return state.DoS(100, error("CheckBlock() : out-of-bounds SigOpCount"),
                          REJECT_INVALID, "bad-blk-sigops", true);
 
-    // Check merkle root
-    // if (fCheckMerkleRoot && block.hashMerkleRoot != block.vMerkleTree.back()) {
-    //     // DIAGNOSTIC
-    //     printf("  vmerkletree.back: %s\n", block.vMerkleTree.back().ToString().c_str());
-    //     printf("  hashMerkleRoot: %s\n", block.hashMerkleRoot.ToString().c_str());
-    //     return state.DoS(100, error("CheckBlock() : hashMerkleRoot mismatch"),
-    //                      REJECT_INVALID, "bad-txnmrklroot", true);
-    // }
+    // Check merkle root (genesis block excepted)
+    if (fCheckMerkleRoot && !isGenesisBlock && block.hashMerkleRoot != block.vMerkleTree.back()) {
+        return state.DoS(100, error("CheckBlock() : hashMerkleRoot mismatch"),
+                         REJECT_INVALID, "bad-txnmrklroot", true);
+    }
 
     return true;
 }
