@@ -1,3 +1,5 @@
+#include <iostream>
+#include <string>
 #include "base58.h"
 
 #include "data/base58_encode_decode.json.h"
@@ -23,9 +25,13 @@ BOOST_AUTO_TEST_SUITE(base58_tests)
 // Goal: test low-level base58 encoding functionality
 BOOST_AUTO_TEST_CASE(base58_EncodeBase58)
 {
-    Array tests = read_json(std::string(json_tests::base58_encode_decode, json_tests::base58_encode_decode + sizeof(json_tests::base58_encode_decode)));
+    Array tests = read_json(std::string(
+        json_tests::base58_encode_decode,
+        json_tests::base58_encode_decode + sizeof(json_tests::base58_encode_decode)
+    ));
     BOOST_FOREACH(Value& tv, tests)
     {
+        std::cout << write_string(tv, true) << std::endl;
         Array test = tv.get_array();
         std::string strTest = write_string(tv, false);
         if (test.size() < 2) // Allow for extra stuff (useful for comments)
@@ -44,7 +50,10 @@ BOOST_AUTO_TEST_CASE(base58_EncodeBase58)
 // Goal: test low-level base58 decoding functionality
 BOOST_AUTO_TEST_CASE(base58_DecodeBase58)
 {
-    Array tests = read_json(std::string(json_tests::base58_encode_decode, json_tests::base58_encode_decode + sizeof(json_tests::base58_encode_decode)));
+    Array tests = read_json(std::string(
+        json_tests::base58_encode_decode,
+        json_tests::base58_encode_decode + sizeof(json_tests::base58_encode_decode)
+    ));
     std::vector<unsigned char> result;
 
     BOOST_FOREACH(Value& tv, tests)
@@ -58,6 +67,9 @@ BOOST_AUTO_TEST_CASE(base58_DecodeBase58)
         }
         std::vector<unsigned char> expected = ParseHex(test[0].get_str());
         std::string base58string = test[1].get_str();
+        // std::cout << base58string << std::endl;
+        // std::string subbase58string = "S" + base58string.substr(1);
+        // std::cout << subbase58string << std::endl;
         BOOST_CHECK_MESSAGE(DecodeBase58(base58string, result), strTest);
         BOOST_CHECK_MESSAGE(result.size() == expected.size() && std::equal(result.begin(), result.end(), expected.begin()), strTest);
     }
