@@ -25,7 +25,7 @@ CMainParams::CMainParams()
     // Stored genesis block hash and merkle root
     uint256 hashGenesisBlock;
     uint256 hashMerkleRoot;
-    hashGenesisBlock = uint256("0x00000000fed46bbc2172a89455873cf6794528545797ff7a013e551f6fc73ef7");
+    hashGenesisBlock = uint256("0x000000005924f14395559a13f4d92430eb0b1df0fe2dab18e7ddcda905da5465");
     hashMerkleRoot = uint256("0xa560da675e6545090d660c26b3c07818620c1dfd93679a0038e830caaee3366d");
 
     // The message start string is designed to be unlikely to occur in normal data.
@@ -49,7 +49,7 @@ CMainParams::CMainParams()
     genesis.hashPrevBlock = 0;
     genesis.nVersion = 1;
     genesis.nTime = 1410847826;
-    genesis.nNonce = 3652069002;
+    genesis.nNonce = 2188091747;
 
     // Load snapshot file data into transaction outputs
     if (SNAPSHOT_LOAD) {
@@ -135,7 +135,7 @@ void CMainParams::CheckGenesisBlock(const char* network,
 CTestNetParams::CTestNetParams()
 {
     // Stored genesis block hash and merkle root
-    uint256 hashGenesisBlock = uint256("0x00000000ee1538028478bd67306d5f921de63a8a5a9269149b4823fc7651e280");
+    uint256 hashGenesisBlock = uint256("0x000000000bf5c4f4a9cdcfe2b1423ce6b7852382f9638d0f56252ae5e14e6a68");
     uint256 hashMerkleRoot = uint256("0xa560da675e6545090d660c26b3c07818620c1dfd93679a0038e830caaee3366d");
 
     // The message start string is designed to be unlikely to occur in normal data.
@@ -151,8 +151,8 @@ CTestNetParams::CTestNetParams()
     strDataDir = "testnet3";
 
     // Modify the testnet genesis block so the timestamp is valid for a later start.
-    genesis.nTime = 1412107896;
-    genesis.nNonce = 198988689;
+    genesis.nTime = 1412107897;
+    genesis.nNonce = 182504859;
 
     CheckGenesisBlock("testnet", hashGenesisBlock, hashMerkleRoot);
 
@@ -173,7 +173,7 @@ CTestNetParams::CTestNetParams()
 CRegTestParams::CRegTestParams()
 {
     // Stored genesis block hash and merkle root
-    uint256 hashGenesisBlock = uint256("0x0000000000ebd7ab5c8e363e0696954fc54ab6910fc98867f628efc928b8d3c7");
+    uint256 hashGenesisBlock = uint256("0x186b35f703dac57e0a30ce6c4df96d930975e4806c647829652e5ef30b6b9254");
     uint256 hashMerkleRoot = uint256("0xa560da675e6545090d660c26b3c07818620c1dfd93679a0038e830caaee3366d");
 
     pchMessageStart[0] = 0xfa;
@@ -185,15 +185,13 @@ CRegTestParams::CRegTestParams()
     nDefaultPort = 26543;
     strDataDir = "regtest";
 
-    genesis.nTime = 1412109793;
-    genesis.nNonce = 13351322;
+    genesis.nTime = 1412548207;
+    genesis.nNonce = 3;
+    genesis.nBits = 0x207fffff;
 
     CheckGenesisBlock("regtest", hashGenesisBlock, hashMerkleRoot);
     
     vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
-
-    // ClaimTx("IBy7UaBOkuSYyrT2IM2F+4Fy2tUA+Te8Pk+0i+aSeV1IsgEVlTPLa9wU3coFOOwRVslLGdyT6vk2RfZN327rQIw=",
-    //     "5c29c74d111b80c2feabd688ee3867d1464d8699");
 }
 
 static CMainParams mainParams;

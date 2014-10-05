@@ -53,6 +53,7 @@ void Snapshot::LoadGenesisBlock(CBlock& genesis)
                 }
             }
         }
+        printf("Loaded %ld transactions\n", genesis.vtx.size()-1);
     }
 }
 
@@ -73,6 +74,7 @@ CTransaction Snapshot::GenesisTx(CBlock& genesis,
                                         << ParseHex(btcHash160)
                                         << OP_EQUALVERIFY
                                         << OP_CHECKSIG;
+    // printf("%s\t%s\n", btcHash160, btcBalance);
     return tx;
 }
 
