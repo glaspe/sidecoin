@@ -679,12 +679,7 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state)
 
     if (tx.IsCoinBase())
     {
-        // DIAGNOSTIC
         if (tx.vin[0].scriptSig.size() < 2 || tx.vin[0].scriptSig.size() > 100) {
-            printf("vin.scriptSig: %s\n", tx.vin[0].scriptSig.ToString().c_str());
-            printf("vin.scriptSig.size: %ld\n", tx.vin[0].scriptSig.size());
-            printf("vout.nValue: %ld\n", tx.vout[0].nValue);
-            printf("vout.scriptPubKey: %s\n", tx.vout[0].scriptPubKey.ToString().c_str());
             return state.DoS(100, error("CheckTransaction() : coinbase script size"),
                              REJECT_INVALID, "bad-cb-length");
         }
@@ -1771,19 +1766,7 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
                 if (!blockundo.WriteToDisk(pos, pindex->pprev->GetBlockHash())) {
                     return state.Abort(_("Failed to write undo data"));
                 } else {
-                    // DIAGNOSTIC
-                    if (mapBlockIndex.empty()) {
-                        puts("Error: map block index is empty.");
-                    } else {
-                        // Ok
-                        puts("Expanding mapBlockIndex:");
-                        for (std::map<uint256, CBlockIndex*>::const_iterator it = mapBlockIndex.begin();
-                            it != mapBlockIndex.end(); ++it) {
-                            printf("  %s -> %u\n", it->first.ToString().c_str(), it->second->nNonce);
-                        }
-                        puts("\n\nGenesis block:");
-                        printf("  hash=%s\n\n", pindex->GetBlockHash().ToString().c_str());
-                    }
+                    if (mapBlockIndex.empty()) puts("Error: map block index is empty.");
                 }
                 // update nUndoPos in block index
                 pindex->nUndoPos = pos.nPos;
@@ -2438,8 +2421,11 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
 
     // Preliminary checks
     if (!CheckBlock(*pblock, state)) {
-        if (state.CorruptionPossible())
+        // DIAGNOSTIC
+        printf("%s\n\n", pblock->GetHash().ToString().c_str());
+        if (state.CorruptionPossible()) {
             mapAlreadyAskedFor.erase(CInv(MSG_BLOCK, hash));
+        }
         return error("ProcessBlock() : CheckBlock FAILED");
     }
 

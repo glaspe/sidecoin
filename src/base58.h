@@ -295,6 +295,7 @@ public:
         bool fCorrectSize = vchData.size() == 20;
         bool fKnownVersion = vchVersion == Params().Base58Prefix(CChainParams::PUBKEY_ADDRESS) ||
                              vchVersion == Params().Base58Prefix(CChainParams::SCRIPT_ADDRESS);
+        // printf("%d\t%d\t%ld\n", fCorrectSize, fKnownVersion, vchData.size());
         return fCorrectSize && fKnownVersion;
     }
 
