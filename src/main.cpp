@@ -1766,19 +1766,7 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
                 if (!blockundo.WriteToDisk(pos, pindex->pprev->GetBlockHash())) {
                     return state.Abort(_("Failed to write undo data"));
                 } else {
-                    // DIAGNOSTIC
-                    if (mapBlockIndex.empty()) {
-                        puts("Error: map block index is empty.");
-                    } else {
-                        // Ok
-                        puts("Expanding mapBlockIndex:");
-                        for (std::map<uint256, CBlockIndex*>::const_iterator it = mapBlockIndex.begin();
-                            it != mapBlockIndex.end(); ++it) {
-                            printf("  %s -> %u\n", it->first.ToString().c_str(), it->second->nNonce);
-                        }
-                        puts("\n\nGenesis block:");
-                        printf("  hash=%s\n\n", pindex->GetBlockHash().ToString().c_str());
-                    }
+                    if (mapBlockIndex.empty()) puts("Error: map block index is empty.");
                 }
                 // update nUndoPos in block index
                 pindex->nUndoPos = pos.nPos;
