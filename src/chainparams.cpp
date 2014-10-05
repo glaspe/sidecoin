@@ -173,7 +173,7 @@ CTestNetParams::CTestNetParams()
 CRegTestParams::CRegTestParams()
 {
     // Stored genesis block hash and merkle root
-    uint256 hashGenesisBlock = uint256("0x0000000000ebd7ab5c8e363e0696954fc54ab6910fc98867f628efc928b8d3c7");
+    uint256 hashGenesisBlock = uint256("0x186b35f703dac57e0a30ce6c4df96d930975e4806c647829652e5ef30b6b9254");
     uint256 hashMerkleRoot = uint256("0xa560da675e6545090d660c26b3c07818620c1dfd93679a0038e830caaee3366d");
 
     pchMessageStart[0] = 0xfa;
@@ -185,15 +185,13 @@ CRegTestParams::CRegTestParams()
     nDefaultPort = 26543;
     strDataDir = "regtest";
 
-    genesis.nTime = 1412109793;
-    genesis.nNonce = 13351322;
+    genesis.nTime = 1412548207;
+    genesis.nNonce = 3;
+    genesis.nBits = 0x207fffff;
 
     CheckGenesisBlock("regtest", hashGenesisBlock, hashMerkleRoot);
     
     vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
-
-    // ClaimTx("IBy7UaBOkuSYyrT2IM2F+4Fy2tUA+Te8Pk+0i+aSeV1IsgEVlTPLa9wU3coFOOwRVslLGdyT6vk2RfZN327rQIw=",
-    //     "5c29c74d111b80c2feabd688ee3867d1464d8699");
 }
 
 static CMainParams mainParams;
