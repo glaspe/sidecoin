@@ -2421,8 +2421,12 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
 
     // Preliminary checks
     if (!CheckBlock(*pblock, state)) {
-        if (state.CorruptionPossible())
+        // DIAGNOSTIC
+        puts("Block corrupted?");
+        printf("%s\n\n", pblock->GetHash().ToString().c_str());
+        if (state.CorruptionPossible()) {
             mapAlreadyAskedFor.erase(CInv(MSG_BLOCK, hash));
+        }
         return error("ProcessBlock() : CheckBlock FAILED");
     }
 
