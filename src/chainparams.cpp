@@ -135,7 +135,7 @@ void CMainParams::CheckGenesisBlock(const char* network,
 CTestNetParams::CTestNetParams()
 {
     // Stored genesis block hash and merkle root
-    uint256 hashGenesisBlock = uint256("0x00000000ee1538028478bd67306d5f921de63a8a5a9269149b4823fc7651e280");
+    uint256 hashGenesisBlock = uint256("0x000000000bf5c4f4a9cdcfe2b1423ce6b7852382f9638d0f56252ae5e14e6a68");
     uint256 hashMerkleRoot = uint256("0xa560da675e6545090d660c26b3c07818620c1dfd93679a0038e830caaee3366d");
 
     // The message start string is designed to be unlikely to occur in normal data.
@@ -151,8 +151,8 @@ CTestNetParams::CTestNetParams()
     strDataDir = "testnet3";
 
     // Modify the testnet genesis block so the timestamp is valid for a later start.
-    genesis.nTime = 1412107896;
-    genesis.nNonce = 198988689;
+    genesis.nTime = 1412107897;
+    genesis.nNonce = 182504859;
 
     CheckGenesisBlock("testnet", hashGenesisBlock, hashMerkleRoot);
 
