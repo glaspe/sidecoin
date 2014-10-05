@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cstdio>
 #include <string>
 #include "base58.h"
 
@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_CASE(base58_EncodeBase58)
     ));
     BOOST_FOREACH(Value& tv, tests)
     {
-        std::cout << write_string(tv, true) << std::endl;
+        // std::cout << write_string(tv, true) << std::endl;
         Array test = tv.get_array();
         std::string strTest = write_string(tv, false);
         if (test.size() < 2) // Allow for extra stuff (useful for comments)
@@ -153,6 +153,9 @@ BOOST_AUTO_TEST_CASE(base58_keys_valid_parse)
             SelectParams(CChainParams::TESTNET);
         else
             SelectParams(CChainParams::MAIN);
+        // if (exp_base58string.substr(0,1) == "1") {
+        //     exp_base58string = "S" + exp_base58string.substr(1);
+        // }
         if(isPrivkey)
         {
             bool isCompressed = find_value(metadata, "isCompressed").get_bool();
@@ -173,7 +176,9 @@ BOOST_AUTO_TEST_CASE(base58_keys_valid_parse)
             std::string exp_addrType = find_value(metadata, "addrType").get_str(); // "script" or "pubkey"
             // Must be valid public key
             BOOST_CHECK_MESSAGE(addr.SetString(exp_base58string), "SetString:" + strTest);
+            // printf("\nOld: %s\n", exp_base58string.c_str());
             BOOST_CHECK_MESSAGE(addr.IsValid(), "!IsValid:" + strTest);
+            // printf("New: %s\n", exp_base58string.substr(1).c_str());
             BOOST_CHECK_MESSAGE(addr.IsScript() == (exp_addrType == "script"), "isScript mismatch" + strTest);
             CTxDestination dest = addr.Get();
             BOOST_CHECK_MESSAGE(boost::apply_visitor(TestAddrTypeVisitor(exp_addrType), dest), "addrType mismatch" + strTest);
