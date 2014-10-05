@@ -67,9 +67,6 @@ BOOST_AUTO_TEST_CASE(base58_DecodeBase58)
         }
         std::vector<unsigned char> expected = ParseHex(test[0].get_str());
         std::string base58string = test[1].get_str();
-        // std::cout << base58string << std::endl;
-        // std::string subbase58string = "S" + base58string.substr(1);
-        // std::cout << subbase58string << std::endl;
         BOOST_CHECK_MESSAGE(DecodeBase58(base58string, result), strTest);
         BOOST_CHECK_MESSAGE(result.size() == expected.size() && std::equal(result.begin(), result.end(), expected.begin()), strTest);
     }
