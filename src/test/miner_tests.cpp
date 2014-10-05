@@ -76,9 +76,14 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
             txFirst.push_back(new CTransaction(pblock->vtx[0]));
         pblock->hashMerkleRoot = pblock->BuildMerkleTree();
         pblock->nNonce = blockinfo[i].nonce;
+        puts("CreateNewBlock_validity block loader:");
+        printf("  nTime: %u\n", pblock->nTime);
+        printf("  hash: %s\n", pblock->GetHash().ToString().c_str());
+        printf("  scriptSig: %s\n", pblock->vtx[0].vin[0].scriptSig.ToString().c_str());
+        printf("  scriptPubKey: %s\n", pblock->vtx[0].vout[0].scriptPubKey.ToString().c_str());
         CValidationState state;
         BOOST_CHECK(ProcessBlock(state, NULL, pblock));
-        BOOST_CHECK(state.IsValid());
+        BOOST_REQUIRE(state.IsValid());
         pblock->hashPrevBlock = pblock->GetHash();
     }
     delete pblocktemplate;
