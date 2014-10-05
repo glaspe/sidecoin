@@ -25,7 +25,7 @@ CMainParams::CMainParams()
     // Stored genesis block hash and merkle root
     uint256 hashGenesisBlock;
     uint256 hashMerkleRoot;
-    hashGenesisBlock = uint256("0x00000000fed46bbc2172a89455873cf6794528545797ff7a013e551f6fc73ef7");
+    hashGenesisBlock = uint256("0x000000005924f14395559a13f4d92430eb0b1df0fe2dab18e7ddcda905da5465");
     hashMerkleRoot = uint256("0xa560da675e6545090d660c26b3c07818620c1dfd93679a0038e830caaee3366d");
 
     // The message start string is designed to be unlikely to occur in normal data.
@@ -49,7 +49,7 @@ CMainParams::CMainParams()
     genesis.hashPrevBlock = 0;
     genesis.nVersion = 1;
     genesis.nTime = 1410847826;
-    genesis.nNonce = 3652069002;
+    genesis.nNonce = 2188091747;
 
     // Load snapshot file data into transaction outputs
     if (SNAPSHOT_LOAD) {
