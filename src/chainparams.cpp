@@ -26,7 +26,7 @@ CMainParams::CMainParams()
     uint256 hashGenesisBlock;
     uint256 hashMerkleRoot;
     hashGenesisBlock = uint256("0x00000000fed46bbc2172a89455873cf6794528545797ff7a013e551f6fc73ef7");
-    hashMerkleRoot = uint256("0x32468230e9b3593905e33425122214b0836d90ce312ca535f98bc3b55a89c39b");
+    hashMerkleRoot = uint256("0xa560da675e6545090d660c26b3c07818620c1dfd93679a0038e830caaee3366d");
 
     // The message start string is designed to be unlikely to occur in normal data.
     // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -47,7 +47,6 @@ CMainParams::CMainParams()
     snapshot.CoinbaseTx(genesis);
 
     genesis.hashPrevBlock = 0;
-    genesis.hashMerkleRoot = genesis.BuildMerkleTree();
     genesis.nVersion = 1;
     genesis.nTime = 1410847826;
     genesis.nNonce = 3652069002;
@@ -57,6 +56,10 @@ CMainParams::CMainParams()
         snapshot.LoadGenesisBlock(genesis);
     }
 
+    // All transactions are loaded, now find the Merkle root hash
+    genesis.hashMerkleRoot = genesis.BuildMerkleTree();
+
+    // Verify that the genesis block's hash and Merkle root match our stored hashes
     CheckGenesisBlock("main", hashGenesisBlock, hashMerkleRoot);
 
     vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
@@ -91,12 +94,20 @@ void CMainParams::CheckGenesisBlock(const char* network,
         snapshot.HashGenesisBlock(genesis, true);
     }
 
+    // Genesis block has a single (coinbase) transaction if we didn't load the snapshot
+    // balances.  If we did, then the block size should match the number of balances
+    // recorded in the snapshot (plus 1 for the coinbase).
     if (!SNAPSHOT_LOAD) {
         assert(genesis.vtx.size() == 1);
+    } else {
+        // assert(genesis.vtx.size() == 26);   // 25 balances in the hardcoded snapshot
+        assert(genesis.vtx.size() == 501);  // 500 balances in the test snapshot file
     }
     assert(genesis.GetHash() == hashGenesisBlock);
     assert(genesis.hashMerkleRoot == hashMerkleRoot);
 
+    // Sanity check: if we just hashed the genesis block, print out its headers and a
+    // few of its transactions so we can see if everything looks ok.
     if (GENESIS_SWITCH) {
         printf("[%s] genesis block ok\n", network);
         if (!strcmp(network, "regtest")) {
@@ -125,7 +136,7 @@ CTestNetParams::CTestNetParams()
 {
     // Stored genesis block hash and merkle root
     uint256 hashGenesisBlock = uint256("0x00000000ee1538028478bd67306d5f921de63a8a5a9269149b4823fc7651e280");
-    uint256 hashMerkleRoot = uint256("0x32468230e9b3593905e33425122214b0836d90ce312ca535f98bc3b55a89c39b");
+    uint256 hashMerkleRoot = uint256("0xa560da675e6545090d660c26b3c07818620c1dfd93679a0038e830caaee3366d");
 
     // The message start string is designed to be unlikely to occur in normal data.
     // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -163,7 +174,7 @@ CRegTestParams::CRegTestParams()
 {
     // Stored genesis block hash and merkle root
     uint256 hashGenesisBlock = uint256("0x0000000000ebd7ab5c8e363e0696954fc54ab6910fc98867f628efc928b8d3c7");
-    uint256 hashMerkleRoot = uint256("0x32468230e9b3593905e33425122214b0836d90ce312ca535f98bc3b55a89c39b");
+    uint256 hashMerkleRoot = uint256("0xa560da675e6545090d660c26b3c07818620c1dfd93679a0038e830caaee3366d");
 
     pchMessageStart[0] = 0xfa;
     pchMessageStart[1] = 0xbf;
