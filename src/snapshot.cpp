@@ -53,7 +53,9 @@ void Snapshot::LoadGenesisBlock(CBlock& genesis)
                 }
             }
         }
-        printf("Loaded %ld transactions\n", genesis.vtx.size()-1);
+        if (GENESIS_SWITCH) {
+            printf("Loaded %ld transactions\n", genesis.vtx.size()-1);
+        }
     }
 }
 
