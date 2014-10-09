@@ -98,11 +98,12 @@ public:
     virtual const vector<CAddress>& FixedSeeds() const {
         return vFixedSeeds;
     }
+    Snapshot snapshot;
 protected:
     CBlock genesis;
     vector<CAddress> vFixedSeeds;
-private:
-    Snapshot snapshot;
+// private:
+//     Snapshot snapshot;
 };
 
 /** Testnet (v3) */

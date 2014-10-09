@@ -16,6 +16,7 @@
 #include "miner.h"
 #include "net.h"
 #include "rpcserver.h"
+#include "snapshot.h"
 #include "txdb.h"
 #include "ui_interface.h"
 #include "util.h"
@@ -873,6 +874,10 @@ bool AppInit2(boost::thread_group& threadGroup)
             }
 
             fLoaded = true;
+
+            // Test claim transaction
+            // ClaimTx("testsig", "testhash160");
+
         } while(false);
 
         if (!fLoaded) {
