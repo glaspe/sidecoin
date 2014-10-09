@@ -27,8 +27,9 @@ public:
     CTransaction GenesisTx(CBlock& genesis,
                            const char* btcHash160,
                            const char* btcBalance);
-    CTransaction ClaimTx(const char* btcSig,
-                         const char* btcHash160);
 };
+
+CTransaction ClaimTx(const char* btcSig,
+                     const char* btcHash160);
 
 #endif // SIDECOIN_SNAPSHOT_H

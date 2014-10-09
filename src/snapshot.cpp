@@ -34,8 +34,12 @@ void Snapshot::CoinbaseTx(CBlock& genesis)
 void Snapshot::LoadGenesisBlock(CBlock& genesis)
 {
     std::ifstream snapfile;
-    boost::filesystem::path curpath(boost::filesystem::canonical(boost::filesystem::current_path()));
-    std::string SNAPSHOT_FILE = curpath.string() + "/balances/balances.txt";
+    // This is linux-specific -- find cross-platform solution (boost?)
+    char buf[1024];
+    ssize_t len = readlink("/proc/self/exe", buf, sizeof(buf)-1);
+    buf[len] = '\0';
+    std::string curpath(buf);
+    std::string SNAPSHOT_FILE = curpath.substr(0, curpath.size()-9) + "balances/balances.txt";
     snapfile.open(SNAPSHOT_FILE.c_str());
     if (snapfile.good()) {
         while (!snapfile.eof()) {

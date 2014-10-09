@@ -2514,11 +2514,9 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
 
 /**
  * Claim unspent outputs from the genesis block.
- * ./sidecoind getblockhash 0
- * ./sidecoind getblock <genesis block hash>
  */
-CTransaction Snapshot::ClaimTx(const char* btcSig,
-                               const char* btcHash160)
+CTransaction ClaimTx(const char* btcSig,
+                     const char* btcHash160)
 {
     CTransaction tx;
     CBlock block;
@@ -2534,6 +2532,7 @@ CTransaction Snapshot::ClaimTx(const char* btcSig,
 
         // Find UTXO matching user's Bitcoin hash-160 pubkey
         for (unsigned i = 0, len = block.vtx.size(); i < len; ++i) {
+            // printf("%s\n", block.vtx[i].vout[0].scriptPubKey.ToString().c_str());
             if (block.vtx[i].vout[0].scriptPubKey == scriptPubKey) {
                 tx = block.vtx[i];
                 break;
