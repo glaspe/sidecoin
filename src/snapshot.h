@@ -13,6 +13,7 @@
 #include <cmath>
 
 #include <boost/filesystem/operations.hpp>
+#include <boost/filesystem.hpp>
 
 #define GENESIS_SWITCH  false
 #define SNAPSHOT_LOAD   true

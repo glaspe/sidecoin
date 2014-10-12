@@ -3,6 +3,11 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "snapshot.h"
+#include <unistd.h>
+#ifdef _WIN32
+    #include <windows.h>
+    #include <Lmcons.h>
+#endif
 
 /**
  * Build the genesis block's coinbase transaction.
@@ -34,12 +39,26 @@ void Snapshot::CoinbaseTx(CBlock& genesis)
 void Snapshot::LoadGenesisBlock(CBlock& genesis)
 {
     std::ifstream snapfile;
-    // This is linux-specific -- find cross-platform solution (boost?)
-    char buf[1024];
-    ssize_t len = readlink("/proc/self/exe", buf, sizeof(buf)-1);
-    buf[len] = '\0';
-    std::string curpath(buf);
-    std::string SNAPSHOT_FILE = curpath.substr(0, curpath.size()-9) + "balances/balances.txt";
+
+#ifdef _WIN32
+    char username[UNLEN+1];
+    DWORD username_len = UNLEN+1;
+    GetUserName(username, &username_len);
+    std::string userString(username);
+    std::string str(getlogin());
+    std::string SNAPSHOT_FILE = "C:\Users\\" + userString + "\Appdata\Roaming\Sidecoin\balances\balancess.txt";
+#elif __APPLE__
+    std::string str(getlogin());
+    std::string SNAPSHOT_FILE = "/users/" + str + "/Library/Application\ Support/Sidecoin/balances/balances.txt";
+#elif __linux
+    std::string str(getlogin());
+    std::string SNAPSHOT_FILE = "/home/" + str + "/.sidecoin/balances/balances.txt";
+#elif __unix
+    std::string str(getlogin());
+    std::string SNAPSHOT_FILE = "/home/" + str + "/.sidecoin/balances/balances.txt";
+#endif
+
+    printf("path: %s\n", SNAPSHOT_FILE.c_str());
     snapfile.open(SNAPSHOT_FILE.c_str());
     if (snapfile.good()) {
         while (!snapfile.eof()) {
@@ -80,7 +99,6 @@ CTransaction Snapshot::GenesisTx(CBlock& genesis,
                                         << ParseHex(btcHash160)
                                         << OP_EQUALVERIFY
                                         << OP_CHECKSIG;
-    // printf("%s\t%s\n", btcHash160, btcBalance);
     return tx;
 }
 

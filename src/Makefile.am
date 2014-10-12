@@ -142,6 +142,8 @@ libsidecoin_common_a_SOURCES = \
 
 libsidecoin_cli_a_SOURCES = \
   rpcclient.cpp \
+  chainparams.cpp \
+  snapshot.cpp \
   $(SIDECOIN_CORE_H)
 
 nodist_libsidecoin_common_a_SOURCES = $(top_srcdir)/src/obj/build.h
