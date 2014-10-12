@@ -40,6 +40,8 @@ void Snapshot::LoadGenesisBlock(CBlock& genesis)
 {
     std::ifstream snapfile;
 
+
+
 #ifdef _WIN32
     char username[UNLEN+1];
     DWORD username_len = UNLEN+1;
