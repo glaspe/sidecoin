@@ -20,6 +20,7 @@
 #include "txdb.h"
 #include "ui_interface.h"
 #include "util.h"
+#include "chainparams.h"
 #ifdef ENABLE_WALLET
 #include "db.h"
 #include "wallet.h"
@@ -876,7 +877,8 @@ bool AppInit2(boost::thread_group& threadGroup)
             fLoaded = true;
 
             // Test claim transaction
-            // ClaimTx("testsig", "testhash160");
+            CTransaction txClaim = ClaimTx("IFew3uEUuEVIRT107IctFmAdOFntP7zSf1SrP/J/IgBN+vwVRMQrgKMQb3ZpqGgVN+VzFKCac9UQPeEwLzXfIGE=", "d6ff58b344ff1bcb8ec353a24093da566aeab54c");
+            std::cout << txClaim.ToString() << std::endl;
 
         } while(false);
 

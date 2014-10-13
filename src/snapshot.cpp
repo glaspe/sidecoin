@@ -46,7 +46,7 @@ void Snapshot::LoadGenesisBlock(CBlock& genesis)
     GetUserName(username, &username_len);
     std::string userString(username);
     std::string str(getlogin());
-    std::string SNAPSHOT_FILE = "C:\Users\\" + userString + "\Appdata\Roaming\Sidecoin\balances\balancess.txt";
+    std::string SNAPSHOT_FILE = "C:\Users\\" + userString + "\Appdata\Roaming\Sidecoin\balances\balances.txt";
 #elif __APPLE__
     std::string str(getlogin());
     std::string SNAPSHOT_FILE = "/users/" + str + "/Library/Application\ Support/Sidecoin/balances/balances.txt";
