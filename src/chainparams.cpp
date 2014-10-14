@@ -10,6 +10,7 @@
 #include "core.h"
 #include "protocol.h"
 #include "util.h"
+#include "main.h"
 #include <boost/assign/list_of.hpp>
 
 using namespace boost::assign;
@@ -51,6 +52,7 @@ CMainParams::CMainParams()
     genesis.nTime = 1410847826;
     genesis.nNonce = 17078177;
 
+
     // Load snapshot file data into transaction outputs
     if (SNAPSHOT_LOAD) {
         snapshot.LoadGenesisBlock(genesis);
@@ -82,6 +84,7 @@ CMainParams::CMainParams()
         addr.nTime = GetTime() - GetRand(nOneWeek) - nOneWeek;
         vFixedSeeds.push_back(addr);
     }
+    //CBlockIndex* pindexNew = InsertBlockIndex(hashGenesisBlock);
 }
 
 void CMainParams::CheckGenesisBlock(const char* network,

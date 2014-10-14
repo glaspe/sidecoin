@@ -2521,8 +2521,6 @@ CTransaction ClaimTx(const char* btcSig,
 {
     // new claiming transaction
     CTransaction tx;
-    std::cout << "ere" << std::endl;
-
 
     // prev. tx used as input
     CTransaction prevTx;
@@ -2532,70 +2530,36 @@ CTransaction ClaimTx(const char* btcSig,
                                      << ParseHex(btcHash160)
                                      << OP_EQUALVERIFY
                                      << OP_CHECKSIG;
-    std::cout << "ere" << std::endl;
 
-    uint256 hash = uint256("0x000000002d95b7c1046f2f5704aeae8439872bcb8f2777b9022f1f2c024a83d6");
-
-    //  uint256 hash = Params().GenesisBlock().GetHash();
-    std::cout << "ere" << std::endl;
+    uint256 hash = Params().GenesisBlock().GetHash();
 
         // fetch genesis block
         CBlockIndex* pblockindex = mapBlockIndex[hash];
-        std::cout << "ere" << std::endl;
 
-        // a lot of this junk below is from this method
-        // bool blockRead = ReadBlockFromDisk(block, pblockindex->GetBlockPos());
-
-        block.SetNull();
-        std::cout << "zere" << std::endl;
-
-
-        // Open history file to read
-        // THIS IS NOT EXECUTING.
-        OpenBlockFile(pblockindex->GetBlockPos(), true)
-                std::cout << "pi" << std::endl;
-
-        CAutoFile filein = CAutoFile(OpenBlockFile(pblockindex->GetBlockPos(), true), SER_DISK, CLIENT_VERSION);
-        std::cout << "ecre" << std::endl;
-
-        if (!filein)
-            std::cout << "ReadBlockFromDisk : OpenBlockFile failed" << std::endl;
-
-        // Read block
-        try {
-            filein >> block;
-            std::cout << "erce" << std::endl;
-
-        }
-        catch (std::exception &e) {
-            std::cout << "%s : Deserialize or I/O error - %s" << std::endl;
-        }
-
-        // Check the header
-        if (!CheckProofOfWork(block.GetHash(), block.nBits))
-            std::cout << "ReadBlockFromDisk : Errors in block header" << std::endl;
-
-
-        std::cout << "ere" << std::endl;
+        // read the genesis block into block
+        bool blockRead = ReadBlockFromDisk(block, pblockindex->GetBlockPos());
 
         // Find UTXO matching user's Bitcoin hash-160 pubkey
         for (unsigned i = 0, len = block.vtx.size(); i < len; ++i) {
-            // printf("%s\n", block.vtx[i].vout[0].scriptPubKey.ToString().c_str());
+              printf("%s\n", block.vtx[i].vout[0].scriptPubKey.ToString().c_str());
             if (block.vtx[i].vout[0].scriptPubKey == scriptPubKey) {
+                std::cout << "Woot" << std::endl;
                 prevTx = block.vtx[i];
-                std::cout << "ere" << std::endl;
 
                 // output value for claiming tx is the output of previous tx - a 1 mSC fee
                 // also the same as input of new tx - a 1 mSC fee
                 tx.vout.resize(1);
                 tx.vout[0].nValue = block.vtx[i].vout[0].nValue - 100000;
+                std::cout << "Wootif" << std::endl;
+
                 break;
             }
     }
 
+
+    tx.vin.resize(1);
     // index of the previous output for this input
     tx.vin[0].prevout.n = 0;
-    std::cout << "ere" << std::endl;
 
     // put the previous output hash as the txid in our input
     uint256 prevTxid = prevTx.GetHash();
@@ -2604,13 +2568,12 @@ CTransaction ClaimTx(const char* btcSig,
     // set vin0 scriptsig
     tx.vin[0].scriptSig = CScript() << ParseHex(btcSig) << ParseHex(btcHash160);
 
-    // set output script pub key
+    // set output script pub key to lock these coins up
     tx.vout[0].scriptPubKey = CScript() << OP_DUP
                                         << OP_HASH160
                                         << ParseHex(btcHash160)
                                         << OP_EQUALVERIFY
                                         << OP_CHECKSIG;
-    std::cout << "ere" << std::endl;
     return tx;
 }
 
@@ -2818,6 +2781,7 @@ FILE* OpenBlockFile(const CDiskBlockPos &pos, bool fReadOnly) {
 FILE* OpenUndoFile(const CDiskBlockPos &pos, bool fReadOnly) {
     return OpenDiskFile(pos, "rev", fReadOnly);
 }
+
 
 CBlockIndex * InsertBlockIndex(uint256 hash)
 {
