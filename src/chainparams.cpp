@@ -26,8 +26,8 @@ CMainParams::CMainParams()
     // Stored genesis block hash and merkle root
     uint256 hashGenesisBlock;
     uint256 hashMerkleRoot;
-    hashGenesisBlock = uint256("0x000000002d95b7c1046f2f5704aeae8439872bcb8f2777b9022f1f2c024a83d6");
-    hashMerkleRoot = uint256("0x3504132dc3e4abd639396f95d173afd56796f5ecb07da85c97e9130a1fea3921");
+    hashGenesisBlock = uint256("0x00000000201e879095869f4683ced1de69fd8cc8f2615a7a6cafa316a151e7b8");
+    hashMerkleRoot = uint256("0x2cd54b83991cd2e0ca3c20fdbe0b474baf619d1a4b86bcff1ea11ce7b33eabed");
 
     // The message start string is designed to be unlikely to occur in normal data.
     // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -49,8 +49,8 @@ CMainParams::CMainParams()
 
     genesis.hashPrevBlock = 0;
     genesis.nVersion = 1;
-    genesis.nTime = 1410847826;
-    genesis.nNonce = 17078177;
+    genesis.nTime = 1410847827;
+    genesis.nNonce = 1557934172;
 
 
     // Load snapshot file data into transaction outputs
@@ -105,10 +105,11 @@ void CMainParams::CheckGenesisBlock(const char* network,
     } else {
         // assert(genesis.vtx.size() == 26);   // 25 balances in the hardcoded snapshot
         printf("genesis block size: %ld\n", genesis.vtx.size());
-        assert(genesis.vtx.size() == 502);  // 500 balances in the test snapshot file
+        assert(genesis.vtx.size() == 25001);  // 500 balances in the test snapshot file
     }
     assert(genesis.GetHash() == hashGenesisBlock);
     assert(genesis.hashMerkleRoot == hashMerkleRoot);
+
 
     // Sanity check: if we just hashed the genesis block, print out its headers and a
     // few of its transactions so we can see if everything looks ok.
@@ -139,8 +140,9 @@ void CMainParams::CheckGenesisBlock(const char* network,
 CTestNetParams::CTestNetParams()
 {
     // Stored genesis block hash and merkle root
-    uint256 hashGenesisBlock = uint256("0x000000002d95b7c1046f2f5704aeae8439872bcb8f2777b9022f1f2c024a83d6");
-    uint256 hashMerkleRoot = uint256("0x3504132dc3e4abd639396f95d173afd56796f5ecb07da85c97e9130a1fea3921");
+    uint256 hashGenesisBlock = uint256("0x00000000201e879095869f4683ced1de69fd8cc8f2615a7a6cafa316a151e7b8");
+    uint256 hashMerkleRoot = uint256("0x2cd54b83991cd2e0ca3c20fdbe0b474baf619d1a4b86bcff1ea11ce7b33eabed");
+
 
     // The message start string is designed to be unlikely to occur in normal data.
     // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -155,8 +157,9 @@ CTestNetParams::CTestNetParams()
     strDataDir = "testnet3";
 
     // Modify the testnet genesis block so the timestamp is valid for a later start.
-    genesis.nTime = 1410847826;
-    genesis.nNonce = 17078177;
+    genesis.nTime = 1410847827;
+    genesis.nNonce = 1557934172;
+
 
     CheckGenesisBlock("testnet", hashGenesisBlock, hashMerkleRoot);
 
@@ -177,8 +180,8 @@ CTestNetParams::CTestNetParams()
 CRegTestParams::CRegTestParams()
 {
     // Stored genesis block hash and merkle root
-    uint256 hashGenesisBlock = uint256("0x5bb36e943fda32a32a9c657be810caf410910b1bc6d8ef686ad253cc09743806");
-    uint256 hashMerkleRoot = uint256("0x3504132dc3e4abd639396f95d173afd56796f5ecb07da85c97e9130a1fea3921");
+    uint256 hashGenesisBlock = uint256("0x77b2e762c01061156267a6672f41e405dad9f6f757821b50d0b480e06f5aecef");
+    uint256 hashMerkleRoot = uint256("0x2cd54b83991cd2e0ca3c20fdbe0b474baf619d1a4b86bcff1ea11ce7b33eabed");
 
     pchMessageStart[0] = 0xfa;
     pchMessageStart[1] = 0xbf;
@@ -190,7 +193,7 @@ CRegTestParams::CRegTestParams()
     strDataDir = "regtest";
 
     genesis.nTime = 1412548207;
-    genesis.nNonce = 1;
+    genesis.nNonce = 0;
     genesis.nBits = 0x207fffff;
 
     CheckGenesisBlock("regtest", hashGenesisBlock, hashMerkleRoot);

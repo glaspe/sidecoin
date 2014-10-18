@@ -1634,6 +1634,7 @@ void ThreadScriptCheck() {
 
 bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, CCoinsViewCache& view, bool fJustCheck)
 {
+    bool isGenesisBlock = block.GetHash() == Params().GenesisBlock().GetHash();
     // Check it again in case a previous version let a bad block in
     if (!CheckBlock(block, state, !fJustCheck, !fJustCheck))
         return false;
@@ -1699,7 +1700,7 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
 
         nInputs += tx.vin.size();
         nSigOps += GetLegacySigOpCount(tx);
-        if (nSigOps > MAX_BLOCK_SIGOPS)
+        if (!isGenesisBlock && nSigOps > MAX_BLOCK_SIGOPS)
             return state.DoS(100, error("ConnectBlock() : too many sigops"),
                              REJECT_INVALID, "bad-blk-sigops");
 
@@ -1715,7 +1716,7 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
                 // this is to prevent a "rogue miner" from creating
                 // an incredibly-expensive-to-validate block.
                 nSigOps += GetP2SHSigOpCount(tx, view);
-                if (nSigOps > MAX_BLOCK_SIGOPS)
+                if (!isGenesisBlock && nSigOps > MAX_BLOCK_SIGOPS)
                     return state.DoS(100, error("ConnectBlock() : too many sigops"),
                                      REJECT_INVALID, "bad-blk-sigops");
             }
@@ -2209,9 +2210,17 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     bool isGenesisBlock = block.GetHash() == Params().GenesisBlock().GetHash();
 
     // Size limits
-    if (block.vtx.empty() || block.vtx.size() > MAX_BLOCK_SIZE || ::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION) > MAX_BLOCK_SIZE)
-        return state.DoS(100, error("CheckBlock() : size limits failed"),
-                         REJECT_INVALID, "bad-blk-length");
+    if(!isGenesisBlock) {
+     if (block.vtx.empty() || block.vtx.size() > MAX_BLOCK_SIZE || ::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION) > MAX_BLOCK_SIZE)
+         return state.DoS(100, error("CheckBlock() : size limits failed"),
+                          REJECT_INVALID, "bad-blk-length");
+    }
+    // genesis block
+    else {
+        if (block.vtx.empty())
+            return state.DoS(100, error("CheckBlock() : size limits failed"),
+                             REJECT_INVALID, "bad-blk-length");
+    }
 
     // Check proof of work matches claimed amount
     if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits))
@@ -2262,7 +2271,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     {
         nSigOps += GetLegacySigOpCount(tx);
     }
-    if (nSigOps > MAX_BLOCK_SIGOPS)
+    if (!isGenesisBlock && nSigOps > MAX_BLOCK_SIGOPS)
         return state.DoS(100, error("CheckBlock() : out-of-bounds SigOpCount"),
                          REJECT_INVALID, "bad-blk-sigops", true);
 
@@ -2699,7 +2708,8 @@ uint256 CPartialMerkleTree::ExtractMatches(std::vector<uint256> &vMatch) {
     if (nTransactions == 0)
         return 0;
     // check for excessively high numbers of transactions
-    if (nTransactions > MAX_BLOCK_SIZE / 60) // 60 is the lower bound for the size of a serialized CTransaction
+   // bool isGenesisBlock = block.GetHash() == Params().GenesisBlock().GetHash();
+    if (nTransactions > MAX_BLOCK_SIZE) // 60 is the lower bound for the size of a serialized CTransaction
         return 0;
     // there can never be more hashes provided than one for every txid
     if (vHash.size() > nTransactions)
