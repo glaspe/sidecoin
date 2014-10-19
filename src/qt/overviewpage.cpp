@@ -25,7 +25,7 @@ class TxViewDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
 public:
-    TxViewDelegate(): QAbstractItemDelegate(), unit(SidecoinUnits::BTC)
+    TxViewDelegate(): QAbstractItemDelegate(), unit(SidecoinUnits::SDC)
     {
 
     }

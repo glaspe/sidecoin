@@ -16,9 +16,9 @@ SidecoinUnits::SidecoinUnits(QObject *parent):
 QList<SidecoinUnits::Unit> SidecoinUnits::availableUnits()
 {
     QList<SidecoinUnits::Unit> unitlist;
-    unitlist.append(BTC);
-    unitlist.append(mBTC);
-    unitlist.append(uBTC);
+    unitlist.append(SDC);
+    unitlist.append(mSDC);
+    unitlist.append(uSDC);
     return unitlist;
 }
 
@@ -26,9 +26,9 @@ bool SidecoinUnits::valid(int unit)
 {
     switch(unit)
     {
-    case BTC:
-    case mBTC:
-    case uBTC:
+    case SDC:
+    case mSDC:
+    case uSDC:
         return true;
     default:
         return false;
@@ -39,9 +39,9 @@ QString SidecoinUnits::name(int unit)
 {
     switch(unit)
     {
-    case BTC: return QString("BTC");
-    case mBTC: return QString("mBTC");
-    case uBTC: return QString::fromUtf8("μBTC");
+    case SDC: return QString("SDC");
+    case mSDC: return QString("mSDC");
+    case uSDC: return QString::fromUtf8("μSDC");
     default: return QString("???");
     }
 }
@@ -50,9 +50,9 @@ QString SidecoinUnits::description(int unit)
 {
     switch(unit)
     {
-    case BTC: return QString("Sidecoins");
-    case mBTC: return QString("Milli-Sidecoins (1 / 1,000)");
-    case uBTC: return QString("Micro-Sidecoins (1 / 1,000,000)");
+    case SDC: return QString("Sidecoins");
+    case mSDC: return QString("Milli-Sidecoins (1 / 1,000)");
+    case uSDC: return QString("Micro-Sidecoins (1 / 1,000,000)");
     default: return QString("???");
     }
 }
@@ -61,9 +61,9 @@ qint64 SidecoinUnits::factor(int unit)
 {
     switch(unit)
     {
-    case BTC:  return 100000000;
-    case mBTC: return 100000;
-    case uBTC: return 100;
+    case SDC:  return 100000000;
+    case mSDC: return 100000;
+    case uSDC: return 100;
     default:   return 100000000;
     }
 }
@@ -72,9 +72,9 @@ qint64 SidecoinUnits::maxAmount(int unit)
 {
     switch(unit)
     {
-    case BTC:  return Q_INT64_C(21000000);
-    case mBTC: return Q_INT64_C(21000000000);
-    case uBTC: return Q_INT64_C(21000000000000);
+    case SDC:  return Q_INT64_C(21000000);
+    case mSDC: return Q_INT64_C(21000000000);
+    case uSDC: return Q_INT64_C(21000000000000);
     default:   return 0;
     }
 }
@@ -83,9 +83,9 @@ int SidecoinUnits::amountDigits(int unit)
 {
     switch(unit)
     {
-    case BTC: return 8; // 21,000,000 (# digits, without commas)
-    case mBTC: return 11; // 21,000,000,000
-    case uBTC: return 14; // 21,000,000,000,000
+    case SDC: return 8; // 21,000,000 (# digits, without commas)
+    case mSDC: return 11; // 21,000,000,000
+    case uSDC: return 14; // 21,000,000,000,000
     default: return 0;
     }
 }
@@ -94,9 +94,9 @@ int SidecoinUnits::decimals(int unit)
 {
     switch(unit)
     {
-    case BTC: return 8;
-    case mBTC: return 5;
-    case uBTC: return 2;
+    case SDC: return 8;
+    case mSDC: return 5;
+    case uSDC: return 2;
     default: return 0;
     }
 }

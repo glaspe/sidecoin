@@ -220,7 +220,7 @@
 #define STDC_HEADERS 1
 
 /* Define if dbus support should be compiled in */
-/* #undef USE_DBUS */
+#define USE_DBUS 1
 
 /* Define if IPv6 support should be compiled in */
 #define USE_IPV6 1

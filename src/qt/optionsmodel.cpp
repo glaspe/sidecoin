@@ -52,7 +52,7 @@ void OptionsModel::Init()
 
     // Display
     if (!settings.contains("nDisplayUnit"))
-        settings.setValue("nDisplayUnit", SidecoinUnits::BTC);
+        settings.setValue("nDisplayUnit", SidecoinUnits::SDC);
     nDisplayUnit = settings.value("nDisplayUnit").toInt();
 
     if (!settings.contains("bDisplayAddresses"))

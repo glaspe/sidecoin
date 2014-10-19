@@ -134,7 +134,7 @@ bool parseSidecoinURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                if(!SidecoinUnits::parse(SidecoinUnits::BTC, i->second, &rv.amount))
+                if(!SidecoinUnits::parse(SidecoinUnits::SDC, i->second, &rv.amount))
                 {
                     return false;
                 }
@@ -173,7 +173,7 @@ QString formatSidecoinURI(const SendCoinsRecipient &info)
 
     if (info.amount)
     {
-        ret += QString("?amount=%1").arg(SidecoinUnits::format(SidecoinUnits::BTC, info.amount));
+        ret += QString("?amount=%1").arg(SidecoinUnits::format(SidecoinUnits::SDC, info.amount));
         paramCount++;
     }
 
