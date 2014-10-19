@@ -18,6 +18,7 @@
 #define GENESIS_SWITCH  false
 #define SNAPSHOT_LOAD   true
 
+
 class Snapshot
 {
 public:
