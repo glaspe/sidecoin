@@ -108,10 +108,12 @@ template<typename T>
 void ConvertTo(Value& value, bool fAllowNull=false)
 {
     if (fAllowNull && value.type() == null_type) return;
+    std::cout << "www" << std::endl;
     if (value.type() == str_type) {
         // reinterpret string as unquoted json value
         Value value2;
         string strJSON = value.get_str();
+        std::cout << strJSON << std::endl;
         if (!read_string(strJSON, value2)) {
             throw runtime_error(string("Error parsing JSON:") + strJSON);
         }
@@ -133,6 +135,7 @@ Array RPCConvertValues(const std::string &strMethod, const std::vector<std::stri
 
     //
     // Special case non-string parameter types
+    // don't need one for claimtx
     //
     if (strMethod == "stop"                  && n > 0) ConvertTo<bool>(params[0]);
     if (strMethod == "getaddednodeinfo"      && n > 0) ConvertTo<bool>(params[0]);

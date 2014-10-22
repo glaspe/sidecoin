@@ -201,6 +201,65 @@ Value help(const Array& params, bool fHelp)
     return tableRPC.help(strCommand);
 }
 
+Value claimtx(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() < 1)
+        throw runtime_error(
+            "claimtx \"bitcoin address\"\n"
+            "\nArguments:\n"
+            "1. \"address\"          (string, required) The bitcoin address you want to use to claim your coins\n"
+            "\nResult :\n"
+            "{\n"
+            "  \"rawtx\" : \"hash\",     (string) execute signrawtransaction with your bitcoin client, then type sendrawtransaction and the result that bitcoinqt gave you \n"
+            "  \"autoSuccess\" : true or false,   (boolean) True if we successfully automate this claim process if you have bitcoinqt already installed on your computer\n"
+            "}\n"
+            "\"data\"             (string) A raw transaction ready to be signed'.\n"
+            "\nExamples:\n"
+            + HelpExampleCli("claimtx", "\"1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX\"")
+            + HelpExampleRpc("claimtx", "\"12DL1vZrJVphm8PXcV9GNCtBYo3PCMn2No\"")
+        );
+
+    CTransaction prevTx;
+    CBlock block;
+    std::string btcHash160;
+    if (params.size() > 0) {
+     btcHash160 = params[0].get_str();
+     std::cout << btcHash160 << std::endl;
+    }
+    std::cout << "hi there" << std::endl;
+    CScript scriptPubKey = CScript() << OP_DUP
+                                     << OP_HASH160
+                                     << ParseHex(btcHash160)
+                                     << OP_EQUALVERIFY
+                                     << OP_CHECKSIG;
+
+     uint256 hash = Params().GenesisBlock().GetHash();
+
+        // fetch genesis block
+        CBlockIndex* pblockindex = mapBlockIndex[hash];
+
+        // read the genesis block into block
+        bool blockRead = ReadBlockFromDisk(block, pblockindex->GetBlockPos());
+
+        // Find UTXO matching user's Bitcoin hash-160 pubkey
+        for (unsigned i = 0, len = block.vtx.size(); i < len; ++i) {
+              printf("%s\n", block.vtx[i].vout[0].scriptPubKey.ToString().c_str());
+            if (block.vtx[i].vout[0].scriptPubKey == scriptPubKey) {
+                std::cout << "Woot" << std::endl;
+                prevTx = block.vtx[i];
+
+                // output value for claiming tx is the output of previous tx - a 1 mSC fee
+                // also the same as input of new tx - a 1 mSC fee
+          //      tx.vout.resize(1);
+            //    tx.vout[0].nValue = block.vtx[i].vout[0].nValue - 100000;
+                std::cout << "Wootif" << std::endl;
+
+                break;
+            }
+    }
+
+    return "done";
+}
 
 Value stop(const Array& params, bool fHelp)
 {
@@ -241,6 +300,7 @@ static const CRPCCommand vRPCCommands[] =
     { "getblockhash",           &getblockhash,           false,     false,      false },
     { "getrawtransaction",      &getrawtransaction,      false,     false,      false },
     { "createrawtransaction",   &createrawtransaction,   false,     false,      false },
+    { "claimtx",                &claimtx,                false,     false,      false },
     { "decoderawtransaction",   &decoderawtransaction,   false,     false,      false },
     { "decodescript",           &decodescript,           false,     false,      false },
     { "signrawtransaction",     &signrawtransaction,     false,     false,      false },
