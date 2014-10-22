@@ -4,6 +4,9 @@
 
 The sidecar to Bitcoin's motorcycle.  SideCoin is a fork of Bitcoin v. 0.9.1.
 
+Sidecoin allows you to take a snapshot of bitcoin's blockchain distribution and put it
+into a new blockchain
+
     - P2P port: 6543 (16543 for testnet)
     - RPC port: 6544 (16544 for testnet)
 
