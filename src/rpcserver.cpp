@@ -8,12 +8,18 @@
 
 #include "base58.h"
 #include "init.h"
+#include <stdint.h>
 #include "main.h"
 #include "ui_interface.h"
 #include "util.h"
 #ifdef ENABLE_WALLET
 #include "wallet.h"
 #endif
+#ifdef _WIN32
+    #include <windows.h>
+    #include <Lmcons.h>
+#endif
+#include "unistd.h"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/asio.hpp>
@@ -221,15 +227,65 @@ Value claimtx(const Array& params, bool fHelp)
 
     CTransaction prevTx;
     CBlock block;
-    std::string btcHash160;
+    bool defined = false;
+    std::string btcHash160Str;
+    std::string address;
+
+    uint256 prevTxid;
+    uint64_t txAmt = 0;
+
     if (params.size() > 0) {
-     btcHash160 = params[0].get_str();
-     std::cout << btcHash160 << std::endl;
+     address = params[0].get_str();
     }
-    std::cout << "hi there" << std::endl;
+
+    std::ifstream snapfile;
+
+    #ifdef _WIN32
+        char username[UNLEN+1];
+        DWORD username_len = UNLEN+1;
+        GetUserName(username, &username_len);
+        std::string userString(username);
+        std::string str(getlogin());
+        std::string SNAPSHOT_FILE = "C:\Users\\" + userString + "\Appdata\Roaming\Sidecoin\balances\balances.txt";
+    #elif __APPLE__
+        std::string str(getlogin());
+        std::string SNAPSHOT_FILE = "/users/" + str + "/Library/Application\ Support/Sidecoin/balances/balances.txt";
+    #elif __linux
+        std::string str(getlogin());
+        std::string SNAPSHOT_FILE = "/home/" + str + "/.sidecoin/balances/balances.txt";
+    #elif __unix
+        std::string str(getlogin());
+        std::string SNAPSHOT_FILE = "/home/" + str + "/.sidecoin/balances/balances.txt";
+    #endif
+
+    //printf("path: %s\n", SNAPSHOT_FILE.c_str());
+    snapfile.open(SNAPSHOT_FILE.c_str());
+    if (snapfile.good()) {
+        while (!snapfile.eof()) {
+            char buffer[1024];
+            const char* btcBalance = 0;
+            const char* btcHash160 = 0;
+            const char* btcAddress = 0;
+            snapfile.getline(buffer, 1024);
+            btcBalance = strtok(buffer, " ");
+            if (btcBalance) {
+                btcHash160 = strtok(0, " ");
+                if (btcHash160) {
+                    btcAddress = strtok(0, " ");
+
+                    if(btcAddress==address) {
+                        btcHash160Str = btcHash160;
+                    }
+                }
+            }
+        }
+    }
+
+
+
     CScript scriptPubKey = CScript() << OP_DUP
                                      << OP_HASH160
-                                     << ParseHex(btcHash160)
+                                     << ParseHex(btcHash160Str)
                                      << OP_EQUALVERIFY
                                      << OP_CHECKSIG;
 
@@ -243,22 +299,34 @@ Value claimtx(const Array& params, bool fHelp)
 
         // Find UTXO matching user's Bitcoin hash-160 pubkey
         for (unsigned i = 0, len = block.vtx.size(); i < len; ++i) {
-              printf("%s\n", block.vtx[i].vout[0].scriptPubKey.ToString().c_str());
+            //  printf("%s\n", block.vtx[i].vout[0].scriptPubKey.ToString().c_str());
             if (block.vtx[i].vout[0].scriptPubKey == scriptPubKey) {
-                std::cout << "Woot" << std::endl;
                 prevTx = block.vtx[i];
+                txAmt = (block.vtx[i].vout[0].nValue - 100000);
+                // prev out is 0
 
-                // output value for claiming tx is the output of previous tx - a 1 mSC fee
-                // also the same as input of new tx - a 1 mSC fee
-          //      tx.vout.resize(1);
-            //    tx.vout[0].nValue = block.vtx[i].vout[0].nValue - 100000;
-                std::cout << "Wootif" << std::endl;
-
+                // put the previous output hash as the txid in our input
+                prevTxid = prevTx.GetHash();
+                defined = true;
                 break;
             }
-    }
+         }
 
-    return "done";
+
+
+    if(defined) {
+        string txAmtString = boost::lexical_cast<string>(txAmt);
+        return "[{\"txid\":\""+prevTxid.ToString()+"\",\"vout\":0}]" + " {" + address +":" + txAmtString + "}";
+    }
+    else {
+        throw runtime_error(
+            "Couldn't find your address in the snapshot"
+            "\nExamples:\n"
+            + HelpExampleCli("claimtx", "\"1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX\"")
+            + HelpExampleRpc("claimtx", "\"12DL1vZrJVphm8PXcV9GNCtBYo3PCMn2No\"")
+        );
+        return "";
+    }
 }
 
 Value stop(const Array& params, bool fHelp)

@@ -58,7 +58,7 @@ void Snapshot::LoadGenesisBlock(CBlock& genesis)
     std::string SNAPSHOT_FILE = "/home/" + str + "/.sidecoin/balances/balances.txt";
 #endif
 
-    printf("path: %s\n", SNAPSHOT_FILE.c_str());
+   // printf("path: %s\n", SNAPSHOT_FILE.c_str());
     snapfile.open(SNAPSHOT_FILE.c_str());
     if (snapfile.good()) {
         while (!snapfile.eof()) {
