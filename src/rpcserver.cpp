@@ -313,10 +313,38 @@ Value claimtx(const Array& params, bool fHelp)
          }
 
 
-
     if(defined) {
-        string txAmtString = boost::lexical_cast<string>(txAmt);
-        return "[{\"txid\":\""+prevTxid.ToString()+"\",\"vout\":0}]" + " {" + address +":" + txAmtString + "}";
+        CTransaction rawTx;
+
+        uint256 txid = prevTxid;
+
+        int nOutput = 0;
+
+        CTxIn in(COutPoint(txid, nOutput));
+        rawTx.vin.push_back(in);
+
+
+
+        std::cout << address << std::endl;
+        CSidecoinAddress add;
+        add = CSidecoinAddress(address);
+
+        if (!add.IsValid())
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Sidecoin address: "));
+
+        CScript scriptPubKey;
+        scriptPubKey.SetDestination(add.Get());
+        int64_t nAmount = txAmt;
+
+        CTxOut out(nAmount, scriptPubKey);
+        rawTx.vout.push_back(out);
+
+
+        CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+        ss << rawTx;
+        return HexStr(ss.begin(), ss.end());
+        //string txAmtString = boost::lexical_cast<string>(txAmt);
+        //return "[{\"txid\":\""+prevTxid.ToString()+"\",\"vout\":0}]" + " {" + address +":" + txAmtString + "}";
     }
     else {
         throw runtime_error(
@@ -340,6 +368,7 @@ Value stop(const Array& params, bool fHelp)
     StartShutdown();
     return "Sidecoin server stopping";
 }
+
 
 
 

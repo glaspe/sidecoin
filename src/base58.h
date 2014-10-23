@@ -292,6 +292,7 @@ public:
 
     bool IsValid() const
     {
+        std::cout << vchData.size() << std::endl;
         bool fCorrectSize = vchData.size() == 20;
         bool fKnownVersion = vchVersion == Params().Base58Prefix(CChainParams::PUBKEY_ADDRESS) ||
                              vchVersion == Params().Base58Prefix(CChainParams::SCRIPT_ADDRESS);
