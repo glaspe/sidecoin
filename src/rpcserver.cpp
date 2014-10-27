@@ -357,7 +357,7 @@ Value claimtx(const Array& params, bool fHelp)
 
         CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
         ss << rawTx;
-        return "Open your bitcoin-qt client's rpc console (settings -> console) \n and paste the following and hit enter, then copy the data on the otherside of the \"hex:\" transaction text tup to the comma and come back to sidecoin \n and type sendrawtransaction then paste your raw transaction, hit enter \n after that you'll have claimed your sidecoins! \n '" + "signrawtransaction" + HexStr(ss.begin(), ss.end()) + "' '[{\"txid\":\"" + prevTxid.ToString()
+        return "Open your bitcoin-qt client's rpc console (settings -> console) \n and paste the following and hit enter, then copy the data on the otherside of the \"hex:\" transaction text tup to the comma and come back to sidecoin \n and type sendrawtransaction then paste your raw transaction, hit enter \n after that you'll have claimed your sidecoins! \n signrawtransaction '" + HexStr(ss.begin(), ss.end()) + "' '[{\"txid\":\"" + prevTxid.ToString()
                 +"\",\"vout\":0,\"scriptPubKey\":\"" + scriptPubKeyString
                 + "\"}]'";
 
