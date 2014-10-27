@@ -315,6 +315,8 @@ Value claimtx(const Array& params, bool fHelp)
                 prevTx = block.vtx[i];
                 txAmt = (block.vtx[i].vout[0].nValue - 100000);
                 scriptPubKeyString = HexStr(scriptPubKey.begin(), scriptPubKey.end(), true).c_str();
+                std::string::iterator end_pos = std::remove(scriptPubKeyString.begin(), scriptPubKeyString.end(), ' ');
+                scriptPubKeyString.erase(end_pos, str.end());
                 // prev out is 0
 
                 // put the previous output hash as the txid in our input
