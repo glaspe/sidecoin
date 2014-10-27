@@ -2531,6 +2531,7 @@ CTransaction ClaimTx(const char* btcSig,
     // new claiming transaction
     CTransaction tx;
 
+
     // prev. tx used as input
     CTransaction prevTx;
     CBlock block;

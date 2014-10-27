@@ -230,6 +230,7 @@ Value claimtx(const Array& params, bool fHelp)
     bool defined = false;
     std::string btcHash160Str;
     std::string address;
+    std::string scriptPubKeyString;
 
     uint256 prevTxid;
     uint64_t txAmt = 0;
@@ -267,14 +268,15 @@ Value claimtx(const Array& params, bool fHelp)
             const char* btcHash160 = 0;
             const char* btcAddress = 0;
             snapfile.getline(buffer, 1024);
-            btcBalance = strtok(buffer, " ");
+            btcBalance = strtok(buffer, "\t");
             if (btcBalance) {
-                btcHash160 = strtok(0, " ");
+                btcHash160 = strtok(0, "\t");
                 if (btcHash160) {
-                    btcAddress = strtok(0, " ");
+                    btcAddress = strtok(0, "\n");
 
                     if(btcAddress==address) {
                         btcHash160Str = btcHash160;
+                        std::cout << btcHash160Str << std::endl;
                     }
                 }
             }
@@ -282,31 +284,42 @@ Value claimtx(const Array& params, bool fHelp)
     }
 
 
+     CScript scriptPubKey = CScript() << OP_DUP
+                                      << OP_HASH160
+                                      << ParseHex(btcHash160Str)
+                                      << OP_EQUALVERIFY
+                                      << OP_CHECKSIG;
 
-    CScript scriptPubKey = CScript() << OP_DUP
-                                     << OP_HASH160
-                                     << ParseHex(btcHash160Str)
-                                     << OP_EQUALVERIFY
-                                     << OP_CHECKSIG;
 
-     uint256 hash = Params().GenesisBlock().GetHash();
+        //uint256 hash = Params().GenesisBlock().GetHash();
 
+        uint256 hash = uint256("0x000000002f278e4655e5ab04714a9ef4ba8a761ef39a5e567337369ddea85022");
         // fetch genesis block
         CBlockIndex* pblockindex = mapBlockIndex[hash];
+        std::cout << pblockindex->ToString() << std::endl;
 
         // read the genesis block into block
         bool blockRead = ReadBlockFromDisk(block, pblockindex->GetBlockPos());
+        if(blockRead) {
+            std::cout << "read" << std::endl;
+        }
+        else {
+            std::cout << "not_read" << std::endl;
+        }
 
         // Find UTXO matching user's Bitcoin hash-160 pubkey
         for (unsigned i = 0, len = block.vtx.size(); i < len; ++i) {
-            //  printf("%s\n", block.vtx[i].vout[0].scriptPubKey.ToString().c_str());
+             printf("%s\n", block.vtx[i].vout[0].scriptPubKey.ToString().c_str());
+             std::cout << scriptPubKey.ToString() << std::endl;
             if (block.vtx[i].vout[0].scriptPubKey == scriptPubKey) {
                 prevTx = block.vtx[i];
                 txAmt = (block.vtx[i].vout[0].nValue - 100000);
+                scriptPubKeyString = HexStr(scriptPubKey.begin(), scriptPubKey.end(), true).c_str();
                 // prev out is 0
 
                 // put the previous output hash as the txid in our input
                 prevTxid = prevTx.GetHash();
+                std::cout << "true" << std::endl;
                 defined = true;
                 break;
             }
@@ -342,7 +355,10 @@ Value claimtx(const Array& params, bool fHelp)
 
         CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
         ss << rawTx;
-        return HexStr(ss.begin(), ss.end());
+        return "Open your bitcoin-qt client's rpc console (settings -> console) \n and paste the following and hit enter, then copy the data on the otherside of the \"hex:\" transaction text tup to the comma and come back to sidecoin \n and type sendrawtransaction then paste your raw transaction, hit enter \n after that you'll have claimed your sidecoins! \n '" + "signrawtransaction" + HexStr(ss.begin(), ss.end()) + "' '[{\"txid\":\"" + prevTxid.ToString()
+                +"\",\"vout\":0,\"scriptPubKey\":\"" + scriptPubKeyString
+                + "\"}]'";
+
         //string txAmtString = boost::lexical_cast<string>(txAmt);
         //return "[{\"txid\":\""+prevTxid.ToString()+"\",\"vout\":0}]" + " {" + address +":" + txAmtString + "}";
     }

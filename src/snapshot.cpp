@@ -66,9 +66,9 @@ void Snapshot::LoadGenesisBlock(CBlock& genesis)
             const char* btcBalance = 0;
             const char* btcHash160 = 0;
             snapfile.getline(buffer, 1024);
-            btcBalance = strtok(buffer, " ");
+            btcBalance = strtok(buffer, "\t");
             if (btcBalance) {
-                btcHash160 = strtok(0, " ");
+                btcHash160 = strtok(0, "\t");
                 if (btcHash160) {
                     CTransaction tx;
                     tx = GenesisTx(genesis, btcHash160, btcBalance);
@@ -93,7 +93,7 @@ CTransaction Snapshot::GenesisTx(CBlock& genesis,
     tx.vin.resize(1);
     tx.vin[0].scriptSig = CScript() << ParseHex(btcHash160);
     tx.vout.resize(1);
-    tx.vout[0].nValue = atoi64(btcBalance) * COIN;
+    tx.vout[0].nValue = atoi64(btcBalance);
     tx.vout[0].scriptPubKey = CScript() << OP_DUP
                                         << OP_HASH160
                                         << ParseHex(btcHash160)
