@@ -1,0 +1,127 @@
+#!/bin/bash
+set -e
+trap "exit" INT
+OPTIND=1
+installdeps=1
+# If passed -d flag, do not download dependencies
+while getopts "d" opt; do
+case "$opt" in
+d) installdeps=0
+;;
+esac
+done
+shift $((OPTIND-1))
+[ "$1" = "--" ] && shift
+echo "Hello, $USER. We're going to create a snapshot of the blockchain"
+echo "Make sure you don't have any other blockparser .txt files"
+echo "from past snapshots in your blockparser folder"
+if [ $installdeps -eq 1 ]; then
+echo "First, we'll download libssl, g++, libboost, libsparsehash, git, perl deps"
+sudo apt-get install libssl-dev build-essential g++-4.4 libboost-all-dev libsparsehash-dev git-core bc openssl perl
+fi
+# Clone blockparser-memoryLean if the directory doesn't already exist
+if [ ! -d "blockparser-memoryLean" ]; then
+echo "Downloading blockparser memory lean version"
+git clone git://github.com/joeykrug/blockparser-memoryLean.git
+fi
+cd blockparser-memoryLean
+if [ -f "parser" ]; then
+make clean
+fi
+echo "Making block parser"
+make
+echo " "
+echo "Please enter the block number you want to do a snapshot of,"
+echo "followed by an enter"
+read block_number
+echo " "
+echo "Then enter the number of addresses you want"
+echo "to parse followed by an enter: "
+read num_addresses
+./parser allBalances -a "$block_number" -l "$num_addresses" > allBalancesUpTo"$block_number".txt
+echo " "
+echo "Now we have all btc addresses with hash 160 and some base 58 addresses"
+echo "We want all hash 160s and a list of balances, then we will convert all the hash 160 into base 58"
+echo " "
+awk '{print $1}' allBalancesUpTo"$block_number".txt > balances.txt
+awk '{print $2}' allBalancesUpTo"$block_number".txt > hash160.txt
+#Removing excess gunk at top of files
+ex -c ':1d' -c ':wq' balances.txt
+ex -c ':1d' -c ':wq' balances.txt
+ex -c ':1d' -c ':wq' balances.txt
+ex -c ':1d' -c ':wq' hash160.txt
+ex -c ':1d' -c ':wq' hash160.txt
+ex -c ':1d' -c ':wq' hash160.txt
+balance_total=0.0
+addBalances() {
+while read line
+do
+if [ "$line" != "" ]
+then
+balance_total=$(echo "$balance_total + $line" | bc)
+fi
+done <$1
+}
+base58=({1..9} {A..H} {J..N} {P..Z} {a..k} {m..z})
+EncodeBase58() {
+# 58 =0x3A
+bc <<<"ibase=16; n=${1^^}; while(n>0) { n%3A ; n/=3A }" |
+tac |
+while read n
+do echo -n ${base58[n]}
+done
+}
+Hash160ToAddress() {
+printf %34s $(EncodeBase58 "00$1$(checksum "00$1")")|
+sed "s/ /1/g"
+}
+checksum() {
+xxd -p -r <<<"$1" |
+openssl dgst -sha256 -binary |
+openssl dgst -sha256 -hex |
+cut -d\  -f2 |
+sed -r "s/^((..){4}).*/\1/"
+}
+echo "Now converting hash160 into base 58"
+echo "This will take a few hours, don't give up!"
+echo "Go watch some movies or do something else"
+echo ""
+while read line
+do
+Hash160ToAddress $line >> pubAddresses.txt
+echo "" >> pubAddresses.txt
+done <hash160.txt
+#removing \n from eof
+sudo sed -i '$ d' pubAddresses.txt
+#Add up the number of claims and get a total claim value
+addBalances balances.txt
+
+while read line
+do
+ if [ "$line" != "" ]
+ then
+    x=$(echo "$line*100000000" | bc)
+    echo "$x"
+ fi
+done < balances.txt > satoshiBalances.txt
+
+echo "Converting into a .txt snapshot"
+paste satoshiBalances.txt hash160.txt > intermediary.txt
+paste intermediary.txt pubAddresses.txt > snapshotToImport.txt
+
+#removing \n from eof
+sudo sed -i '$ d' snapshotToImport.txt
+
+cp snapshotToImport.txt snapshot.txt
+echo "Adding some relevant info regarding block hash & num of claims+amt"
+echo "To the snapshot.txt file"
+echo "Claim addresses & balances"|cat - snapshot.txt > /tmp/out && mv /tmp/out snapshot.txt
+echo "Number of claims: "$block_number""|cat - snapshot.txt > /tmp/out && mv /tmp/out snapshot.txt
+echo "Total claim value: "$balance_total""|cat - snapshot.txt > /tmp/out && mv /tmp/out snapshot.txt
+#Get the block hash then put it here!
+echo ""
+echo "Fetching the blockhash"
+block_hash=$(curl 'https://blockexplorer.com/q/getblockhash/'"$block_number")
+echo "Block hash: "$block_hash""|cat - snapshot.txt > /tmp/out && mv /tmp/out snapshot.txt
+echo "Version: 01"|cat - snapshot.txt > /tmp/out && mv /tmp/out snapshot.txt
+echo "Done!"

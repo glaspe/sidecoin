@@ -1,3 +1,4 @@
+
 #!/bin/bash
 # rebuild headless sidecoind (no sidecoin-qt)
 
@@ -48,7 +49,7 @@ srcdir="$(dirname $0)"
 cd "$srcdir"
 autoreconf --install --force --prepend-include=${BDB_PREFIX}/include/
 
-./configure CPPFLAGS="-I${BDB_PREFIX}/include/ -O2 -ggdb -O0" LDFLAGS="-L${BDB_PREFIX}/lib/" USE_UPNP= --enable-debug --with-gui=qt5 #--disable-wallet --disable-tests
+./configure CPPFLAGS="-I${BDB_PREFIX}/include/ -O2 -ggdb -O0" LDFLAGS="-L${BDB_PREFIX}/lib/" USE_UPNP= --enable-debug --with-gui #--disable-wallet --disable-tests
 
 make
 strip src/sidecoind
