@@ -15,3 +15,11 @@ into a new blockchain
 If you're on a somewhat recent version of Ubuntu, you can install using:
 
     $ ./install.sh
+
+### OS X Build Instructions
+
+use brew to get boost
+
+./autogen.sh
+sudo ./configure --with-boost=/usr/local/Cellar/boost/1.55.0_2/ --with-incompatible-bdb --with-qt
+make
