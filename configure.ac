@@ -407,8 +407,8 @@ if test x$use_tests = xyes; then
   CPPFLAGS="$TEMP_CPPFLAGS"
 fi
 
+
 BOOST_LIBS="$BOOST_LDFLAGS $BOOST_SYSTEM_LIB $BOOST_FILESYSTEM_LIB $BOOST_PROGRAM_OPTIONS_LIB $BOOST_THREAD_LIB"
-BOOST_INCLUDES="$BOOST_CPPFLAGS"
 
 dnl Boost >= 1.50 uses sleep_for rather than the now-deprecated sleep, however
 dnl it was broken from 1.50 to 1.52 when backed by nanosleep. Use sleep_for if
@@ -417,23 +417,20 @@ dnl after 1.56.
 dnl If neither is available, abort.
 dnl If sleep_for is used, boost_chrono becomes a requirement.
 if test x$ax_cv_boost_chrono = xyes; then
-dnl Allow passing extra needed dependency libraries for boost-chrono from static gitian build
-BOOST_CHRONO_LIB="$BOOST_CHRONO_LIB $BOOST_CHRONO_EXTRALIBS"
-
 TEMP_LIBS="$LIBS"
-LIBS="$LIBS $BOOST_LIBS $BOOST_CHRONO_LIB"
+LIBS="$BOOST_LIBS $BOOST_CHRONO_LIB $LIBS"
 TEMP_CPPFLAGS="$CPPFLAGS"
 CPPFLAGS="$CPPFLAGS $BOOST_CPPFLAGS"
-AC_TRY_LINK([
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[
   #include <boost/thread/thread.hpp>
   #include <boost/version.hpp>
-  ],[
+  ]],[[
   #if BOOST_VERSION >= 105000 && (!defined(BOOST_HAS_NANOSLEEP) || BOOST_VERSION >= 105200)
       boost::this_thread::sleep_for(boost::chrono::milliseconds(0));
   #else
    choke me
   #endif
-  ],
+  ]])],
   [boost_sleep=yes; BOOST_LIBS="$BOOST_LIBS $BOOST_CHRONO_LIB";
      AC_DEFINE(HAVE_WORKING_BOOST_SLEEP_FOR, 1, [Define this symbol if boost sleep_for works])],
   [boost_sleep=no])
@@ -443,20 +440,20 @@ fi
 
 if test x$boost_sleep != xyes; then
 TEMP_LIBS="$LIBS"
-LIBS="$LIBS $BOOST_LIBS"
+LIBS="$BOOST_LIBS $LIBS"
 TEMP_CPPFLAGS="$CPPFLAGS"
 CPPFLAGS="$CPPFLAGS $BOOST_CPPFLAGS"
-AC_TRY_LINK([
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[
   #include <boost/version.hpp>
   #include <boost/thread.hpp>
   #include <boost/date_time/posix_time/posix_time_types.hpp>
-  ],[
+  ]],[[
   #if BOOST_VERSION <= 105600
       boost::this_thread::sleep(boost::posix_time::milliseconds(0));
   #else
    choke me
   #endif
-  ],
+  ]])],
   [boost_sleep=yes; AC_DEFINE(HAVE_WORKING_BOOST_SLEEP, 1, [Define this symbol if boost sleep works])],
   [boost_sleep=no])
 LIBS="$TEMP_LIBS"
@@ -464,7 +461,7 @@ CPPFLAGS="$TEMP_CPPFLAGS"
 fi
 
 if test x$boost_sleep != xyes; then
-  AC_MSG_ERROR(No working boost sleep implementation found. If on ubuntu 13.10 with libboost1.54-all-dev remove libboost.1.54-all-dev and use libboost1.53-all-dev)
+  AC_MSG_ERROR(No working boost sleep implementation found.)
 fi
 
 AC_ARG_WITH([cli],

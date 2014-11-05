@@ -153,7 +153,7 @@
 #define HAVE_MINIUPNPC_UPNPERRORS_H 1
 
 /* Define this symbol if you have MSG_NOSIGNAL */
-#define HAVE_MSG_NOSIGNAL 1
+/* #undef HAVE_MSG_NOSIGNAL */
 
 /* Define if you have POSIX threads libraries and header files. */
 #define HAVE_PTHREAD 1
@@ -226,7 +226,7 @@
 #define USE_IPV6 1
 
 /* Define if QR support should be compiled in */
-/* #undef USE_QRCODE */
+#define USE_QRCODE 1
 
 /* UPnP support not compiled if undefined, otherwise value (0 or 1) determines
    default state */
