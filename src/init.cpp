@@ -880,7 +880,7 @@ bool AppInit2(boost::thread_group& threadGroup)
             // Test claim transaction
            // CTransaction txClaim = ClaimTx("IFew3uEUuEVIRT107IctFmAdOFntP7zSf1SrP/J/IgBN+vwVRMQrgKMQb3ZpqGgVN+VzFKCac9UQPeEwLzXfIGE=", "d6ff58b344ff1bcb8ec353a24093da566aeab54c");
            // std::cout << txClaim.ToString() << std::endl;
-            //  CBlock blockOne = blockOneTx();
+           CBlock blockOne = blockOneTx();
 
         } while(false);
 

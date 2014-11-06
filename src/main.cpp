@@ -1051,6 +1051,9 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex)
         return false;
     if (block.GetHash() != pindex->GetBlockHash())
         return error("ReadBlockFromDisk(CBlock&, CBlockIndex*) : GetHash() doesn't match index");
+
+    std::cout << "ww" << std::endl;
+
     return true;
 }
 
@@ -1667,7 +1670,8 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
     bool fEnforceBIP30 = (!pindex->phashBlock) || // Enforce on CreateNewBlock invocations which don't have a hash.
                           !((pindex->nHeight==91842 && pindex->GetBlockHash() == uint256("0x00000000000a4d0a398161ffc163c503763b1f4360639393e0e4c8e300e0caec")) ||
                            (pindex->nHeight==91880 && pindex->GetBlockHash() == uint256("0x00000000000743f190a18c5577a3c2d2a1f610ae9601ac046a38084ccb7cd721")));
-    if (fEnforceBIP30) {
+    // and as long as isn't block 1
+    if (fEnforceBIP30 && block.hashPrevBlock!=Params().GenesisBlock().GetHash()) {
         for (unsigned int i = 0; i < block.vtx.size(); i++) {
             uint256 hash = block.GetTxHash(i);
             if (view.HaveCoins(hash) && !view.GetCoins(hash).IsPruned())
@@ -1675,6 +1679,7 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
                                  REJECT_INVALID, "bad-txns-BIP30");
         }
     }
+
 
     // BIP16 didn't become active until Apr 1 2012
     int64_t nBIP16SwitchTime = 1333238400;
@@ -1694,6 +1699,7 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
     CDiskTxPos pos(pindex->GetBlockPos(), GetSizeOfCompactSize(block.vtx.size()));
     std::vector<std::pair<uint256, CDiskTxPos> > vPos;
     vPos.reserve(block.vtx.size());
+
     for (unsigned int i = 0; i < block.vtx.size(); i++)
     {
         const CTransaction &tx = block.vtx[i];
@@ -1728,6 +1734,7 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
                 return false;
             control.Add(vChecks);
         }
+
 
         CTxUndo txundo;
         UpdateCoins(tx, state, view, txundo, pindex->nHeight, block.GetTxHash(i));
@@ -1795,6 +1802,9 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
     // Watch for transactions paying to me
     for (unsigned int i = 0; i < block.vtx.size(); i++)
         g_signals.SyncTransaction(block.GetTxHash(i), block.vtx[i], &block);
+
+
+    std::cout << "WOOOWOWO" << std::endl;
 
     return true;
 }
@@ -1903,16 +1913,24 @@ bool static ConnectTip(CValidationState &state, CBlockIndex *pindexNew) {
     mempool.check(pcoinsTip);
     // Read block from disk.
     CBlock block;
+    std::cout << "ww" << std::endl;
     if (!ReadBlockFromDisk(block, pindexNew)) {
         return state.Abort(_("Failed to read block"));
     }
     // Apply the block atomically to the chain state.
     int64_t nStart = GetTimeMicros();
     {
+        std::cout << "wwmm" << std::endl;
         CCoinsViewCache view(*pcoinsTip, true);
         CInv inv(MSG_BLOCK, pindexNew->GetBlockHash());
+        std::cout << "wwmm" << std::endl;
+
         if (!ConnectBlock(block, state, pindexNew, view)) {
+            std::cout << "wwvvvmm" << std::endl;
+
             if (state.IsInvalid()) {
+                std::cout << "wwvvvmmmmmnnnnnmm" << std::endl;
+
                 InvalidBlockFound(pindexNew, state);
             }
             return error("ConnectTip() : ConnectBlock %s failed", pindexNew->GetBlockHash().ToString());
@@ -1920,6 +1938,7 @@ bool static ConnectTip(CValidationState &state, CBlockIndex *pindexNew) {
         mapBlockSource.erase(inv.hash);
         assert(view.Flush());
     }
+    std::cout << "ya" << std::endl;
     if (fBenchmark)
         LogPrintf("- Connect: %.2fms\n", (GetTimeMicros() - nStart) * 0.001);
     // Write the chain state to disk, if necessary.
@@ -1932,6 +1951,7 @@ bool static ConnectTip(CValidationState &state, CBlockIndex *pindexNew) {
         mempool.remove(tx, unused);
         mempool.removeConflicts(tx, txConflicted);
     }
+    std::cout << "wwww" << std::endl;
     mempool.check(pcoinsTip);
     // Update chainActive & related variables.
     UpdateTip(pindexNew);
@@ -1940,6 +1960,7 @@ bool static ConnectTip(CValidationState &state, CBlockIndex *pindexNew) {
     BOOST_FOREACH(const CTransaction &tx, txConflicted) {
         SyncWithWallets(tx.GetHash(), tx, NULL);
     }
+    std::cout << "zzz" << std::endl;
     // ... and about transactions that got confirmed:
     BOOST_FOREACH(const CTransaction &tx, block.vtx) {
         SyncWithWallets(tx.GetHash(), tx, &block);
@@ -2572,6 +2593,10 @@ CBlock blockOneTx() {
      if(!fAccepted) {
          std::cout << "dang" << std::endl;
      }
+     CBlockIndex* pblockindexnew = mapBlockIndex[blockOne.GetHash()];
+     //bool connected = ConnectTip(state, pblockindexnew);
+    // if(connected)
+      //   std::cout << "connected" << std::endl;
      return blockOne;
 }
 
