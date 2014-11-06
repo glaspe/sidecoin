@@ -1700,7 +1700,7 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
 
         nInputs += tx.vin.size();
         nSigOps += GetLegacySigOpCount(tx);
-        if (!isGenesisBlock && nSigOps > MAX_BLOCK_SIGOPS)
+        if (!isGenesisBlock && !block.hashPrevBlock==Params().GenesisBlock().GetHash() && nSigOps > MAX_BLOCK_SIGOPS)
             return state.DoS(100, error("ConnectBlock() : too many sigops"),
                              REJECT_INVALID, "bad-blk-sigops");
 
@@ -1716,7 +1716,7 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
                 // this is to prevent a "rogue miner" from creating
                 // an incredibly-expensive-to-validate block.
                 nSigOps += GetP2SHSigOpCount(tx, view);
-                if (!isGenesisBlock && nSigOps > MAX_BLOCK_SIGOPS)
+                if (!isGenesisBlock && !block.hashPrevBlock==Params().GenesisBlock().GetHash() && nSigOps > MAX_BLOCK_SIGOPS)
                     return state.DoS(100, error("ConnectBlock() : too many sigops"),
                                      REJECT_INVALID, "bad-blk-sigops");
             }
@@ -2210,11 +2210,14 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     bool isGenesisBlock = block.GetHash() == Params().GenesisBlock().GetHash();
 
     // Size limits
-    if(!isGenesisBlock) {
-     if (block.vtx.empty() || block.vtx.size() > MAX_BLOCK_SIZE || ::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION) > MAX_BLOCK_SIZE)
+    // if not block one (the big transaction block) and not genesis block
+    if(!isGenesisBlock && !block.hashPrevBlock==Params().GenesisBlock().GetHash()) {
+     if (block.vtx.empty() || block.vtx.size() > MAX_BLOCK_SIZE || ::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION) > MAX_BLOCK_SIZE) {
          return state.DoS(100, error("CheckBlock() : size limits failed"),
                           REJECT_INVALID, "bad-blk-length");
+     }
     }
+
     // genesis block
     else {
         if (block.vtx.empty())
@@ -2222,39 +2225,49 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                              REJECT_INVALID, "bad-blk-length");
     }
 
+
+
     // Check proof of work matches claimed amount
     if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits))
         return state.DoS(50, error("CheckBlock() : proof of work failed"),
                          REJECT_INVALID, "high-hash");
+
 
     // Check timestamp
     if (block.GetBlockTime() > GetAdjustedTime() + 2 * 60 * 60)
         return state.Invalid(error("CheckBlock() : block timestamp too far in the future"),
                              REJECT_INVALID, "time-too-new");
 
+
     // First transaction must be coinbase, the rest must not be
     if (block.vtx.empty() || !block.vtx[0].IsCoinBase())
         return state.DoS(100, error("CheckBlock() : first tx is not coinbase"),
                          REJECT_INVALID, "bad-cb-missing");
 
-    // Genesis block can contain more than one "coinbase" transaction:
+
+
+    // Genesis/block one blocks can contain more than one "coinbase" transaction:
     // snapshot transactions have no prevout field
     for (unsigned int i = 1; i < block.vtx.size(); i++) {
-        if (!isGenesisBlock && block.vtx[i].IsCoinBase()) {
+        if (!isGenesisBlock && !block.hashPrevBlock==Params().GenesisBlock().GetHash() && block.vtx[i].IsCoinBase()) {
             return state.DoS(100, error("CheckBlock() : more than one coinbase"),
                              REJECT_INVALID, "bad-cb-multiple");
         }
     }
+
 
     // Check transactions
     BOOST_FOREACH(const CTransaction& tx, block.vtx)
         if (!CheckTransaction(tx, state))
             return error("CheckBlock() : CheckTransaction failed");
 
+
+
     // Build the merkle tree already. We need it anyway later, and it makes the
     // block cache the transaction hashes, which means they don't need to be
     // recalculated many times during this block's validation.
     block.BuildMerkleTree();
+
 
     // Check for duplicate txids. This is caught by ConnectInputs(),
     // but catching it earlier avoids a potential DoS attack:
@@ -2271,9 +2284,10 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     {
         nSigOps += GetLegacySigOpCount(tx);
     }
-    if (!isGenesisBlock && nSigOps > MAX_BLOCK_SIGOPS)
+    if (!isGenesisBlock && !block.hashPrevBlock==Params().GenesisBlock().GetHash() && nSigOps > MAX_BLOCK_SIGOPS)
         return state.DoS(100, error("CheckBlock() : out-of-bounds SigOpCount"),
                          REJECT_INVALID, "bad-blk-sigops", true);
+
 
     // Check merkle root (genesis block excepted)
     if (fCheckMerkleRoot && !isGenesisBlock && block.hashMerkleRoot != block.vMerkleTree.back()) {
@@ -2290,6 +2304,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CDiskBlockPos* dbp)
     uint256 hash = block.GetHash();
     if (mapBlockIndex.count(hash))
         return state.Invalid(error("AcceptBlock() : block already in mapBlockIndex"), 0, "duplicate");
+
 
     // Get prev block index
     CBlockIndex* pindexPrev = NULL;
@@ -2353,10 +2368,12 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CDiskBlockPos* dbp)
         // }
     }
 
+
     // Write block to history file
     try {
         unsigned int nBlockSize = ::GetSerializeSize(block, SER_DISK, CLIENT_VERSION);
         CDiskBlockPos blockPos;
+
         if (dbp != NULL)
             blockPos = *dbp;
         if (!FindBlockPos(state, blockPos, nBlockSize+8, nHeight, block.nTime, dbp != NULL))
@@ -2432,18 +2449,20 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
     // Preliminary checks
     if (!CheckBlock(*pblock, state)) {
         // DIAGNOSTIC
-        // printf("%s\n\n", pblock->GetHash().ToString().c_str());
+        printf("%s\n\n", pblock->GetHash().ToString().c_str());
         if (state.CorruptionPossible()) {
             mapAlreadyAskedFor.erase(CInv(MSG_BLOCK, hash));
         }
         return error("ProcessBlock() : CheckBlock FAILED");
     }
 
+
     CBlockIndex* pcheckpoint = Checkpoints::GetLastCheckpoint(mapBlockIndex);
     if (pcheckpoint && pblock->hashPrevBlock != (chainActive.Tip() ? chainActive.Tip()->GetBlockHash() : uint256(0)))
     {
         // Extra checks to prevent "fill up memory by spamming with bogus blocks"
         int64_t deltaTime = pblock->GetBlockTime() - pcheckpoint->nTime;
+
         if (deltaTime < 0)
         {
             return state.DoS(100, error("ProcessBlock() : block with timestamp before last checkpoint"),
@@ -2453,6 +2472,7 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
         bnNewBlock.SetCompact(pblock->nBits);
         CBigNum bnRequired;
         bnRequired.SetCompact(ComputeMinWork(pcheckpoint->nBits, deltaTime));
+
         if (bnNewBlock > bnRequired)
         {
             return state.DoS(100, error("ProcessBlock() : block with too little proof-of-work"),
@@ -2460,16 +2480,17 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
         }
     }
 
-
     // If we don't already have its previous block, shunt it off to holding area until we get it
     if (pblock->hashPrevBlock != 0 && !mapBlockIndex.count(pblock->hashPrevBlock))
     {
         LogPrintf("ProcessBlock: ORPHAN BLOCK %lu, prev=%s\n", (unsigned long)mapOrphanBlocks.size(), pblock->hashPrevBlock.ToString());
 
+
         // Accept orphans as long as there is a node to request its parents from
         if (pfrom) {
             PruneOrphanBlocks();
             COrphanBlock* pblock2 = new COrphanBlock();
+
             {
                 CDataStream ss(SER_DISK, CLIENT_VERSION);
                 ss << *pblock;
@@ -2477,6 +2498,7 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
             }
             pblock2->hashBlock = hash;
             pblock2->hashPrev = pblock->hashPrevBlock;
+
             mapOrphanBlocks.insert(make_pair(hash, pblock2));
             mapOrphanBlocksByPrev.insert(make_pair(pblock2->hashPrev, pblock2));
 
@@ -2486,15 +2508,18 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
         return true;
     }
 
+
     // Store to disk
     if (!AcceptBlock(*pblock, state, dbp))
         return error("ProcessBlock() : AcceptBlock FAILED");
 
     // Recursively process any orphan blocks that depended on this one
     vector<uint256> vWorkQueue;
+
     vWorkQueue.push_back(hash);
     for (unsigned int i = 0; i < vWorkQueue.size(); i++)
     {
+
         uint256 hashPrev = vWorkQueue[i];
         for (multimap<uint256, COrphanBlock*>::iterator mi = mapOrphanBlocksByPrev.lower_bound(hashPrev);
              mi != mapOrphanBlocksByPrev.upper_bound(hashPrev);
@@ -2508,19 +2533,47 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
             block.BuildMerkleTree();
             // Use a dummy CValidationState so someone can't setup nodes to counter-DoS based on orphan resolution (that is, feeding people an invalid block based on LegitBlockX in order to get anyone relaying LegitBlockX banned)
             CValidationState stateDummy;
+
             if (AcceptBlock(block, stateDummy))
                 vWorkQueue.push_back(mi->second->hashBlock);
             mapOrphanBlocks.erase(mi->second->hashBlock);
             delete mi->second;
         }
         mapOrphanBlocksByPrev.erase(hashPrev);
+
     }
 
     LogPrintf("ProcessBlock: ACCEPTED\n");
     return true;
 }
 
-
+/**
+  * Build block one with the uxto transactions
+  */
+CBlock blockOneTx() {
+     CBlock blockOne;
+     CValidationState state;
+     Snapshot snapshotInst;
+     blockOne.nBits = 0x1d00ffff;
+     snapshotInst.CoinbaseTx(blockOne);
+     blockOne.hashPrevBlock = Params().GenesisBlock().GetHash();
+     blockOne.nVersion = 1;
+     blockOne.nTime = 1410877000;
+     blockOne.nNonce = 795703853;
+     snapshotInst.LoadGenesisBlock(blockOne);
+     // - Hash: 00000000e93c87ac33ae5d62a1ab3da13610f114893a62a1f19805c594bb6fc1
+     // - hashMerkleRoot: e8444a164d064b0ef40692767db4fa0f121f14684a357a5c60fd3f93451621ee
+     blockOne.hashMerkleRoot = blockOne.BuildMerkleTree();
+     //snapshotInst.HashGenesisBlock(blockOne, true);
+     bool fAccepted = ProcessBlock(state, NULL, &blockOne);
+     if(fAccepted) {
+         std::cout << "yay" << std::endl;
+     }
+     if(!fAccepted) {
+         std::cout << "dang" << std::endl;
+     }
+     return blockOne;
+}
 
 /**
  * Claim unspent outputs from the genesis block.
@@ -2709,8 +2762,7 @@ uint256 CPartialMerkleTree::ExtractMatches(std::vector<uint256> &vMatch) {
     if (nTransactions == 0)
         return 0;
     // check for excessively high numbers of transactions
-   // bool isGenesisBlock = block.GetHash() == Params().GenesisBlock().GetHash();
-    if (nTransactions > MAX_BLOCK_SIZE) // 60 is the lower bound for the size of a serialized CTransaction
+    if (nTransactions > MAX_BLOCK_SIZE*3) // 60 is the lower bound for the size of a serialized CTransaction
         std::cout << "issue" << std::endl;
         return 0;
     // there can never be more hashes provided than one for every txid
@@ -3097,7 +3149,7 @@ bool LoadExternalBlockFile(FILE* fileIn, CDiskBlockPos *dbp)
                     continue;
                 // read size
                 blkdat >> nSize;
-                if (nSize < 80 || nSize > MAX_BLOCK_SIZE)
+                if (nSize < 80 || nSize > MAX_BLOCK_SIZE*5)
                     continue;
             } catch (std::exception &e) {
                 // no valid block header found; don't complain

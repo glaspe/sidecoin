@@ -250,7 +250,7 @@ Value claimtx(const Array& params, bool fHelp)
         std::string SNAPSHOT_FILE = "C:\Users\\" + userString + "\Appdata\Roaming\Sidecoin\balances\balances.txt";
     #elif __APPLE__
         std::string str(getlogin());
-        std::string SNAPSHOT_FILE = "/users/" + str + "/Library/Application\ Support/Sidecoin/balances/balances.txt";
+        std::string SNAPSHOT_FILE = "/users/" + str + "/Library/Application Support/Sidecoin/balances/balances.txt";
     #elif __linux
         std::string str(getlogin());
         std::string SNAPSHOT_FILE = "/home/" + str + "/.sidecoin/balances/balances.txt";
