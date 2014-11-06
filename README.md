@@ -20,6 +20,12 @@ If you're on a somewhat recent version of Ubuntu, you can install using:
 
 use brew to get boost
 
-./autogen.sh
-sudo ./configure --with-boost=/usr/local/Cellar/boost/1.55.0_2/ --with-incompatible-bdb --with-qt
-make
+Install using: 
+	./autogen.sh
+	sudo ./configure --with-boost=/usr/local/Cellar/boost/1.55.0_2/ --with-incompatible-bdb --with-qt
+	make
+
+Make the sidecoin directory in /Users/username/Library/Application\ Support/Sidecoin
+
+Copy the sidecoin.conf file to that directory, also create a dir in that dir called balances and 
+place the balances.txt inside that folder.
