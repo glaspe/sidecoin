@@ -293,7 +293,7 @@ Value claimtx(const Array& params, bool fHelp)
 
         //uint256 hash = Params().GenesisBlock().GetHash();
 
-        uint256 hash = uint256("0x000000002f278e4655e5ab04714a9ef4ba8a761ef39a5e567337369ddea85022");
+        uint256 hash = uint256("0x00000000e93c87ac33ae5d62a1ab3da13610f114893a62a1f19805c594bb6fc1");
         // fetch genesis block
         CBlockIndex* pblockindex = mapBlockIndex[hash];
         std::cout << pblockindex->ToString() << std::endl;
