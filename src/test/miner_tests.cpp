@@ -7,6 +7,7 @@
 
 #include <boost/test/unit_test.hpp>
 
+// NOTE: These will fail unless >100 blocks mined!
 extern void SHA256Transform(void* pstate, void* pinput, const void* pinit);
 
 BOOST_AUTO_TEST_SUITE(miner_tests)
