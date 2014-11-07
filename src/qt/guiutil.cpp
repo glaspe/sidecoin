@@ -160,7 +160,7 @@ bool parseSidecoinURI(QString uri, SendCoinsRecipient *out)
     //    which will lower-case it (and thus invalidate the address).
     if(uri.startsWith("sidecoin://", Qt::CaseInsensitive))
     {
-        uri.replace(0, 10, "sidecoin:");
+        uri.replace(0, 11, "sidecoin:");
     }
     QUrl uriInstance(uri);
     return parseSidecoinURI(uriInstance, out);
