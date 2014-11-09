@@ -1535,27 +1535,18 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
     if (blockUndo.vtxundo.size() + 1 != block.vtx.size())
         return error("DisconnectBlock() : block and undo data inconsistent");
 
-    std::cout << "wowoowowo" << std::endl;
     // undo transactions in reverse order
     for (int i = block.vtx.size() - 1; i >= 0; i--) {
         const CTransaction &tx = block.vtx[i];
         uint256 hash = tx.GetHash();
-
-        std::cout << "osssssoo" << std::endl;
 
         // Check that all outputs are available and match the outputs in the block itself
         // exactly. Note that transactions with only provably unspendable outputs won't
         // have outputs available even in the block itself, so we handle that case
         // specially with outsEmpty.
         CCoins outsEmpty;
-        std::cout << "ollllsoo" << std::endl;
-
         CCoins &outs = view.HaveCoins(hash) ? view.GetCoins(hash) : outsEmpty;
-        std::cout << "looo" << std::endl;
-
         outs.ClearUnspendable();
-
-        std::cout << "loloo" << std::endl;
 
         CCoins outsBlock = CCoins(tx, pindex->nHeight);
         // The CCoins serialization does not serialize negative numbers.
@@ -1571,8 +1562,12 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
         // remove outputs
         outs = CCoins();
 
+        std::cout << "locncncoo" << std::endl;
+
+
         // restore inputs
-        if (i > 0) { // not coinbases
+        // if not coinbase tx and not block one
+        if (i > 0 && !block.hashPrevBlock==Params().GenesisBlock().GetHash()) { // not coinbases
             const CTxUndo &txundo = blockUndo.vtxundo[i-1];
             if (txundo.vprevout.size() != tx.vin.size())
                 return error("DisconnectBlock() : transaction and undo data inconsistent");
@@ -1603,6 +1598,8 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
             }
         }
     }
+
+    std::cout << "loccsssscoo" << std::endl;
 
     // move best block pointer to prevout block
     view.SetBestBlock(pindex->pprev->GetBlockHash());
