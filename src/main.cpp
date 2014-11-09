@@ -2325,6 +2325,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                          REJECT_INVALID, "bad-txnmrklroot", true);
     }
 
+    std::cout << "ssssssssss" << std::endl;
     return true;
 }
 
