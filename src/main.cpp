@@ -1523,34 +1523,46 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
         *pfClean = false;
 
     bool fClean = true;
-
     CBlockUndo blockUndo;
     CDiskBlockPos pos = pindex->GetUndoPos();
     if (pos.IsNull())
         return error("DisconnectBlock() : no undo data available");
+
     if (!blockUndo.ReadFromDisk(pos, pindex->pprev->GetBlockHash()))
         return error("DisconnectBlock() : failure reading undo data");
 
+    std::cout << blockUndo.vtxundo.size() << std::endl;
     if (blockUndo.vtxundo.size() + 1 != block.vtx.size())
         return error("DisconnectBlock() : block and undo data inconsistent");
 
+    std::cout << "wowoowowo" << std::endl;
     // undo transactions in reverse order
     for (int i = block.vtx.size() - 1; i >= 0; i--) {
         const CTransaction &tx = block.vtx[i];
         uint256 hash = tx.GetHash();
+
+        std::cout << "osssssoo" << std::endl;
 
         // Check that all outputs are available and match the outputs in the block itself
         // exactly. Note that transactions with only provably unspendable outputs won't
         // have outputs available even in the block itself, so we handle that case
         // specially with outsEmpty.
         CCoins outsEmpty;
+        std::cout << "ollllsoo" << std::endl;
+
         CCoins &outs = view.HaveCoins(hash) ? view.GetCoins(hash) : outsEmpty;
+        std::cout << "looo" << std::endl;
+
         outs.ClearUnspendable();
+
+        std::cout << "loloo" << std::endl;
 
         CCoins outsBlock = CCoins(tx, pindex->nHeight);
         // The CCoins serialization does not serialize negative numbers.
         // No network rules currently depend on the version here, so an inconsistency is harmless
         // but it must be corrected before txout nversion ever influences a network rule.
+        std::cout << "locccoo" << std::endl;
+
         if (outsBlock.nVersion < 0)
             outs.nVersion = outsBlock.nVersion;
         if (outs != outsBlock)
@@ -1738,7 +1750,7 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
 
         CTxUndo txundo;
         UpdateCoins(tx, state, view, txundo, pindex->nHeight, block.GetTxHash(i));
-        if (!tx.IsCoinBase())
+        if (!tx.IsCoinBase() || (block.hashPrevBlock==Params().GenesisBlock().GetHash() && i!=0))
             blockundo.vtxundo.push_back(txundo);
 
         vPos.push_back(std::make_pair(block.GetTxHash(i), pos));
@@ -2964,6 +2976,7 @@ bool VerifyDB(int nCheckLevel, int nCheckDepth)
     CBlockIndex* pindexFailure = NULL;
     int nGoodTransactions = 0;
     CValidationState state;
+    std::cout << "here" << std::endl;
     for (CBlockIndex* pindex = chainActive.Tip(); pindex && pindex->pprev; pindex = pindex->pprev)
     {
         boost::this_thread::interruption_point();
