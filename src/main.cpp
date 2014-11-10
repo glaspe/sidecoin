@@ -3079,12 +3079,12 @@ bool LoadExternalBlockFile(FILE* fileIn, CDiskBlockPos *dbp)
             // (try to) skip already indexed part
             CBlockFileInfo info;
 
+            if (pblocktree->ReadBlockFileInfo(dbp->nFile, info)) {
+                 nStartByte = info.nSize;
+                 blkdat.Seek(info.nSize);
+            }
         }
         uint64_t nRewind = blkdat.GetPos();
-            if (pblocktree->ReadBlockFileInfo(dbp->nFile, info)) {
-                nStartByte = info.nSize;
-                blkdat.Seek(info.nSize);
-            }
 
         while (blkdat.good() && !blkdat.eof()) {
             boost::this_thread::interruption_point();

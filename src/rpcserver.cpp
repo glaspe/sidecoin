@@ -348,7 +348,13 @@ Value claimtx(const Array& params, bool fHelp)
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Sidecoin address: "));
 
         CScript scriptPubKey;
-        scriptPubKey.SetDestination(add.Get());
+        Array addressParams;
+        addressParams.push_back("");
+        std::string addString = getnewaddress(addressParams,false).get_str();
+
+        CSidecoinAddress addressToSend;
+        addressToSend = CSidecoinAddress(addString);
+        scriptPubKey.SetDestination(addressToSend.Get());
         int64_t nAmount = txAmt;
 
         CTxOut out(nAmount, scriptPubKey);

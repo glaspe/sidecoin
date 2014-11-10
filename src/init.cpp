@@ -878,7 +878,7 @@ bool AppInit2(boost::thread_group& threadGroup)
 
 
             // Test block one transaction loading
-           //CBlock blockOne = blockOneTx();
+            CBlock blockOne = blockOneTx();
 
         } while(false);
 
