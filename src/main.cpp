@@ -1922,7 +1922,6 @@ bool static ConnectTip(CValidationState &state, CBlockIndex *pindexNew) {
     mempool.check(pcoinsTip);
     // Read block from disk.
     CBlock block;
-    std::cout << "ww" << std::endl;
     if (!ReadBlockFromDisk(block, pindexNew)) {
         return state.Abort(_("Failed to read block"));
     }
@@ -2429,6 +2428,8 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CDiskBlockPos* dbp)
 
     std::cout << "accedpt" << std::endl;
 
+    // FAILING AROUND HERE SOMEWHERE O
+
     // Relay inventory, but don't relay old inventory during initial block download
     int nBlockEstimate = Checkpoints::GetTotalBlocksEstimate();
     if (chainActive.Tip()->GetBlockHash() == hash)
@@ -2554,7 +2555,7 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
         return true;
     }
 
-    std::cout << "here3" << std::endl;
+    std::cout << "to" << std::endl;
 
 
     // Store to disk
@@ -3174,35 +3175,48 @@ bool LoadExternalBlockFile(FILE* fileIn, CDiskBlockPos *dbp)
 
     int nLoaded = 0;
     try {
-        CBufferedFile blkdat(fileIn, 2*MAX_BLOCK_SIZE, MAX_BLOCK_SIZE+8, SER_DISK, CLIENT_VERSION);
+        CBufferedFile blkdat(fileIn, 250*MAX_BLOCK_SIZE, MAX_BLOCK_SIZE+8, SER_DISK, CLIENT_VERSION);
         uint64_t nStartByte = 0;
+        std::cout << "1" << std::endl;
         if (dbp) {
             // (try to) skip already indexed part
             CBlockFileInfo info;
+            std::cout << "2" << std::endl;
+
+        }
+        uint64_t nRewind = blkdat.GetPos();
             if (pblocktree->ReadBlockFileInfo(dbp->nFile, info)) {
+                std::cout << "2" << std::endl;
+
                 nStartByte = info.nSize;
                 blkdat.Seek(info.nSize);
             }
-        }
-        uint64_t nRewind = blkdat.GetPos();
+        std::cout << "3" << std::endl;
+
         while (blkdat.good() && !blkdat.eof()) {
             boost::this_thread::interruption_point();
+
+            std::cout << "4" << std::endl;
 
             blkdat.SetPos(nRewind);
             nRewind++; // start one byte further next time, in case of failure
             blkdat.SetLimit(); // remove former limit
             unsigned int nSize = 0;
+            std::cout << "5" << std::endl;
+
             try {
                 // locate a header
                 unsigned char buf[4];
                 blkdat.FindByte(Params().MessageStart()[0]);
                 nRewind = blkdat.GetPos()+1;
                 blkdat >> FLATDATA(buf);
+                std::cout << "6" << std::endl;
+
                 if (memcmp(buf, Params().MessageStart(), 4))
                     continue;
                 // read size
                 blkdat >> nSize;
-                if (nSize < 80 || nSize > MAX_BLOCK_SIZE*5)
+                if (nSize < 80 || nSize > MAX_BLOCK_SIZE*250)
                     continue;
             } catch (std::exception &e) {
                 // no valid block header found; don't complain
@@ -3216,12 +3230,16 @@ bool LoadExternalBlockFile(FILE* fileIn, CDiskBlockPos *dbp)
                 blkdat >> block;
                 nRewind = blkdat.GetPos();
 
+                std::cout << "7" << std::endl;
+
                 // process block
                 if (nBlockPos >= nStartByte) {
                     LOCK(cs_main);
                     if (dbp)
                         dbp->nPos = nBlockPos;
                     CValidationState state;
+                    std::cout << "8" << std::endl;
+
                     if (ProcessBlock(state, NULL, &block, dbp))
                         nLoaded++;
                     if (state.IsError())
