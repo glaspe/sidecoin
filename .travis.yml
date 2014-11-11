@@ -4,7 +4,10 @@ notifications:
   email: false
 before_install:
   - sudo apt-get install build-essential git autoconf libssl-dev libprotobuf-dev protobuf-compiler libqt4-dev libqrencode-dev -y
+  - sudo add-apt-repository ppa:ubuntu-sdk-team/ppa -y
   - sudo add-apt-repository ppa:boost-latest/ppa -y
   - sudo apt-get update -q
   - sudo apt-get install libboost1.55-all-dev
+  - sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev
+  - sudo apt-get install qt5-default qttools5-dev-tools
 script: ./install.sh
