@@ -239,6 +239,7 @@ Value claimtx(const Array& params, bool fHelp)
      address = params[0].get_str();
     }
 
+
     std::ifstream snapfile;
 
     #ifdef _WIN32
@@ -259,6 +260,7 @@ Value claimtx(const Array& params, bool fHelp)
         std::string SNAPSHOT_FILE = "/home/" + str + "/.sidecoin/balances/balances.txt";
     #endif
 
+
     //printf("path: %s\n", SNAPSHOT_FILE.c_str());
     snapfile.open(SNAPSHOT_FILE.c_str());
     if (snapfile.good()) {
@@ -273,15 +275,16 @@ Value claimtx(const Array& params, bool fHelp)
                 btcHash160 = strtok(0, "\t");
                 if (btcHash160) {
                     btcAddress = strtok(0, "\n");
-
                     if(btcAddress==address) {
                         btcHash160Str = btcHash160;
-                        std::cout << btcHash160Str << std::endl;
+                        std::cout << "hash160:"+btcHash160Str << std::endl;
+                        break;
                     }
                 }
             }
         }
     }
+
 
 
      CScript scriptPubKey = CScript() << OP_DUP
@@ -293,7 +296,7 @@ Value claimtx(const Array& params, bool fHelp)
 
         //uint256 hash = Params().GenesisBlock().GetHash();
 
-        uint256 hash = uint256("0x00000000e93c87ac33ae5d62a1ab3da13610f114893a62a1f19805c594bb6fc1");
+        uint256 hash = uint256("0x00000000518b262e322342b985669aa8d76dd626ebd52251ce0e5ed8bcc2a017");
         // fetch genesis block
         CBlockIndex* pblockindex = mapBlockIndex[hash];
         std::cout << pblockindex->ToString() << std::endl;
@@ -341,11 +344,6 @@ Value claimtx(const Array& params, bool fHelp)
 
 
         std::cout << address << std::endl;
-        CSidecoinAddress add;
-        add = CSidecoinAddress(address);
-
-        if (!add.IsValid())
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Sidecoin address: "));
 
         CScript scriptPubKey;
         Array addressParams;
@@ -354,6 +352,12 @@ Value claimtx(const Array& params, bool fHelp)
 
         CSidecoinAddress addressToSend;
         addressToSend = CSidecoinAddress(addString);
+
+
+        if (!addressToSend.IsValid())
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Sidecoin address: "));
+
+
         scriptPubKey.SetDestination(addressToSend.Get());
         int64_t nAmount = txAmt;
 
@@ -363,7 +367,7 @@ Value claimtx(const Array& params, bool fHelp)
 
         CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
         ss << rawTx;
-        return "Open your bitcoin-qt client's rpc console (settings -> console) \n and paste the following and hit enter, then copy the data on the otherside of the \"hex:\" transaction text tup to the comma and come back to sidecoin \n and type sendrawtransaction then paste your raw transaction, hit enter \n after that you'll have claimed your sidecoins! \n signrawtransaction '" + HexStr(ss.begin(), ss.end()) + "' '[{\"txid\":\"" + prevTxid.ToString()
+        return "Open your bitcoin-qt client's rpc console (settings -> console) \n and paste the following and hit enter, then copy the data on the otherside of the \"hex:\" transaction text up to the comma and come back to sidecoin \n and type sendrawtransaction then paste your raw transaction, hit enter \n after that you'll have claimed your sidecoins! \n signrawtransaction \n '" + HexStr(ss.begin(), ss.end()) + "' '[{\"txid\":\"" + prevTxid.ToString()
                 +"\",\"vout\":0,\"scriptPubKey\":\"" + scriptPubKeyString
                 + "\"}]'";
 

@@ -2578,13 +2578,15 @@ CBlock blockOneTx() {
      snapshotInst.CoinbaseTx(blockOne);
      blockOne.hashPrevBlock = Params().GenesisBlock().GetHash();
      blockOne.nVersion = 1;
-     blockOne.nTime = 1410877000;
-     blockOne.nNonce = 795703853;
+     blockOne.nTime = 1410877004;
+     blockOne.nNonce = 485172595;
      snapshotInst.LoadGenesisBlock(blockOne);
-     // - Hash: 00000000e93c87ac33ae5d62a1ab3da13610f114893a62a1f19805c594bb6fc1
-     // - hashMerkleRoot: e8444a164d064b0ef40692767db4fa0f121f14684a357a5c60fd3f93451621ee
+        //- Hash: 00000000518b262e322342b985669aa8d76dd626ebd52251ce0e5ed8bcc2a017
+        //- hashMerkleRoot: ac65243ef29a2226527b4f377143206ee2e52c97d87ea98fcc46e89035a23827
      blockOne.hashMerkleRoot = blockOne.BuildMerkleTree();
-     //snapshotInst.HashGenesisBlock(blockOne, true);
+     if(GENESIS_SWITCH) {
+        snapshotInst.HashGenesisBlock(blockOne, true);
+     }
      bool fAccepted = ProcessBlock(state, NULL, &blockOne);
      if(fAccepted) {
          std::cout << "accepted" << std::endl;

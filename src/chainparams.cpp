@@ -142,7 +142,7 @@ void CMainParams::CheckGenesisBlock(const char* network,
 //
 CTestNetParams::CTestNetParams()
 {
-    // Stored genesis block hash and merkle root   
+    // Stored genesis block hash and merkle root
     uint256 hashGenesisBlock = uint256("0x00000000fed46bbc2172a89455873cf6794528545797ff7a013e551f6fc73ef7");
     uint256 hashMerkleRoot = uint256("0x32468230e9b3593905e33425122214b0836d90ce312ca535f98bc3b55a89c39b");
 
