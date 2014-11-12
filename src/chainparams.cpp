@@ -113,7 +113,6 @@ void CMainParams::CheckGenesisBlock(const char* network,
     assert(genesis.GetHash() == hashGenesisBlock);
     assert(genesis.hashMerkleRoot == hashMerkleRoot);
 
-
     // Sanity check: if we just hashed the genesis block, print out its headers and a
     // few of its transactions so we can see if everything looks ok.
     if (GENESIS_SWITCH) {
