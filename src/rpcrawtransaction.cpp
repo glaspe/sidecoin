@@ -456,7 +456,8 @@ Value decoderawtransaction(const Array& params, bool fHelp)
         ssData >> tx;
     }
     catch (std::exception &e) {
-        throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "TX decode failed");
+        throw JSONRPCError(
+                    RPC_DESERIALIZATION_ERROR, "TX decode failed");
     }
 
     Object result;
