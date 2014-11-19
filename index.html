@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Sidecoin by tensorjack</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Sidecoin</h1>
+        <h2>The sidecar to Bitcoin&#39;s motorcycle.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/tensorjack/sidecoin/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/tensorjack/sidecoin/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/tensorjack/sidecoin" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h2>
+<a id="sidecoin" class="anchor" href="#sidecoin" aria-hidden="true"><span class="octicon octicon-link"></span></a>SideCoin</h2>
+
+<p><a href="https://travis-ci.org/tensorjack/sidecoin"><img src="https://travis-ci.org/tensorjack/sidecoin.svg?branch=master" alt="Build Status"></a></p>
+
+<p>The sidecar to Bitcoin's motorcycle.  SideCoin is a fork of Bitcoin v. 0.9.1.</p>
+
+<p>Sidecoin allows you to take a snapshot of bitcoin's blockchain distribution and put it
+into a new blockchain</p>
+
+<pre><code>- P2P port: 6543 (16543 for testnet)
+- RPC port: 6544 (16544 for testnet)
+</code></pre>
+
+<h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
+
+<p>If you're on a somewhat recent version of Ubuntu, you can install using:</p>
+
+<pre><code>$ ./install.sh
+</code></pre>
+
+<h3>
+<a id="os-x-build-instructions" class="anchor" href="#os-x-build-instructions" aria-hidden="true"><span class="octicon octicon-link"></span></a>OS X Build Instructions</h3>
+
+<p>use brew to get boost</p>
+
+<p>Install using: 
+    ./autogen.sh
+    sudo ./configure --with-boost=/usr/local/Cellar/boost/1.55.0_2/ --with-incompatible-bdb --with-qt
+    make</p>
+
+<p>Make the sidecoin directory in /Users/username/Library/Application\ Support/Sidecoin</p>
+
+<p>Copy the sidecoin.conf file to that directory, also create a dir in that dir called balances and 
+place the balances.txt inside that folder.</p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
