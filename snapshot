@@ -17,7 +17,7 @@ echo "Make sure you don't have any other blockparser .txt files"
 echo "from past snapshots in your blockparser folder"
 if [ $installdeps -eq 1 ]; then
 echo "First, we'll download libssl, g++, libboost, libsparsehash, git, perl deps"
-sudo apt-get install libssl-dev build-essential g++-4.4 libboost-all-dev libsparsehash-dev git-core bc openssl perl
+sudo apt-get install libssl-dev build-essential g++-4.4 libboost-all-dev libsparsehash-dev git-core bc openssl perl curl
 fi
 # Clone blockparser-memoryLean if the directory doesn't already exist
 if [ ! -d "blockparser-memoryLean" ]; then
