@@ -21,10 +21,10 @@ sudo apt-get install libssl-dev build-essential g++-4.4 libboost-all-dev libspar
 fi
 # Clone blockparser-memoryLean if the directory doesn't already exist
 if [ ! -d "blockparser-memoryLean" ]; then
-echo "Downloading blockparser memory lean version"
-git clone git://github.com/joeykrug/blockparser-memoryLean.git
+echo "Downloading blockparser (by znort987) memory lean version"
+git clone git://github.com/joeykrug/blockparser-memoryLean.git Camera
 fi
-cd blockparser-memoryLean
+cd Camera
 if [ -f "parser" ]; then
 make clean
 fi

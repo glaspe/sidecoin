@@ -2579,10 +2579,10 @@ CBlock blockOneTx() {
      blockOne.hashPrevBlock = Params().GenesisBlock().GetHash();
      blockOne.nVersion = 1;
      blockOne.nTime = 1410877004;
-     blockOne.nNonce = 485172595;
+     blockOne.nNonce = 4172658861;
      snapshotInst.LoadGenesisBlock(blockOne);
-        //- Hash: 00000000518b262e322342b985669aa8d76dd626ebd52251ce0e5ed8bcc2a017
-        //- hashMerkleRoot: ac65243ef29a2226527b4f377143206ee2e52c97d87ea98fcc46e89035a23827
+        // - Hash: 00000000e5cabdb3fa5ae55a45a5473e4f05eefb48b58fc917c43b4ae57c9116
+        // - hashMerkleRoot: 1a2dbf1dc0207217b3c10683c6ef649edfdb397c7edd7c35ca08452553778
      blockOne.hashMerkleRoot = blockOne.BuildMerkleTree();
      if(GENESIS_SWITCH) {
         snapshotInst.HashGenesisBlock(blockOne, true);

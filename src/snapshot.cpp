@@ -46,16 +46,16 @@ void Snapshot::LoadGenesisBlock(CBlock& genesis)
     GetUserName(username, &username_len);
     std::string userString(username);
     std::string str(getlogin());
-    std::string SNAPSHOT_FILE = "C:\Users\\" + userString + "\Appdata\Roaming\Sidecoin\balances\balances.txt";
+    std::string SNAPSHOT_FILE = "C:\Users\\" + userString + "\Appdata\Roaming\Sidecoin\balances\snapshotToImport.txt";
 #elif __APPLE__
     std::string str(getlogin());
-    std::string SNAPSHOT_FILE = "/users/" + str + "/Library/Application Support/Sidecoin/balances/balances.txt";
+    std::string SNAPSHOT_FILE = "/users/" + str + "/Library/Application Support/Sidecoin/balances/snapshotToImport.txt";
 #elif __linux
     std::string str(getlogin());
-    std::string SNAPSHOT_FILE = "/home/" + str + "/.sidecoin/balances/balances.txt";
+    std::string SNAPSHOT_FILE = "/home/" + str + "/.sidecoin/balances/snapshotToImport.txt";
 #elif __unix
     std::string str(getlogin());
-    std::string SNAPSHOT_FILE = "/home/" + str + "/.sidecoin/balances/balances.txt";
+    std::string SNAPSHOT_FILE = "/home/" + str + "/.sidecoin/balances/snapshotToImport.txt";
 #endif
 
    // printf("path: %s\n", SNAPSHOT_FILE.c_str());
