@@ -287,16 +287,16 @@ Value claimtx(const Array& params, bool fHelp)
 
 
 
-     CScript scriptPubKey = CScript() << OP_DUP
-                                      << OP_HASH160
-                                      << ParseHex(btcHash160Str)
-                                      << OP_EQUALVERIFY
-                                      << OP_CHECKSIG;
+        CScript scriptPubKey = CScript() << OP_DUP
+                                         << OP_HASH160
+                                         << ParseHex(btcHash160Str)
+                                         << OP_EQUALVERIFY
+                                         << OP_CHECKSIG;
 
 
         //uint256 hash = Params().GenesisBlock().GetHash();
 
-        uint256 hash = uint256("0x00000000518b262e322342b985669aa8d76dd626ebd52251ce0e5ed8bcc2a017");
+        uint256 hash = uint256("00000000e5cabdb3fa5ae55a45a5473e4f05eefb48b58fc917c43b4ae57c9116");
         // fetch genesis block
         CBlockIndex* pblockindex = mapBlockIndex[hash];
         std::cout << pblockindex->ToString() << std::endl;

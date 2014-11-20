@@ -67,7 +67,7 @@ CMainParams::CMainParams()
     // Verify that the genesis block's hash and Merkle root match our stored hashes
     CheckGenesisBlock("main", hashGenesisBlock, hashMerkleRoot);
 
-    vSeeds.push_back(CDNSSeedData("crypto.cab", "69.164.196.239"));
+    vSeeds.push_back(CDNSSeedData("dropit", "24.4.204.241"));
 
     base58Prefixes[PUBKEY_ADDRESS] = list_of(63); // S prefix
    // base58Prefixes[PUBKEY_ADDRESS] = list_of(0);
